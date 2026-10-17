@@ -1,0 +1,481 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-17T15:50:17+00:00",
+  "title": "Design System: MIMIC",
+  "extensions": {
+    "colorMeta": {
+      "paper": {
+        "role": "neutral",
+        "displayName": "Paper",
+        "canonical": "oklch(96.9% 0.004 122)",
+        "tonalRamp": [
+          "oklch(15% 0.002 122)",
+          "oklch(25% 0.003 122)",
+          "oklch(38% 0.004 122)",
+          "oklch(50% 0.004 122)",
+          "oklch(62% 0.004 122)",
+          "oklch(74% 0.003 122)",
+          "oklch(86% 0.002 122)",
+          "oklch(95% 0.001 122)"
+        ]
+      },
+      "sheet": {
+        "role": "neutral",
+        "displayName": "Sheet",
+        "canonical": "oklch(98.8% 0.003 106)",
+        "tonalRamp": [
+          "oklch(15% 0.001 106)",
+          "oklch(25% 0.002 106)",
+          "oklch(38% 0.002 106)",
+          "oklch(50% 0.003 106)",
+          "oklch(62% 0.002 106)",
+          "oklch(74% 0.002 106)",
+          "oklch(86% 0.001 106)",
+          "oklch(95% 0.001 106)"
+        ]
+      },
+      "well": {
+        "role": "neutral",
+        "displayName": "Well",
+        "canonical": "oklch(94.6% 0.007 124)",
+        "tonalRamp": [
+          "oklch(15% 0.003 124)",
+          "oklch(25% 0.005 124)",
+          "oklch(38% 0.006 124)",
+          "oklch(50% 0.007 124)",
+          "oklch(62% 0.006 124)",
+          "oklch(74% 0.005 124)",
+          "oklch(86% 0.003 124)",
+          "oklch(95% 0.001 124)"
+        ]
+      },
+      "rule": {
+        "role": "neutral",
+        "displayName": "Rule",
+        "canonical": "oklch(89.0% 0.009 129)",
+        "tonalRamp": [
+          "oklch(15% 0.004 129)",
+          "oklch(25% 0.006 129)",
+          "oklch(38% 0.008 129)",
+          "oklch(50% 0.009 129)",
+          "oklch(62% 0.008 129)",
+          "oklch(74% 0.006 129)",
+          "oklch(86% 0.004 129)",
+          "oklch(95% 0.002 129)"
+        ]
+      },
+      "staff": {
+        "role": "neutral",
+        "displayName": "Staff",
+        "canonical": "oklch(79.3% 0.009 135)",
+        "tonalRamp": [
+          "oklch(15% 0.004 135)",
+          "oklch(25% 0.007 135)",
+          "oklch(38% 0.008 135)",
+          "oklch(50% 0.009 135)",
+          "oklch(62% 0.008 135)",
+          "oklch(74% 0.007 135)",
+          "oklch(86% 0.004 135)",
+          "oklch(95% 0.002 135)"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Ink",
+        "canonical": "oklch(19.0% 0.005 248)",
+        "tonalRamp": [
+          "oklch(15% 0.002 248)",
+          "oklch(25% 0.004 248)",
+          "oklch(38% 0.005 248)",
+          "oklch(50% 0.005 248)",
+          "oklch(62% 0.005 248)",
+          "oklch(74% 0.004 248)",
+          "oklch(86% 0.002 248)",
+          "oklch(95% 0.001 248)"
+        ]
+      },
+      "ink-2": {
+        "role": "neutral",
+        "displayName": "Ink Second",
+        "canonical": "oklch(39.1% 0.011 248)",
+        "tonalRamp": [
+          "oklch(15% 0.005 248)",
+          "oklch(25% 0.008 248)",
+          "oklch(38% 0.010 248)",
+          "oklch(50% 0.011 248)",
+          "oklch(62% 0.010 248)",
+          "oklch(74% 0.008 248)",
+          "oklch(86% 0.005 248)",
+          "oklch(95% 0.002 248)"
+        ]
+      },
+      "ink-3": {
+        "role": "neutral",
+        "displayName": "Ink Third",
+        "canonical": "oklch(51.4% 0.011 243)",
+        "tonalRamp": [
+          "oklch(15% 0.005 243)",
+          "oklch(25% 0.008 243)",
+          "oklch(38% 0.010 243)",
+          "oklch(50% 0.011 243)",
+          "oklch(62% 0.010 243)",
+          "oklch(74% 0.008 243)",
+          "oklch(86% 0.005 243)",
+          "oklch(95% 0.002 243)"
+        ]
+      },
+      "robot": {
+        "role": "primary",
+        "displayName": "Robot Ink Blue",
+        "canonical": "oklch(46.5% 0.204 267)",
+        "tonalRamp": [
+          "oklch(15% 0.092 267)",
+          "oklch(25% 0.143 267)",
+          "oklch(38% 0.184 267)",
+          "oklch(50% 0.204 267)",
+          "oklch(62% 0.184 267)",
+          "oklch(74% 0.143 267)",
+          "oklch(86% 0.092 267)",
+          "oklch(95% 0.041 267)"
+        ]
+      },
+      "robot-tint": {
+        "role": "primary",
+        "displayName": "Robot Tint",
+        "canonical": "oklch(93.3% 0.025 273)",
+        "tonalRamp": [
+          "oklch(15% 0.011 273)",
+          "oklch(25% 0.017 273)",
+          "oklch(38% 0.022 273)",
+          "oklch(50% 0.025 273)",
+          "oklch(62% 0.022 273)",
+          "oklch(74% 0.017 273)",
+          "oklch(86% 0.011 273)",
+          "oklch(95% 0.005 273)"
+        ]
+      },
+      "robot-ink": {
+        "role": "primary",
+        "displayName": "Robot Deep",
+        "canonical": "oklch(37.4% 0.167 267)",
+        "tonalRamp": [
+          "oklch(15% 0.075 267)",
+          "oklch(25% 0.117 267)",
+          "oklch(38% 0.150 267)",
+          "oklch(50% 0.167 267)",
+          "oklch(62% 0.150 267)",
+          "oklch(74% 0.117 267)",
+          "oklch(86% 0.075 267)",
+          "oklch(95% 0.033 267)"
+        ]
+      },
+      "issue": {
+        "role": "secondary",
+        "displayName": "Fault Vermilion",
+        "canonical": "oklch(50.2% 0.170 32)",
+        "tonalRamp": [
+          "oklch(15% 0.076 32)",
+          "oklch(25% 0.119 32)",
+          "oklch(38% 0.153 32)",
+          "oklch(50% 0.170 32)",
+          "oklch(62% 0.153 32)",
+          "oklch(74% 0.119 32)",
+          "oklch(86% 0.076 32)",
+          "oklch(95% 0.034 32)"
+        ]
+      },
+      "issue-tint": {
+        "role": "secondary",
+        "displayName": "Fault Wash",
+        "canonical": "oklch(94.3% 0.023 34)",
+        "tonalRamp": [
+          "oklch(15% 0.010 34)",
+          "oklch(25% 0.016 34)",
+          "oklch(38% 0.021 34)",
+          "oklch(50% 0.023 34)",
+          "oklch(62% 0.021 34)",
+          "oklch(74% 0.016 34)",
+          "oklch(86% 0.010 34)",
+          "oklch(95% 0.005 34)"
+        ]
+      },
+      "issue-ink": {
+        "role": "secondary",
+        "displayName": "Fault Deep",
+        "canonical": "oklch(43.0% 0.144 32)",
+        "tonalRamp": [
+          "oklch(15% 0.065 32)",
+          "oklch(25% 0.101 32)",
+          "oklch(38% 0.130 32)",
+          "oklch(50% 0.144 32)",
+          "oklch(62% 0.130 32)",
+          "oklch(74% 0.101 32)",
+          "oklch(86% 0.065 32)",
+          "oklch(95% 0.029 32)"
+        ]
+      },
+      "hand": {
+        "role": "tertiary",
+        "displayName": "Hand Umber",
+        "canonical": "oklch(51.3% 0.077 52)",
+        "tonalRamp": [
+          "oklch(15% 0.035 52)",
+          "oklch(25% 0.054 52)",
+          "oklch(38% 0.069 52)",
+          "oklch(50% 0.077 52)",
+          "oklch(62% 0.069 52)",
+          "oklch(74% 0.054 52)",
+          "oklch(86% 0.035 52)",
+          "oklch(95% 0.015 52)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "The empty-state invitation on the clip stage; largest type in the world."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "One-sentence summary of what was notated."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Step descriptions, verdicts, buttons (500), fields."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Uppercase region names and row verbs."
+      },
+      "data": {
+        "displayName": "Data",
+        "purpose": "Every millimetre, second and coordinate, tabular mono."
+      },
+      "score": {
+        "displayName": "Score ticks",
+        "purpose": "Second ticks on the movement score."
+      },
+      "wordmark": {
+        "displayName": "Wordmark",
+        "purpose": "MIMIC in the top bar only."
+      }
+    },
+    "shadows": [
+      {
+        "name": "sheet-lift",
+        "value": "0 1px 2px rgba(18, 20, 22, .07)",
+        "purpose": "The sheet only; nothing inside it casts a shadow."
+      },
+      {
+        "name": "field-focus",
+        "value": "0 0 0 3px color-mix(in srgb, var(--robot) 18%, transparent)",
+        "purpose": "Text fields, selects and the JSON editor on focus."
+      },
+      {
+        "name": "focus-outline",
+        "value": "outline: 2px solid var(--robot); outline-offset: 2px",
+        "purpose": "Keyboard focus on every other control."
+      },
+      {
+        "name": "glass",
+        "value": "backdrop-filter: blur(8px to 10px) over sheet or paper at 88 to 92%",
+        "purpose": "Only for labels floating over media and the sticky top bar."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease",
+        "value": "cubic-bezier(.16, 1, .3, 1)",
+        "purpose": "House ease for all state changes."
+      },
+      {
+        "name": "state",
+        "value": ".18s",
+        "purpose": "Background, border and colour transitions on controls."
+      },
+      {
+        "name": "press",
+        "value": ".12s translateY(1px)",
+        "purpose": "Button press."
+      },
+      {
+        "name": "row",
+        "value": ".15s",
+        "purpose": "List row hover background."
+      },
+      {
+        "name": "ink-in",
+        "value": "900ms clip-path inset(100% 0 0 0) to inset(0)",
+        "purpose": "Score notes ink in upward, once, when a score is written."
+      },
+      {
+        "name": "spin",
+        "value": ".9s linear infinite",
+        "purpose": "Busy icons and the working strip."
+      },
+      {
+        "name": "reduced-motion",
+        "value": "prefers-reduced-motion: reduce stops all animation and transitions",
+        "purpose": "Accessibility floor."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "narrow",
+        "value": "760px"
+      },
+      {
+        "name": "medium",
+        "value": "1180px"
+      },
+      {
+        "name": "sheet-max",
+        "value": "1480px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Button",
+      "kind": "button",
+      "refersTo": "button",
+      "description": "Default paper-faced control; Try the sample clip, Cancel, Play.",
+      "html": "<button class=\"ds-btn\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M3.5 9h17M3.5 15h17M8 5v4M16 5v4M8 15v4M16 15v4M5.5 5h13a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-13a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z\"/></svg>Try the sample clip</button>",
+      "css": ":host{--paper:#f4f5f2;--sheet:#fbfbf9;--well:#eceee9;--rule:#d9dcd6;--staff:#b9bdb7;--ink:#121416;--ink-2:#41464b;--ink-3:#62686d;--robot:#2747c9;--robot-2:#e3e8fa;--robot-ink:#1a3297;--issue:#b02e19;--issue-2:#fbe7e2;--r:6px;--ease:cubic-bezier(.16,1,.3,1);--mono:\"Spline Sans Mono\",ui-monospace,\"SF Mono\",Menlo,monospace;}.ds-btn{font:500 14px/1 \"Schibsted Grotesk\",system-ui,sans-serif;display:inline-flex;align-items:center;justify-content:center;gap:7px;height:34px;padding:0 13px;border-radius:var(--r,6px);border:1px solid var(--staff,#b9bdb7);background:var(--sheet,#fbfbf9);color:var(--ink,#121416);cursor:pointer;transition:background .18s var(--ease),border-color .18s var(--ease),color .18s var(--ease),transform .12s var(--ease);}.ds-btn:hover{border-color:var(--ink-3,#62686d);}.ds-btn:active{transform:translateY(1px);}.ds-btn:focus-visible{outline:2px solid var(--robot,#2747c9);outline-offset:2px;}"
+    },
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Ink-filled; the person's own actions (Upload, Check again).",
+      "html": "<button class=\"ds-btn ds-btn-primary\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M12 16V4m0 0-4.5 4.5M12 4l4.5 4.5M4.5 15.5v2A2.5 2.5 0 0 0 7 20h10a2.5 2.5 0 0 0 2.5-2.5v-2\"/></svg>Upload a clip</button>",
+      "css": ":host{--paper:#f4f5f2;--sheet:#fbfbf9;--well:#eceee9;--rule:#d9dcd6;--staff:#b9bdb7;--ink:#121416;--ink-2:#41464b;--ink-3:#62686d;--robot:#2747c9;--robot-2:#e3e8fa;--robot-ink:#1a3297;--issue:#b02e19;--issue-2:#fbe7e2;--r:6px;--ease:cubic-bezier(.16,1,.3,1);--mono:\"Spline Sans Mono\",ui-monospace,\"SF Mono\",Menlo,monospace;}.ds-btn{font:500 14px/1 \"Schibsted Grotesk\",system-ui,sans-serif;display:inline-flex;align-items:center;justify-content:center;gap:7px;height:34px;padding:0 13px;border-radius:var(--r,6px);border:1px solid var(--staff,#b9bdb7);background:var(--sheet,#fbfbf9);color:var(--ink,#121416);cursor:pointer;transition:background .18s var(--ease),border-color .18s var(--ease),color .18s var(--ease),transform .12s var(--ease);}.ds-btn:hover{border-color:var(--ink-3,#62686d);}.ds-btn:active{transform:translateY(1px);}.ds-btn:focus-visible{outline:2px solid var(--robot,#2747c9);outline-offset:2px;}.ds-btn-primary{background:var(--ink);color:var(--paper);border-color:var(--ink);}.ds-btn-primary:hover{background:#2a2e32;border-color:var(--ink);}"
+    },
+    {
+      "name": "Run Button",
+      "kind": "button",
+      "refersTo": "button-run",
+      "description": "The only filled blue control; sits under the safety verdict, disabled until the check passes.",
+      "html": "<button class=\"ds-btn ds-btn-run\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5 20h9M7.5 20v-3.5l3-7 6.5-3M10.5 9.5l5.5 4.5M17 6.5l2.5 1.5M17 6.5l1-2.5\"/></svg>Run on arm</button>",
+      "css": ":host{--paper:#f4f5f2;--sheet:#fbfbf9;--well:#eceee9;--rule:#d9dcd6;--staff:#b9bdb7;--ink:#121416;--ink-2:#41464b;--ink-3:#62686d;--robot:#2747c9;--robot-2:#e3e8fa;--robot-ink:#1a3297;--issue:#b02e19;--issue-2:#fbe7e2;--r:6px;--ease:cubic-bezier(.16,1,.3,1);--mono:\"Spline Sans Mono\",ui-monospace,\"SF Mono\",Menlo,monospace;}.ds-btn{font:500 14px/1 \"Schibsted Grotesk\",system-ui,sans-serif;display:inline-flex;align-items:center;justify-content:center;gap:7px;height:34px;padding:0 13px;border-radius:var(--r,6px);border:1px solid var(--staff,#b9bdb7);background:var(--sheet,#fbfbf9);color:var(--ink,#121416);cursor:pointer;transition:background .18s var(--ease),border-color .18s var(--ease),color .18s var(--ease),transform .12s var(--ease);}.ds-btn:hover{border-color:var(--ink-3,#62686d);}.ds-btn:active{transform:translateY(1px);}.ds-btn:focus-visible{outline:2px solid var(--robot,#2747c9);outline-offset:2px;}.ds-btn-run{background:var(--robot);border-color:var(--robot);color:#fff;}.ds-btn-run:hover{background:var(--robot-ink);border-color:var(--robot-ink);}.ds-btn-run:disabled{opacity:.45;cursor:not-allowed;transform:none;}"
+    },
+    {
+      "name": "Halt Button",
+      "kind": "button",
+      "refersTo": "button-halt",
+      "description": "Stop: vermilion outline once it can act.",
+      "html": "<button class=\"ds-btn ds-btn-halt\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" aria-hidden=\"true\"><rect x=\"6\" y=\"6\" width=\"12\" height=\"12\" rx=\"2\"/></svg>Stop</button>",
+      "css": ":host{--paper:#f4f5f2;--sheet:#fbfbf9;--well:#eceee9;--rule:#d9dcd6;--staff:#b9bdb7;--ink:#121416;--ink-2:#41464b;--ink-3:#62686d;--robot:#2747c9;--robot-2:#e3e8fa;--robot-ink:#1a3297;--issue:#b02e19;--issue-2:#fbe7e2;--r:6px;--ease:cubic-bezier(.16,1,.3,1);--mono:\"Spline Sans Mono\",ui-monospace,\"SF Mono\",Menlo,monospace;}.ds-btn{font:500 14px/1 \"Schibsted Grotesk\",system-ui,sans-serif;display:inline-flex;align-items:center;justify-content:center;gap:7px;height:34px;padding:0 13px;border-radius:var(--r,6px);border:1px solid var(--staff,#b9bdb7);background:var(--sheet,#fbfbf9);color:var(--ink,#121416);cursor:pointer;transition:background .18s var(--ease),border-color .18s var(--ease),color .18s var(--ease),transform .12s var(--ease);}.ds-btn:hover{border-color:var(--ink-3,#62686d);}.ds-btn:active{transform:translateY(1px);}.ds-btn:focus-visible{outline:2px solid var(--robot,#2747c9);outline-offset:2px;}.ds-btn-halt{border-color:var(--issue);color:var(--issue);}.ds-btn-halt:hover{background:var(--issue-2);border-color:var(--issue);}"
+    },
+    {
+      "name": "Quiet Button",
+      "kind": "button",
+      "refersTo": "button-quiet",
+      "description": "Borderless secondary tool (Edit JSON, Download).",
+      "html": "<button class=\"ds-btn ds-btn-quiet\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M4 20h4L19 9l-4-4L4 16zM13.5 6.5l4 4\"/></svg>Edit JSON</button>",
+      "css": ":host{--paper:#f4f5f2;--sheet:#fbfbf9;--well:#eceee9;--rule:#d9dcd6;--staff:#b9bdb7;--ink:#121416;--ink-2:#41464b;--ink-3:#62686d;--robot:#2747c9;--robot-2:#e3e8fa;--robot-ink:#1a3297;--issue:#b02e19;--issue-2:#fbe7e2;--r:6px;--ease:cubic-bezier(.16,1,.3,1);--mono:\"Spline Sans Mono\",ui-monospace,\"SF Mono\",Menlo,monospace;}.ds-btn{font:500 14px/1 \"Schibsted Grotesk\",system-ui,sans-serif;display:inline-flex;align-items:center;justify-content:center;gap:7px;height:34px;padding:0 13px;border-radius:var(--r,6px);border:1px solid var(--staff,#b9bdb7);background:var(--sheet,#fbfbf9);color:var(--ink,#121416);cursor:pointer;transition:background .18s var(--ease),border-color .18s var(--ease),color .18s var(--ease),transform .12s var(--ease);}.ds-btn:hover{border-color:var(--ink-3,#62686d);}.ds-btn:active{transform:translateY(1px);}.ds-btn:focus-visible{outline:2px solid var(--robot,#2747c9);outline-offset:2px;}.ds-btn-quiet{border-color:transparent;background:transparent;color:var(--ink-2);height:28px;padding:0 8px;}.ds-btn-quiet:hover{color:var(--ink);background:var(--well);border-color:transparent;}"
+    },
+    {
+      "name": "Field",
+      "kind": "input",
+      "refersTo": "field",
+      "description": "Labelled text field with the blue focus ring.",
+      "html": "<label class=\"ds-field\">What's in the clip<input type=\"text\" value=\"hand, red block, green block, blue bowl\"></label>",
+      "css": ":host{--paper:#f4f5f2;--sheet:#fbfbf9;--well:#eceee9;--rule:#d9dcd6;--staff:#b9bdb7;--ink:#121416;--ink-2:#41464b;--ink-3:#62686d;--robot:#2747c9;--robot-2:#e3e8fa;--robot-ink:#1a3297;--issue:#b02e19;--issue-2:#fbe7e2;--r:6px;--ease:cubic-bezier(.16,1,.3,1);--mono:\"Spline Sans Mono\",ui-monospace,\"SF Mono\",Menlo,monospace;}.ds-field{display:grid;gap:4px;font:12px/1.5 \"Schibsted Grotesk\",system-ui,sans-serif;color:var(--ink-2);max-width:340px;}.ds-field input{font:14px \"Schibsted Grotesk\",system-ui,sans-serif;height:34px;padding:0 10px;border-radius:var(--r);border:1px solid var(--staff);background:var(--sheet);color:var(--ink);transition:border-color .18s var(--ease),box-shadow .18s var(--ease);}.ds-field input:focus{outline:none;border-color:var(--robot);box-shadow:0 0 0 3px color-mix(in srgb,var(--robot) 18%,transparent);}"
+    },
+    {
+      "name": "Top Bar",
+      "kind": "nav",
+      "refersTo": null,
+      "description": "Sticky translucent bar: mark, wordmark, credit, status dot, entry actions.",
+      "html": "<header class=\"ds-bar\"><a class=\"ds-mark\" href=\"#\"><svg viewBox=\"0 0 30 30\" width=\"30\" height=\"30\" aria-hidden=\"true\"><rect x=\"1\" y=\"1\" width=\"28\" height=\"28\" rx=\"6\" fill=\"#121416\"/><path d=\"M10 6v18M20 6v18\" stroke=\"#b9bdb7\" stroke-width=\"1.2\"/><path d=\"M15 5v20\" stroke=\"#f4f5f2\" stroke-width=\"1.4\"/><rect x=\"7.6\" y=\"16\" width=\"4.8\" height=\"7\" fill=\"#f4f5f2\"/><rect x=\"17.6\" y=\"8\" width=\"4.8\" height=\"7\" fill=\"#7f97ff\"/></svg><b>MIMIC</b><small>by ThenarLabs</small></a><span class=\"ds-who\">simulated arm · offline writer</span><button class=\"ds-btn ds-btn-primary\">Upload a clip</button></header>",
+      "css": ":host{--paper:#f4f5f2;--sheet:#fbfbf9;--well:#eceee9;--rule:#d9dcd6;--staff:#b9bdb7;--ink:#121416;--ink-2:#41464b;--ink-3:#62686d;--robot:#2747c9;--robot-2:#e3e8fa;--robot-ink:#1a3297;--issue:#b02e19;--issue-2:#fbe7e2;--r:6px;--ease:cubic-bezier(.16,1,.3,1);--mono:\"Spline Sans Mono\",ui-monospace,\"SF Mono\",Menlo,monospace;}.ds-btn{font:500 14px/1 \"Schibsted Grotesk\",system-ui,sans-serif;display:inline-flex;align-items:center;justify-content:center;gap:7px;height:34px;padding:0 13px;border-radius:var(--r,6px);border:1px solid var(--staff,#b9bdb7);background:var(--sheet,#fbfbf9);color:var(--ink,#121416);cursor:pointer;transition:background .18s var(--ease),border-color .18s var(--ease),color .18s var(--ease),transform .12s var(--ease);}.ds-btn:hover{border-color:var(--ink-3,#62686d);}.ds-btn:active{transform:translateY(1px);}.ds-btn:focus-visible{outline:2px solid var(--robot,#2747c9);outline-offset:2px;}.ds-btn-primary{background:var(--ink);color:var(--paper);border-color:var(--ink);}.ds-bar{display:flex;align-items:center;gap:14px;padding:10px 20px;background:color-mix(in srgb,var(--paper) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--rule);font-family:\"Schibsted Grotesk\",system-ui,sans-serif;}.ds-mark{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink);margin-right:auto;}.ds-mark b{font-weight:700;font-size:17px;letter-spacing:.14em;}.ds-mark small{color:var(--ink-3);font-size:12px;}.ds-who{font-size:12px;color:var(--ink-2);display:inline-flex;align-items:center;gap:7px;}.ds-who::before{content:\"\";width:7px;height:7px;border-radius:50%;background:var(--robot);}.ds-mark:focus-visible{outline:2px solid var(--robot);outline-offset:2px;border-radius:4px;}"
+    },
+    {
+      "name": "Tag",
+      "kind": "chip",
+      "refersTo": "tag",
+      "description": "Round provenance tag beside a measured claim.",
+      "html": "<p class=\"ds-truth\"><span class=\"ds-tag\">synthetic clip</span>2 of 2 carries found, within <b class=\"ds-num\">2 mm</b> and <b class=\"ds-num\">100 ms</b>.</p>",
+      "css": ":host{--paper:#f4f5f2;--sheet:#fbfbf9;--well:#eceee9;--rule:#d9dcd6;--staff:#b9bdb7;--ink:#121416;--ink-2:#41464b;--ink-3:#62686d;--robot:#2747c9;--robot-2:#e3e8fa;--robot-ink:#1a3297;--issue:#b02e19;--issue-2:#fbe7e2;--r:6px;--ease:cubic-bezier(.16,1,.3,1);--mono:\"Spline Sans Mono\",ui-monospace,\"SF Mono\",Menlo,monospace;}.ds-truth{display:flex;gap:8px;align-items:center;font:12px/1.5 \"Schibsted Grotesk\",system-ui,sans-serif;color:var(--ink-2);margin:0;}.ds-tag{padding:2px 7px;border-radius:99px;border:1px solid var(--staff);}.ds-num{font-family:var(--mono);font-variant-numeric:tabular-nums;}"
+    },
+    {
+      "name": "Safety Verdict",
+      "kind": "card",
+      "refersTo": "verdict-safe",
+      "description": "Tinted verdict above Run on arm; blue when safe, vermilion wash when not.",
+      "html": "<div class=\"ds-verdict\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"m5 12.5 4.5 4.5L19 7.5\"/></svg><div><b>Safe to run.</b>14 waypoints in <span class=\"ds-num\">9.8 s</span>, every pose inside the joint limits.</div></div><div class=\"ds-verdict ds-bad\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M12 8.5v4.5M12 16.5v.01M10.3 3.9 2.6 17.5A2 2 0 0 0 4.3 20.5h15.4a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z\"/></svg><div><b>Not safe to run yet.</b><ul><li>Waypoint 6: fingertip below the table</li></ul></div></div>",
+      "css": ":host{--paper:#f4f5f2;--sheet:#fbfbf9;--well:#eceee9;--rule:#d9dcd6;--staff:#b9bdb7;--ink:#121416;--ink-2:#41464b;--ink-3:#62686d;--robot:#2747c9;--robot-2:#e3e8fa;--robot-ink:#1a3297;--issue:#b02e19;--issue-2:#fbe7e2;--r:6px;--ease:cubic-bezier(.16,1,.3,1);--mono:\"Spline Sans Mono\",ui-monospace,\"SF Mono\",Menlo,monospace;}.ds-verdict{display:flex;align-items:flex-start;gap:10px;margin-top:12px;padding:11px 12px;border-radius:var(--r);background:var(--robot-2);color:var(--robot-ink);font:14px/1.5 \"Schibsted Grotesk\",system-ui,sans-serif;max-width:420px;}.ds-verdict svg{margin-top:2px;flex:none;}.ds-verdict b{display:block;font-weight:600;}.ds-verdict ul{margin:6px 0 0;padding-left:18px;}.ds-bad{background:var(--issue-2);color:#8e2412;}.ds-num{font-family:var(--mono);font-size:12px;font-variant-numeric:tabular-nums;}"
+    },
+    {
+      "name": "Step Row",
+      "kind": "custom",
+      "refersTo": "row-selected",
+      "description": "Hairline list row: object plate, verb label, description with mono proof, right-aligned time.",
+      "html": "<ol class=\"ds-steps\"><li tabindex=\"0\"><span class=\"ds-plate\"><i style=\"background:#d8463b\"></i>red block</span><span class=\"ds-verb\">pick</span><span>Picks up the red block<span class=\"ds-proof\">x 42 · y 231 mm</span></span><span class=\"ds-num\">1.20 s</span></li><li tabindex=\"0\" class=\"ds-on\"><span class=\"ds-plate\"><i style=\"background:#d8463b\"></i>red block</span><span class=\"ds-verb\">carry</span><span>Carries it to the bowl<span class=\"ds-proof\">118 mm in 1.40 s</span></span><span class=\"ds-num\">1.60 s</span></li></ol>",
+      "css": ":host{--paper:#f4f5f2;--sheet:#fbfbf9;--well:#eceee9;--rule:#d9dcd6;--staff:#b9bdb7;--ink:#121416;--ink-2:#41464b;--ink-3:#62686d;--robot:#2747c9;--robot-2:#e3e8fa;--robot-ink:#1a3297;--issue:#b02e19;--issue-2:#fbe7e2;--r:6px;--ease:cubic-bezier(.16,1,.3,1);--mono:\"Spline Sans Mono\",ui-monospace,\"SF Mono\",Menlo,monospace;}.ds-steps{list-style:none;margin:0;padding:0;font:14px/1.5 \"Schibsted Grotesk\",system-ui,sans-serif;color:var(--ink);max-width:620px;}.ds-steps li{display:grid;grid-template-columns:112px 64px minmax(0,1fr) auto;gap:10px;align-items:baseline;padding:8px 6px;border-top:1px solid var(--rule);border-radius:4px;cursor:pointer;transition:background .15s var(--ease);}.ds-steps li:first-child{border-top:0;}.ds-steps li:hover{background:var(--well);}.ds-steps li.ds-on{background:var(--robot-2);}.ds-steps li:focus-visible{outline:2px solid var(--robot);outline-offset:2px;}.ds-plate{display:inline-flex;align-items:center;gap:6px;font-weight:600;font-size:12px;}.ds-plate i{width:10px;height:10px;border-radius:2px;box-shadow:inset 0 0 0 1px rgba(0,0,0,.18);}.ds-verb{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-3);}.ds-proof{display:block;color:var(--ink-3);}.ds-num,.ds-proof{font-family:var(--mono);font-size:12px;font-variant-numeric:tabular-nums;}.ds-num{color:var(--ink-2);text-align:right;}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Movement Score",
+    "overview": "MIMIC is a single sheet of cool staff paper, notated in ink. A phone clip is written down the way Labanotation writes a dance: a vertical staff where time runs up, the person on the left of a heavy centre line and the arm on the right, so the two performances can be read against each other at one glance. Everything else on the sheet (the clip with its tracked overlay, the 3-D replay, the steps, the program) is a margin note to that score, and every note carries its proof in millimetres and seconds.\n\nThe world has exactly three voices. Ink black is the notation itself: text, staff lines, the person's marks. Ink blue is the robot's voice and nothing else: the arm's lane, the gripper, the replay's fingertip path, the \"safe to run\" state, the Run on arm button. Vermilion appears only when something is wrong. Each tracked object adds one colour ribbon that it keeps everywhere it appears (video outline, name plate, staff block, 3-D table), and those ribbons are data, not chrome. Density is that of a working instrument: 14px body, 12px data, hairline rules between regions, no decoration that does not carry information.\n\nThe sheet is calm at rest and moves only to report: notes ink in once when a score is written, a spinner turns while the server works, and the two playheads travel the staff together. It refuses the category default of three equal dark panels of video, JSON and 3-D.",
+    "keyCharacteristics": [
+      "One ruled light sheet with hairline region dividers, not a grid of floating cards.",
+      "Ink for notation, ink blue only for the robot, vermilion only for issues.",
+      "One colour ribbon per tracked object, identical on video, staff and table.",
+      "Labanotation level shading for height: solid low, dotted middle, hatched high.",
+      "Every claim beside its measurement, set in tabular mono.",
+      "Rank from weight, case and colour, not from large type."
+    ],
+    "rules": [
+      {
+        "name": "The Three Voices Rule",
+        "body": "Ink is the notation, ink blue is the robot, vermilion is a fault. Blue is otherwise allowed only for the sheet's own attention states (focus ring, caret, text selection, drop target, the selected row, links), which are the machine listening; it never colours the person's data or decoration. If nothing is wrong, nothing is vermilion.",
+        "section": "colors"
+      },
+      {
+        "name": "The One Ribbon Rule",
+        "body": "An object has exactly one colour, and it is the same on the video, the score, the step plate and the 3-D table. Never recolour an object per view or per state; state is shown by dimming (28% opacity) or by row tint, never by changing the ribbon.",
+        "section": "colors"
+      },
+      {
+        "name": "The One Data Size Rule",
+        "body": "Measurements are 12px mono everywhere; importance comes from weight, case, colour or bold, never from making a number bigger.",
+        "section": "typography"
+      },
+      {
+        "name": "The Measured Claim Rule",
+        "body": "A step, verdict or score always shows its number in mono beside the words (`312 mm in 1.40 s`, `within 2 mm and 100 ms`). A claim without its measurement does not ship.",
+        "section": "typography"
+      },
+      {
+        "name": "The Margin Note Rule",
+        "body": "The score sits in the middle and everything else is placed relative to it. A new panel joins the sheet as another hairline-divided region, never as a separate card floating beside it.",
+        "section": "layout"
+      },
+      {
+        "name": "The Flat Sheet Rule",
+        "body": "Nothing inside the sheet casts a shadow. Rows, verdicts and pills separate by tint, hairline or blur, never by elevation.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "**Do** keep Robot Ink Blue (#2747c9) for the arm, its states and the sheet's attention states (focus, selection, drop target), and Fault Vermilion (#b02e19) for faults only.",
+      "**Do** give every tracked object one ribbon and use it identically on video, score, step plate and 3-D table.",
+      "**Do** set every measurement in Spline Sans Mono 12px with tabular numerals, beside the words it proves.",
+      "**Do** place any action that moves the real arm directly under the verdict that permits it, and disable it until the check passes.",
+      "**Do** divide new regions with 1px Rule hairlines inside the one sheet, and recess media in Well.",
+      "**Do** show height with Labanotation level shading (solid low, dotted middle, hatched high) wherever height is drawn.",
+      "**Do** use the house ease (`cubic-bezier(.16, 1, .3, 1)`) for state changes at 0.12 to 0.2s, and let `prefers-reduced-motion` stop all motion.",
+      "**Do** keep any border that alone identifies a control at 3:1 or better against its surface (WCAG AA is the product's floor)."
+    ],
+    "donts": [
+      "**Don't** split the sheet into three equal dark panels of video, JSON and 3-D; that is the category default this world refuses.",
+      "**Don't** use blue for the person's marks, an object's ribbon chrome, or a decorative fill.",
+      "**Don't** recolour an object to show state; dim it or tint its row instead.",
+      "**Don't** enlarge numbers to rank them; use weight, case, bold or colour.",
+      "**Don't** add shadows inside the sheet or float cards over it.",
+      "**Don't** add a dark theme by inverting tokens; the world is light staff paper, and a dark variant would need its own pass."
+    ]
+  }
+}

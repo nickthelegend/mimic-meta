@@ -1,0 +1,10 @@
+opencv-python-headless>=5.0
+numpy>=2.0
+fastapi>=0.115
+uvicorn[standard]>=0.30
+python-multipart>=0.0.9
+httpx>=0.27
+pyserial>=3.5
+pytest>=8
+# optional: real hand landmarks (also needs models/hand_landmarker.task)
+# mediapipe>=0.10

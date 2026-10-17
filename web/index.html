@@ -1,0 +1,972 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MIMIC · film it once, the arm repeats it</title>
+<meta name="description" content="Film yourself doing a tabletop task. MIMIC tracks your hand and the objects, notates the steps, writes a checked robot program and replays it on a printable arm.">
+<meta name="theme-color" content="#f4f5f2">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700&family=Spline+Sans+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    color-scheme: light;
+    --paper: #f4f5f2; --sheet: #fbfbf9; --well: #eceee9; --rule: #d9dcd6; --staff: #b9bdb7; --field: #8d9296;
+    --ink: #121416; --ink-2: #41464b; --ink-3: #62686d;
+    --robot: #2747c9; --robot-2: #e3e8fa; --robot-ink: #1a3297;
+    --issue: #b02e19; --issue-2: #fbe7e2;
+    --r: 6px; --ease: cubic-bezier(.16, 1, .3, 1);
+    --shadow: 0 1px 2px rgba(18, 20, 22, .07);
+    --mono: "Spline Sans Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  }
+  * { box-sizing: border-box; }
+  [hidden] { display: none !important; }
+  html { background: var(--paper); scrollbar-color: var(--staff) var(--paper); }
+  body { margin: 0; color: var(--ink); caret-color: var(--robot); font: 14px/1.5 "Schibsted Grotesk", system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+  ::selection { background: var(--robot-2); color: var(--robot-ink); }
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-thumb { background: var(--staff); border-radius: 99px; border: 3px solid var(--sheet); }
+  ::-webkit-scrollbar-track { background: transparent; }
+  :focus-visible { outline: 2px solid var(--robot); outline-offset: 2px; border-radius: 4px; }
+  a { color: var(--robot); text-underline-offset: 3px; }
+  .num, .mono { font-family: var(--mono); font-variant-numeric: tabular-nums; font-size: 12px; }
+  svg.i { width: 16px; height: 16px; flex: none; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+
+  /* ---------------------------------------------------------- top bar */
+  .bar { position: sticky; top: 0; z-index: 5; display: flex; align-items: center; gap: 14px; padding: 10px 20px; background: color-mix(in srgb, var(--paper) 88%, transparent); backdrop-filter: blur(10px); border-bottom: 1px solid var(--rule); }
+  .mark { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--ink); margin-right: auto; min-width: 0; }
+  .mark svg { width: 30px; height: 30px; flex: none; }
+  .mark b { font-weight: 700; font-size: 17px; letter-spacing: .14em; }
+  .mark small { color: var(--ink-3); font-size: 12px; white-space: nowrap; }
+  .who { font-size: 12px; color: var(--ink-2); display: inline-flex; align-items: center; gap: 7px; white-space: nowrap; }
+  .who::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--staff); }
+  .who.on::before { background: var(--robot); }
+  button, .btn { font: 500 14px/1 "Schibsted Grotesk", sans-serif; display: inline-flex; align-items: center; justify-content: center; gap: 7px; height: 34px; padding: 0 13px; border-radius: var(--r); border: 1px solid var(--staff); background: var(--sheet); color: var(--ink); cursor: pointer; white-space: nowrap; text-decoration: none;
+    transition: background .18s var(--ease), border-color .18s var(--ease), color .18s var(--ease), transform .12s var(--ease); }
+  button:hover, .btn:hover { border-color: var(--ink-3); }
+  button:active, .btn:active { transform: translateY(1px); }
+  button:disabled { opacity: .45; cursor: not-allowed; transform: none; }
+  button.primary, .btn.primary { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+  button.primary:hover, .btn.primary:hover { background: #2a2e32; }
+  button.run { background: var(--robot); border-color: var(--robot); color: #fff; }
+  button.run:hover { background: var(--robot-ink); }
+  button.halt { border-color: var(--staff); color: var(--ink-2); }
+  button.halt:not(:disabled) { border-color: var(--issue); color: var(--issue); }
+  button.halt:not(:disabled):hover { background: var(--issue-2); }
+  button.quiet { border-color: transparent; background: transparent; color: var(--ink-2); height: 28px; padding: 0 8px; }
+  button.quiet:hover { color: var(--ink); background: var(--well); }
+  button.busy { cursor: progress; }
+  button.busy svg { animation: spin .9s linear infinite; }
+  @keyframes spin { to { transform: rotate(1turn); } }
+  input[type=file] { position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
+
+  /* ---------------------------------------------------------- the sheet */
+  main { max-width: 1480px; margin: 0 auto; padding: 18px 20px 64px; }
+  .sheet { background: var(--sheet); border: 1px solid var(--rule); border-radius: 10px; box-shadow: var(--shadow); display: grid;
+    grid-template-columns: minmax(0, 1.16fr) minmax(250px, .52fr) minmax(0, 1fr); grid-template-rows: auto auto; }
+  .region { min-width: 0; padding: 14px 16px 16px; }
+  .region + .region { border-left: 1px solid var(--rule); }
+  .clipR { grid-column: 1; grid-row: 1; }
+  .scoreR { grid-column: 2; grid-row: 1; border-left: 1px solid var(--rule); display: flex; flex-direction: column; }
+  .replayR { grid-column: 3; grid-row: 1; border-left: 1px solid var(--rule); }
+  .stepsR { grid-column: 1 / span 2; grid-row: 2; border-top: 1px solid var(--rule); border-left: 0 !important; }
+  .progR { grid-column: 3; grid-row: 2; border-top: 1px solid var(--rule); border-left: 1px solid var(--rule); }
+  h2 { margin: 0; font-size: 12px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; }
+  .head { display: flex; align-items: center; gap: 10px; min-height: 28px; margin-bottom: 10px; }
+  .head .aside { margin-left: auto; color: var(--ink-3); font-size: 12px; display: flex; gap: 6px; align-items: center; }
+
+  /* clip */
+  .stage { position: relative; aspect-ratio: 16 / 9; background: var(--well); border-radius: var(--r); overflow: hidden; }
+  .stage video, .stage canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .stage video { object-fit: contain; background: #e3e5e0; }
+  .stage canvas { pointer-events: none; }
+  .drop { position: absolute; inset: 0; display: grid; place-items: center; text-align: center; padding: 24px; border: 1.5px dashed var(--staff); border-radius: var(--r); transition: border-color .2s var(--ease), background .2s var(--ease); }
+  .drop.over { border-color: var(--robot); background: color-mix(in srgb, var(--robot-2) 60%, transparent); }
+  .drop h3 { margin: 0 0 6px; font-size: 22px; font-weight: 600; letter-spacing: -.01em; text-wrap: balance; }
+  .drop p { margin: 0 auto 14px; color: var(--ink-2); max-width: 44ch; text-wrap: pretty; }
+  .drop .acts { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
+  .working { position: absolute; left: 12px; bottom: 12px; right: 12px; display: flex; align-items: center; gap: 10px; padding: 9px 12px; border-radius: var(--r); background: color-mix(in srgb, var(--sheet) 90%, transparent); backdrop-filter: blur(8px); border: 1px solid var(--rule); font-weight: 500; }
+  .working svg { animation: spin .9s linear infinite; color: var(--robot); }
+  .transport { display: flex; align-items: center; gap: 10px; margin-top: 10px; flex-wrap: wrap; }
+  .transport .num { color: var(--ink-2); }
+  .ask { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; gap: 8px; margin-top: 12px; }
+  .ask label { display: grid; gap: 4px; font-size: 12px; color: var(--ink-2); }
+  .ask input[type=text], .ask select { font: 14px "Schibsted Grotesk", sans-serif; height: 34px; padding: 0 10px; border-radius: var(--r); border: 1px solid var(--field); background: var(--sheet); color: var(--ink); min-width: 0; }
+  .ask input:focus, .ask select:focus { outline: none; border-color: var(--robot); box-shadow: 0 0 0 3px color-mix(in srgb, var(--robot) 18%, transparent); }
+  .msg { margin: 10px 0 0; padding: 9px 12px; border-radius: var(--r); background: var(--issue-2); color: #8e2412; font-weight: 500; }
+  .msg:empty { display: none; }
+
+  /* score */
+  .scoreBox { position: relative; flex: 1; min-height: 420px; }
+  #score { position: absolute; inset: 0; width: 100%; height: 100%; display: block; cursor: ns-resize; touch-action: none; user-select: none; }
+  #score text { font-family: "Schibsted Grotesk", sans-serif; }
+  #score .t { font: 11px var(--mono); fill: var(--ink-3); }
+  #score .lab { font-size: 11px; font-weight: 600; fill: var(--ink-2); letter-spacing: .04em; }
+  #score .blk { cursor: pointer; transition: opacity .2s var(--ease); }
+  #score .blk.dim { opacity: .28; }
+  #score.inking .ink { animation: ink 900ms var(--ease) both; }
+  @keyframes ink { from { clip-path: inset(100% 0 0 0); } to { clip-path: inset(0 0 0 0); } }
+  .key { display: grid; grid-template-columns: auto 1fr auto 1fr; gap: 4px 8px; margin-top: 10px; font-size: 12px; color: var(--ink-2); align-items: center; }
+  .key svg { width: 26px; height: 12px; }
+
+  /* replay */
+  #view { position: relative; aspect-ratio: 4 / 3; border-radius: var(--r); overflow: hidden; background: var(--well); }
+  #view canvas { display: block; width: 100%; height: 100%; }
+  .now { position: absolute; left: 10px; top: 10px; right: 10px; display: flex; gap: 8px; align-items: center; pointer-events: none; }
+  .now span { padding: 5px 10px; border-radius: 99px; background: color-mix(in srgb, var(--sheet) 88%, transparent); backdrop-filter: blur(8px); border: 1px solid var(--rule); font-size: 12px; font-weight: 500; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .now span.live { color: var(--robot); border-color: color-mix(in srgb, var(--robot) 35%, transparent); }
+  .verdict { display: flex; align-items: flex-start; gap: 10px; margin-top: 12px; padding: 11px 12px; border-radius: var(--r); background: var(--robot-2); color: var(--robot-ink); }
+  .verdict.bad { background: var(--issue-2); color: #8e2412; }
+  .verdict b { display: block; font-weight: 600; }
+  .verdict ul { margin: 6px 0 0; padding-left: 18px; }
+  .verdict .num { color: inherit; }
+  .verdict svg { margin-top: 2px; }
+  .armrow { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; align-items: center; }
+  .armrow .note { color: var(--ink-3); font-size: 12px; }
+
+  /* steps */
+  .summary { margin: 0 0 12px; font-size: 17px; font-weight: 500; letter-spacing: -.01em; text-wrap: balance; }
+  .truth { display: flex; gap: 8px; align-items: center; margin: -4px 0 12px; font-size: 12px; color: var(--ink-2); flex-wrap: wrap; }
+  .truth .tag { font-size: 12px; padding: 2px 7px; border-radius: 99px; border: 1px solid var(--staff); color: var(--ink-2); }
+  ol.steps { list-style: none; margin: 0; padding: 0; }
+  ol.steps li { display: grid; grid-template-columns: 112px 64px minmax(0, 1fr) auto; gap: 10px; align-items: baseline; padding: 8px 6px; border-top: 1px solid var(--rule); cursor: pointer; border-radius: 4px; transition: background .15s var(--ease); }
+  ol.steps li:first-child { border-top: 0; }
+  ol.steps li:hover { background: var(--well); }
+  ol.steps li.on { background: var(--robot-2); }
+  .plate { display: inline-flex; align-items: center; gap: 6px; font-weight: 600; font-size: 12px; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .plate i { width: 10px; height: 10px; border-radius: 2px; flex: none; box-shadow: inset 0 0 0 1px rgba(0,0,0,.18); }
+  .verb { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; color: var(--ink-3); }
+  .what { min-width: 0; }
+  .what .proof { display: block; color: var(--ink-3); text-align: left !important; margin-top: 1px; }
+  ol.steps .num { color: var(--ink-2); text-align: right; }
+  .empty { color: var(--ink-3); padding: 10px 0; }
+
+  /* program */
+  .progHead { display: flex; gap: 6px; align-items: center; margin-left: auto; }
+  ol.wps { position: relative; list-style: none; margin: 0; padding: 0; max-height: 360px; overflow: auto; }
+  ol.wps li { display: grid; grid-template-columns: 26px minmax(0, 1fr) auto; gap: 8px; align-items: baseline; padding: 6px 4px; border-top: 1px solid var(--rule); border-radius: 4px; }
+  ol.wps li:first-child { border-top: 0; }
+  ol.wps li .n { color: var(--ink-3); }
+  ol.wps li .g { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: .05em; color: var(--ink-3); }
+  ol.wps li .g.close { color: var(--robot); }
+  ol.wps li.on { background: var(--robot-2); }
+  ol.wps li.bad { background: var(--issue-2); }
+  ol.wps li .why { grid-column: 2 / -1; color: #8e2412; font-size: 12px; }
+  textarea { width: 100%; min-height: 360px; resize: vertical; font: 12px/1.55 var(--mono); padding: 10px 12px; border-radius: var(--r); border: 1px solid var(--field); background: var(--well); color: var(--ink); tab-size: 2; }
+  textarea:focus { outline: none; border-color: var(--robot); box-shadow: 0 0 0 3px color-mix(in srgb, var(--robot) 18%, transparent); }
+  .editRow { display: flex; gap: 8px; margin-top: 8px; align-items: center; }
+  .writer { font-size: 12px; color: var(--ink-3); }
+
+  footer { max-width: 1480px; margin: 0 auto; padding: 0 20px 40px; color: var(--ink-3); font-size: 12px; display: flex; gap: 14px; flex-wrap: wrap; }
+
+  /* ---------------------------------------------------------- narrower */
+  @media (max-width: 1180px) {
+    .sheet { grid-template-columns: minmax(0, 1fr) minmax(240px, .55fr); }
+    .clipR { grid-column: 1; grid-row: 1; }
+    .scoreR { grid-column: 2; grid-row: 1 / span 2; }
+    .replayR { grid-column: 1; grid-row: 2; border-left: 0; border-top: 1px solid var(--rule); }
+    .stepsR { grid-column: 1 / -1; grid-row: 3; }
+    .progR { grid-column: 1 / -1; grid-row: 4; border-left: 0; }
+  }
+  @media (max-width: 760px) {
+    .bar { padding: 8px 16px; gap: 8px; }
+    .mark small, .who { display: none; }
+    .bar .btn span.long, .bar button span.long { display: none; }
+    main { padding: 12px 16px 48px; }
+    .sheet { grid-template-columns: minmax(0, 1fr); }
+    .region { padding: 12px 12px 14px; }
+    .clipR, .scoreR, .replayR, .stepsR, .progR { grid-column: 1; grid-row: auto; border-left: 0 !important; }
+    .clipR { order: 0; } .scoreR { order: 1; } .stepsR { order: 2; } .replayR { order: 3; } .progR { order: 4; }
+    .scoreR, .replayR, .stepsR, .progR { border-top: 1px solid var(--rule); }
+    .scoreBox { min-height: 440px; }
+    .ask { grid-template-columns: 1fr 1fr; }
+    .ask label:first-child { grid-column: 1 / -1; }
+    ol.steps li { grid-template-columns: minmax(0, 1fr) auto; gap: 2px 10px; }
+    ol.steps li .verb { grid-column: 1; grid-row: 2; }
+    ol.steps li .what { grid-column: 1 / -1; grid-row: 3; }
+    ol.steps li .num { grid-column: 2; grid-row: 1; }
+    .progR .head { flex-wrap: wrap; }
+    .progHead { width: 100%; margin-left: 0; }
+    .progHead .writer { margin-right: auto; }
+    ol.wps { max-height: none; }
+    footer { padding: 0 16px 32px; }
+  }
+  @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
+</style>
+</head>
+<body>
+<!--
+THESIS: The clip is notated like a dance score, so one staff shows what the person did beside what the arm will do; it refuses the category's three equal dark panels of video, JSON and 3-D.
+OWN-WORLD: cool staff-paper sheet ruled in graphite hairlines, ink-black notation, ink-blue for the robot's voice, vermilion only for issues; each object keeps one colour ribbon on video, staff and table; Labanotation level shading (solid low, dotted middle, hatched high). Schibsted Grotesk, Spline Sans Mono for measurements.
+STORY: a ThenarLabs demonstrator drops a clip, sees what was tracked, reads the score, checks the mm and seconds, watches the arm replay it, and runs it on the arm or re-films.
+FIRST VIEWPORT: one ruled sheet. Clip with tracked overlay left, the vertical movement score centre (time runs up, person left of the centre line, robot right), 3-D replay right; steps under the clip and score, program under the replay; Upload and Try the sample in the top bar; Run on arm beside the safety verdict, so it is never pressed without reading it (Principle 3).
+FORM: Movement Score (Labanotation), 7 of 7 on my list, seed 900edc4c.
+FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance
+-->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-up" viewBox="0 0 24 24"><path d="M12 16V4m0 0-4.5 4.5M12 4l4.5 4.5M4.5 15.5v2A2.5 2.5 0 0 0 7 20h10a2.5 2.5 0 0 0 2.5-2.5v-2"/></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24"><path d="M8 5.5v13l10.5-6.5z"/></symbol>
+  <symbol id="i-pause" viewBox="0 0 24 24"><path d="M8.5 5.5v13M15.5 5.5v13"/></symbol>
+  <symbol id="i-arm" viewBox="0 0 24 24"><path d="M5 20h9M7.5 20v-3.5l3-7 6.5-3M10.5 9.5l5.5 4.5M17 6.5l2.5 1.5M17 6.5l1-2.5"/><circle cx="10.5" cy="9.5" r="1.6"/></symbol>
+  <symbol id="i-stop" viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="2"/></symbol>
+  <symbol id="i-spin" viewBox="0 0 24 24"><path d="M12 3.5a8.5 8.5 0 1 1-8.5 8.5"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5"/></symbol>
+  <symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 8.5v4.5M12 16.5v.01M10.3 3.9 2.6 17.5A2 2 0 0 0 4.3 20.5h15.4a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></symbol>
+  <symbol id="i-edit" viewBox="0 0 24 24"><path d="M4 20h4L19 9l-4-4L4 16zM13.5 6.5l4 4"/></symbol>
+  <symbol id="i-down" viewBox="0 0 24 24"><path d="M12 4v12m0 0-4.5-4.5M12 16l4.5-4.5M4.5 20h15"/></symbol>
+  <symbol id="i-film" viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="14" rx="2"/><path d="M3.5 9h17M3.5 15h17M8 5v4M16 5v4M8 15v4M16 15v4"/></symbol>
+</svg>
+
+<header class="bar">
+  <a class="mark" href="/" aria-label="MIMIC home">
+    <svg viewBox="0 0 30 30" aria-hidden="true"><rect x="1" y="1" width="28" height="28" rx="6" fill="#121416"/><path d="M10 6v18M20 6v18" stroke="#b9bdb7" stroke-width="1.2"/><path d="M15 5v20" stroke="#f4f5f2" stroke-width="1.4"/><rect x="7.6" y="16" width="4.8" height="7" fill="#f4f5f2"/><rect x="17.6" y="8" width="4.8" height="7" fill="#7f97ff"/></svg>
+    <b>MIMIC</b><small>by ThenarLabs</small>
+  </a>
+  <span class="who" id="who">checking the server…</span>
+  <button id="sampleBtn" type="button"><svg class="i"><use href="#i-film"/></svg><span>Try the <span class="long">sample </span>clip</span></button>
+  <label class="btn primary" for="file" id="uploadBtn"><svg class="i"><use href="#i-up"/></svg><span>Upload<span class="long"> a clip</span></span></label>
+  <input type="file" id="file" accept="video/*">
+</header>
+
+<main>
+  <div class="sheet">
+    <!-- the clip ------------------------------------------------------------>
+    <section class="region clipR" aria-labelledby="hClip">
+      <div class="head"><h2 id="hClip">Clip</h2><span class="aside" id="clipMeta"></span></div>
+      <div class="stage" id="stage">
+        <video id="video" playsinline muted preload="auto"></video>
+        <canvas id="overlay"></canvas>
+        <div class="drop" id="drop">
+          <div>
+            <h3>Show it once.</h3>
+            <p>Film the task from above, on the arm's mat, from where the arm will stand. Drop the clip here and MIMIC notates what your hand did.</p>
+            <div class="acts">
+              <label class="btn primary" for="file"><svg class="i"><use href="#i-up"/></svg>Choose a clip</label>
+              <button type="button" data-sample><svg class="i"><use href="#i-film"/></svg>Try the sample clip</button>
+            </div>
+          </div>
+        </div>
+        <div class="working" id="working" hidden><svg class="i"><use href="#i-spin"/></svg><span id="workingText">Tracking your hand and the objects…</span></div>
+      </div>
+      <div class="transport">
+        <button id="play" type="button" disabled aria-label="Play the clip and the replay"><svg class="i"><use href="#i-play"/></svg><span>Play</span></button>
+        <span class="num" id="clock">0.0 s</span>
+        <span class="num" id="robotClock" style="color:var(--robot)"></span>
+      </div>
+      <div class="ask">
+        <label>What's in the clip<input type="text" id="prompts" value="hand, red block, green block, blue bowl" autocomplete="off" spellcheck="false"></label>
+        <label>Tracker<select id="tracker"><option value="color">OpenCV stand-in</option><option value="mediapipe">MediaPipe hands</option><option value="sam3">SAM 3.1 (paid)</option></select></label>
+        <label>Program writer<select id="writer"><option value="rules">Rules (offline)</option><option value="muse-spark">Muse Spark (paid)</option></select></label>
+      </div>
+      <p class="msg" id="msg" role="alert"></p>
+    </section>
+
+    <!-- the score ----------------------------------------------------------->
+    <section class="region scoreR" aria-labelledby="hScore">
+      <div class="head"><h2 id="hScore">Score</h2><span class="aside">time runs up</span></div>
+      <div class="scoreBox"><svg id="score" role="img" aria-label="Movement score: what the person did and what the arm will do, over time"></svg></div>
+      <div class="key">
+        <svg viewBox="0 0 26 12"><rect x="1" y="1" width="24" height="10" fill="#121416"/></svg><span>low</span>
+        <svg viewBox="0 0 26 12"><rect x="1" y="1" width="24" height="10" fill="url(#k-dot)" stroke="#121416"/></svg><span>middle</span>
+        <svg viewBox="0 0 26 12"><rect x="1" y="1" width="24" height="10" fill="url(#k-hatch)" stroke="#121416"/></svg><span>high</span>
+        <svg viewBox="0 0 26 12"><path d="M8 9q5-8 10 0" fill="none" stroke="#121416" stroke-width="1.5"/></svg><span>picked up</span>
+        <svg viewBox="0 0 26 12"><circle cx="13" cy="6" r="3.5" fill="#fbfbf9" stroke="#121416" stroke-width="1.4"/></svg><span>put down</span>
+        <svg viewBox="0 0 26 12"><rect x="5" y="1" width="16" height="10" fill="#8a8f94" stroke="#121416"/><path d="M5 3l16 6" stroke="#fbfbf9" stroke-width="1.4"/></svg><span>turned</span>
+        <svg viewBox="0 0 26 12"><rect x="10" y="0" width="6" height="12" rx="1" fill="#2747c9"/></svg><span>gripper closed</span>
+        <svg viewBox="0 0 26 12"><path d="M2 10L24 2" stroke="#b9bdb7" stroke-dasharray="2 3"/></svg><span>you ↔ arm</span>
+      </div>
+    </section>
+
+    <!-- the replay ---------------------------------------------------------->
+    <section class="region replayR" aria-labelledby="hReplay">
+      <div class="head"><h2 id="hReplay">Replay</h2><span class="aside" id="armName">SO-101 · simulated</span></div>
+      <div id="view"><div class="now"><span id="nowLabel">The arm waits at home.</span></div></div>
+      <div class="verdict" id="verdict" hidden></div>
+      <div class="armrow">
+        <button class="run" id="runArm" type="button" disabled><svg class="i"><use href="#i-arm"/></svg>Run on arm</button>
+        <button class="halt" id="stopArm" type="button" disabled><svg class="i"><use href="#i-stop"/></svg>Stop</button>
+        <span class="note" id="armNote"></span>
+      </div>
+    </section>
+
+    <!-- the steps ----------------------------------------------------------->
+    <section class="region stepsR" aria-labelledby="hSteps">
+      <div class="head"><h2 id="hSteps">Steps</h2><span class="aside" id="stepsMeta"></span></div>
+      <p class="summary" id="summary">Nothing notated yet.</p>
+      <div class="truth" id="truth" hidden></div>
+      <ol class="steps" id="steps"><li class="empty" style="cursor:default;display:block">Picks, carries and places appear here, each with where and when.</li></ol>
+    </section>
+
+    <!-- the program --------------------------------------------------------->
+    <section class="region progR" aria-labelledby="hProg">
+      <div class="head"><h2 id="hProg">Program</h2>
+        <div class="progHead">
+          <span class="writer" id="writerName"></span>
+          <button class="quiet" id="editBtn" type="button" disabled><svg class="i"><use href="#i-edit"/></svg>Edit JSON</button>
+          <button class="quiet" id="saveBtn" type="button" disabled><svg class="i"><use href="#i-down"/></svg>Download</button>
+        </div>
+      </div>
+      <ol class="wps" id="wps"><li class="empty" style="display:block">Waypoints the arm will move through.</li></ol>
+      <div id="editor" hidden>
+        <textarea id="json" spellcheck="false" aria-label="Program JSON"></textarea>
+        <div class="editRow"><button class="primary" id="recheck" type="button"><svg class="i"><use href="#i-check"/></svg>Check again</button><button id="cancelEdit" type="button">Cancel</button><span class="writer" id="editMsg"></span></div>
+      </div>
+    </section>
+  </div>
+</main>
+<footer>
+  <span>Positions are millimetres on the arm's mat, from the base. Times are seconds.</span>
+  <span>Nothing reaches an arm until the safety check passes.</span>
+</footer>
+
+<script type="importmap">
+{ "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+               "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/" } }
+</script>
+<script type="module">
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const cap = s => s ? s[0].toUpperCase() + s.slice(1) : s;
+const mm = v => (v * 1000).toFixed(0);
+const INK = '#121416', ROBOT = '#2747c9', ISSUE = '#b02e19', STAFF = '#b9bdb7', RULE = '#d9dcd6', INK3 = '#62686d';
+const HAND = '#8a5a3c';
+const store = { get(k) { try { return localStorage.getItem(k); } catch { return null; } }, set(k, v) { try { localStorage.setItem(k, v); } catch {} } };
+
+let R = null;               // the current run (server result)
+let health = null;
+let selected = null;        // selected step id
+let rt = 0, playing = false, last = 0;   // replay clock (s) and the shared transport
+let live = null;            // /api/arm while the real (or server-side sim) arm runs
+
+// ================================================================ server
+async function api(url, opts) {
+  const r = await fetch(url, opts);
+  const body = await r.json().catch(() => ({}));
+  if (!r.ok) throw new Error(body.detail || `${r.status} ${r.statusText}`);
+  return body;
+}
+async function boot() {
+  try {
+    health = await api('/api/health');
+    const t = health.trackers, w = health.writers;
+    for (const o of $('tracker').options) o.disabled = !t[o.value];
+    for (const o of $('writer').options) o.disabled = !w[o.value];
+    $('who').textContent = `${health.arm === 'so101' ? 'SO-101 connected' : 'simulated arm'} · ${w['muse-spark'] ? 'Muse Spark ready' : 'offline writer'}`;
+    $('who').classList.add('on');
+    $('armName').textContent = health.arm === 'so101' ? 'SO-101 · on the bench' : 'SO-101 · simulated';
+  } catch { $('who').textContent = 'server offline'; }
+  const lastRun = new URLSearchParams(location.search).get('run') || store.get('mimic.run');
+  if (new URLSearchParams(location.search).has('sample')) return sample();
+  if (lastRun) {
+    try { show(await api(`/runs/${encodeURIComponent(lastRun)}/result.json`)); } catch { /* gone: stay empty */ }
+  }
+}
+
+function busy(on, text) {
+  $('working').hidden = !on;
+  if (text) $('workingText').textContent = text;
+  for (const b of [$('sampleBtn'), ...document.querySelectorAll('[data-sample]')]) { b.disabled = on; b.classList.toggle('busy', on); }
+  $('uploadBtn').style.pointerEvents = on ? 'none' : '';
+  $('uploadBtn').style.opacity = on ? .5 : '';
+}
+function fail(e) { $('msg').textContent = e; }
+
+async function sample() {
+  $('msg').textContent = '';
+  busy(true, 'Reading the sample clip…');
+  $('drop').hidden = true;
+  try {
+    const fd = new FormData(); fd.append('writer', $('writer').value);
+    const r = await api('/api/sample', { method: 'POST', body: fd });
+    $('prompts').value = r.prompts.join(', ');
+    show(r);
+  } catch (e) { fail(`Couldn't run the sample: ${e.message}`); if (!R) $('drop').hidden = false; }
+  busy(false);
+}
+async function upload(file) {
+  if (!file) return;
+  if (!file.type.startsWith('video/') && !/\.(mp4|mov|m4v|webm|avi)$/i.test(file.name)) return fail(`${file.name} isn't a video. Choose an MP4 or MOV from your phone.`);
+  $('msg').textContent = '';
+  const video = $('video');
+  video.src = URL.createObjectURL(file);   // show the clip at once while the server works
+  $('drop').hidden = true;
+  clearOverlay();
+  busy(true, `Tracking ${$('prompts').value || 'your hand and the objects'}…`);
+  try {
+    const fd = new FormData();
+    fd.append('video', file); fd.append('prompts', $('prompts').value);
+    fd.append('tracker', $('tracker').value); fd.append('writer', $('writer').value);
+    show(await api('/api/analyze', { method: 'POST', body: fd }));
+  } catch (e) {
+    fail(`Couldn't read that clip: ${e.message}. Film from above with the objects in view, then try again.`);
+    if (!R) { $('drop').hidden = false; video.removeAttribute('src'); video.load(); }
+  }
+  busy(false);
+}
+$('file').onchange = e => { upload(e.target.files[0]); e.target.value = ''; };
+$('sampleBtn').onclick = sample;
+document.querySelectorAll('[data-sample]').forEach(b => b.onclick = sample);
+const stage = $('stage');
+['dragenter', 'dragover'].forEach(t => stage.addEventListener(t, e => { e.preventDefault(); $('drop').classList.add('over'); }));
+['dragleave', 'drop'].forEach(t => stage.addEventListener(t, e => { e.preventDefault(); $('drop').classList.remove('over'); }));
+stage.addEventListener('drop', e => upload(e.dataTransfer.files[0]));
+
+// ================================================================ a run arrives
+const COLOR = {};
+const byTrack = [];        // per track: Map frame index -> frame
+let carryOf = {};          // object -> [{pick, move, place}]
+let robot = null;          // derived robot timeline
+
+function show(r) {
+  R = r;
+  store.set('mimic.run', r.run_id);
+  history.replaceState(null, '', `?run=${encodeURIComponent(r.run_id)}`);
+  for (const o of r.scene) COLOR[o.label] = o.color;
+  byTrack.length = 0;
+  for (const t of r.tracks) byTrack.push({ t, at: new Map(t.frames.map(f => [f.i, f])) });
+  carryOf = {};
+  for (let i = 0; i + 2 < r.steps.length; i++) {
+    const [a, b, c] = r.steps.slice(i, i + 3);
+    if (a.kind === 'pick' && b.kind === 'move' && c.kind === 'place') { (carryOf[a.object] ||= []).push({ pick: a, move: b, place: c }); i += 2; }
+  }
+  const v = $('video');
+  if (!v.src.endsWith(r.video)) v.src = r.video;
+  v.currentTime = 0;
+  $('drop').hidden = true;
+  $('play').disabled = false;
+  $('clipMeta').innerHTML = `<span class="num">${r.clip.width}×${r.clip.height}</span> · <span class="num">${r.clip.seconds.toFixed(1)}</span> s · ${esc(r.tracker === 'color' ? 'OpenCV stand-in' : r.tracker === 'sam3' ? 'SAM 3.1' : r.tracker)}`;
+  selected = null; rt = 0;
+  deriveRobot(); buildScene(); renderSteps(); renderProgram(); renderVerdict(); drawScore(true); drawOverlay();
+}
+
+// ================================================================ the clip overlay
+const ov = $('overlay'), octx = ov.getContext('2d');
+function clearOverlay() { octx.clearRect(0, 0, ov.width, ov.height); }
+function videoRect() {
+  const b = stage.getBoundingClientRect(), vw = R?.clip.width || 16, vh = R?.clip.height || 9;
+  const s = Math.min(b.width / vw, b.height / vh);
+  return { s, x: (b.width - vw * s) / 2, y: (b.height - vh * s) / 2, w: b.width, h: b.height };
+}
+function drawOverlay() {
+  const dpr = Math.min(2, devicePixelRatio);
+  const { s, x, y, w, h } = videoRect();
+  if (ov.width !== Math.round(w * dpr)) { ov.width = Math.round(w * dpr); ov.height = Math.round(h * dpr); }
+  octx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  octx.clearRect(0, 0, w, h);
+  if (!R) return;
+  const fi = Math.round($('video').currentTime * R.clip.fps);
+  const P = ([u, v]) => [x + u * s, y + v * s];
+  const t = $('video').currentTime;
+  // the carried object's path, while it's being carried or just after
+  for (const [obj, cs] of Object.entries(carryOf)) for (const c of cs) {
+    if (t < c.pick.t_grasp - .2 || t > c.place.t_release + .6) continue;
+    octx.save(); octx.strokeStyle = COLOR[obj]; octx.lineWidth = 2; octx.setLineDash([5, 5]);
+    octx.beginPath(); c.move.path_px.forEach((p, k) => { const [a, b] = P(p); k ? octx.lineTo(a, b) : octx.moveTo(a, b); }); octx.stroke();
+    octx.setLineDash([]);
+    const [px, py] = P(c.pick.px), [qx, qy] = P(c.place.px);
+    octx.beginPath(); octx.arc(px, py, 6, 0, 7); octx.stroke();
+    octx.fillStyle = COLOR[obj]; octx.beginPath(); octx.arc(qx, qy, 4.5, 0, 7); octx.fill();
+    octx.restore();
+  }
+  const plates = [];
+  for (const { t: tr, at } of byTrack) {
+    const f = at.get(fi);
+    if (!f) continue;
+    const hand = tr.kind === 'hand', col = hand ? HAND : (COLOR[tr.label] || INK);
+    octx.beginPath(); f.poly.forEach((p, k) => { const [a, b] = P(p); k ? octx.lineTo(a, b) : octx.moveTo(a, b); }); octx.closePath();
+    octx.save();
+    if (!hand) { octx.fillStyle = col + '30'; octx.fill(); }
+    octx.strokeStyle = col; octx.lineWidth = hand ? 1.6 : 2; if (hand) octx.setLineDash([6, 4]); octx.stroke(); octx.restore();
+    // name plate
+    const [bx, by] = P([f.box[0], f.box[1]]);
+    const label = tr.label; octx.font = '600 12px Schibsted Grotesk, sans-serif';
+    const tw = octx.measureText(label).width + 22;
+    let ty = Math.max(4, by - 24);
+    const hits = y0 => plates.some(p => bx < p.x + p.w && p.x < bx + tw && y0 < p.y + 19 && p.y < y0 + 19);
+    if (hits(ty)) { const below = P([f.box[0], f.box[1] + f.box[3]])[1] + 5; ty = hits(below) ? ty - 22 : below; }   // don't stack plates
+    plates.push({ x: bx, y: ty, w: tw });
+    octx.fillStyle = 'rgba(251,251,249,.92)'; roundRect(bx, ty, tw, 19, 4); octx.fill();
+    octx.strokeStyle = 'rgba(18,20,22,.14)'; octx.lineWidth = 1; octx.stroke();
+    octx.fillStyle = col; octx.fillRect(bx + 6, ty + 5, 9, 9);
+    octx.fillStyle = INK; octx.fillText(label, bx + 18, ty + 13.5);
+  }
+}
+function roundRect(x, y, w, h, r) { octx.beginPath(); octx.roundRect ? octx.roundRect(x, y, w, h, r) : octx.rect(x, y, w, h); }
+
+// ================================================================ the robot's timeline
+function deriveRobot() {
+  const rp = R.replay, S = rp.samples, dt = 1 / rp.rate;
+  // per waypoint: start and end time, target height
+  const segs = [];
+  let cur = null;
+  for (const s of S) {
+    if (!cur || cur.w !== s.w) { cur = { w: s.w, t0: s.t, t1: s.t }; segs.push(cur); } else cur.t1 = s.t;
+  }
+  for (const g of segs) { const w = rp.waypoints[g.w]; g.z = w ? (w.xyz ? w.xyz[2] : .2) : .2; g.label = w ? w.label : 'start'; g.step = w?.step; }
+  // when each object is held
+  const held = [];
+  let h = null;
+  for (const s of S) {
+    if (s.held !== h) { if (h) held[held.length - 1].t1 = s.t; if (s.held) held.push({ object: s.held, t0: s.t, t1: s.t }); h = s.held; }
+  }
+  if (h) held[held.length - 1].t1 = S[S.length - 1].t;
+  const grip = [];
+  let closed = false;
+  for (const s of S) {
+    const c = s.q[5] < 30;
+    if (c && !closed) grip.push({ t0: s.t, t1: s.t }); if (c) grip[grip.length - 1].t1 = s.t; closed = c;
+  }
+  // object positions at every sample, for the 3-D table
+  const pos = {}; for (const o of R.scene) pos[o.label] = o.m.slice();
+  const track = [];
+  let was = null;
+  for (const s of S) {
+    if (was && s.held !== was) { const tip = fk(s.q); pos[was] = [tip[0], tip[1]]; }
+    if (s.held) { const tip = fk(s.q); pos[s.held] = [tip[0], tip[1]]; }
+    track.push({ ...pos });
+    was = s.held;
+  }
+  robot = { segs, held, grip, track, T: S.length ? S[S.length - 1].t : 0, dt };
+}
+function sampleAt(t) { const S = R.replay.samples; return S[Math.max(0, Math.min(S.length - 1, Math.round(t * R.replay.rate)))]; }
+
+// ================================================================ the movement score (SVG)
+const svg = $('score'), NS = 'http://www.w3.org/2000/svg';
+const el = (tag, attrs = {}, parent) => { const e = document.createElementNS(NS, tag); for (const [k, v] of Object.entries(attrs)) e.setAttribute(k, v); parent && parent.appendChild(e); return e; };
+let geom = null;
+function drawScore(ink = false) {
+  const b = svg.getBoundingClientRect();
+  const W = b.width, H = b.height;
+  svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+  svg.innerHTML = '';
+  const defs = el('defs', {}, svg);
+  const dot = el('pattern', { id: 'p-dot', width: 5, height: 5, patternUnits: 'userSpaceOnUse' }, defs); el('rect', { width: 5, height: 5, fill: '#fbfbf9' }, dot); el('circle', { cx: 2.5, cy: 2.5, r: 1.1, fill: INK }, dot);
+  const hat = el('pattern', { id: 'p-hatch', width: 5, height: 5, patternUnits: 'userSpaceOnUse', patternTransform: 'rotate(45)' }, defs); el('rect', { width: 5, height: 5, fill: '#fbfbf9' }, hat); el('line', { x1: 0, y1: 0, x2: 0, y2: 5, stroke: INK, 'stroke-width': 1.3 }, hat);
+  const top = 26, bottom = 66, left = 30, right = 30;
+  const T = R ? Math.max(R.clip.seconds, robot.T) : 10;
+  const y = t => H - bottom - (t / T) * (H - top - bottom);
+  const cx = W / 2;
+  const objs = R ? Object.keys(carryOf) : [];
+  const pLanes = ['hand', ...objs], rLanes = ['holds', 'level', 'grip'];
+  const pw = (cx - left - 6) / Math.max(1, pLanes.length), rw = (W - right - cx - 6) / rLanes.length;
+  const px = k => cx - 6 - (pLanes.length - k) * pw, rx = k => cx + 6 + k * rw;
+  geom = { y, T, cx, top, bottom, H, W };
+
+  // the staff
+  const staff = el('g', {}, svg);
+  el('line', { x1: cx, y1: top - 8, x2: cx, y2: H - bottom + 6, stroke: INK, 'stroke-width': 1.4 }, staff);
+  el('line', { x1: left, y1: top - 8, x2: left, y2: H - bottom + 6, stroke: STAFF }, staff);
+  el('line', { x1: W - right, y1: top - 8, x2: W - right, y2: H - bottom + 6, stroke: STAFF }, staff);
+  for (let k = 1; k < pLanes.length; k++) el('line', { x1: px(k), y1: top - 4, x2: px(k), y2: H - bottom, stroke: RULE }, staff);
+  for (let k = 1; k < rLanes.length; k++) el('line', { x1: rx(k), y1: top - 4, x2: rx(k), y2: H - bottom, stroke: RULE }, staff);
+  el('line', { x1: left - 6, y1: y(0), x2: W - right + 6, y2: y(0), stroke: INK, 'stroke-width': 1.4 }, staff); // starting line
+  el('line', { x1: left - 6, y1: y(0) + 4, x2: W - right + 6, y2: y(0) + 4, stroke: INK, 'stroke-width': .8 }, staff);
+  const step = T > 24 ? 5 : T > 12 ? 2 : 1;
+  for (let t = step; t <= T + 1e-6; t += step) {
+    el('line', { x1: left - 4, y1: y(t), x2: left, y2: y(t), stroke: INK3 }, staff);
+    el('line', { x1: W - right, y1: y(t), x2: W - right + 4, y2: y(t), stroke: INK3 }, staff);
+    el('text', { x: left - 7, y: y(t) + 3.5, 'text-anchor': 'end', class: 't' }, staff).textContent = t;
+  }
+  el('text', { x: left - 7, y: y(0) + 3.5, 'text-anchor': 'end', class: 't' }, staff).textContent = '0';
+  // column labels at the foot, as on a score
+  const foot = H - bottom + 22;
+  el('text', { x: (left + cx) / 2, y: H - 6, 'text-anchor': 'middle', class: 'lab' }, staff).textContent = 'YOU';
+  el('text', { x: (cx + W - right) / 2, y: H - 6, 'text-anchor': 'middle', class: 'lab', fill: ROBOT, style: `fill:${ROBOT}` }, staff).textContent = 'ARM';
+  pLanes.forEach((n, k) => {
+    const g = el('g', {}, staff), xm = px(k) + pw / 2;
+    if (n === 'hand') el('path', { d: `M${xm - 4} ${foot - 2} q4 -8 8 0`, stroke: HAND, fill: 'none', 'stroke-width': 1.6 }, g);
+    else el('rect', { x: xm - 4.5, y: foot - 7, width: 9, height: 9, rx: 1.5, fill: COLOR[n] }, g);
+    el('title', {}, g).textContent = n;
+  });
+  rLanes.forEach((n, k) => {   // column names run up the foot of each lane, as a narrow score allows
+    const xm = rx(k) + rw / 2 - 3.5, y0 = H - bottom + 12;
+    el('text', { x: xm, y: y0, transform: `rotate(90 ${xm} ${y0})`, class: 'lab', style: 'font-weight:500' }, staff).textContent = n;
+  });
+  if (!R) {
+    el('text', { x: cx, y: H / 2, 'text-anchor': 'middle', class: 'lab', style: 'font-weight:500' }, svg).textContent = 'the score is written here';
+    return;
+  }
+
+  const notes = el('g', { class: 'ink' }, svg);
+  // ties: your pick and place joined to the arm's grip and release
+  const heldBy = {}; robot.held.forEach(h => (heldBy[h.object] ||= []).push(h));
+  for (const [obj, cs] of Object.entries(carryOf)) cs.forEach((c, k) => {
+    const h = (heldBy[obj] || [])[k]; if (!h) return;
+    for (const [a, b] of [[c.pick.t, h.t0], [c.place.t, h.t1]]) el('path', { d: `M${cx - 6} ${y(a)} L${cx + 6} ${y(b)}`, stroke: STAFF, 'stroke-dasharray': '2 3', fill: 'none' }, notes);
+  });
+  // you: the hand in view (thin), holding (solid)
+  const hand = byTrack.find(b => b.t.kind === 'hand');
+  if (hand) {
+    const runs = []; let run = null;
+    for (const f of hand.t.frames) { if (run && f.i - run[1] <= 3) run[1] = f.i; else runs.push(run = [f.i, f.i]); }
+    const xm = px(0) + pw / 2;
+    runs.forEach(([a, b]) => el('line', { x1: xm, y1: y(a / R.clip.fps), x2: xm, y2: y(b / R.clip.fps), stroke: HAND, 'stroke-width': 2, 'stroke-linecap': 'round' }, notes));
+    for (const cs of Object.values(carryOf)) for (const c of cs) {
+      el('rect', { x: xm - 4, y: y(c.place.t_release), width: 8, height: y(c.pick.t_grasp) - y(c.place.t_release), rx: 2, fill: 'none', stroke: HAND, 'stroke-width': 1.4 }, notes);
+    }
+  }
+  // you: each object's carry, its length its duration; a hook where it's picked, a ring where it's put down
+  objs.forEach((obj, k) => {
+    const x0 = px(k + 1) + pw * .2, w = pw * .6;
+    for (const c of carryOf[obj]) {
+      const g = el('g', { class: 'blk', 'data-step': c.move.id }, notes);
+      el('rect', { x: x0, y: y(c.place.t), width: w, height: Math.max(3, y(c.pick.t) - y(c.place.t)), fill: COLOR[obj], stroke: INK, 'stroke-width': 1 }, g);
+      if (c.move.turn_deg && Math.abs(c.move.turn_deg) >= 8) {   // a turn sign: Laban's turn symbols are slanted ends
+        const s = c.move.turn_deg > 0 ? -1 : 1;
+        el('path', { d: `M${x0} ${y(c.place.t) + 6} l${w} ${s * 6}`, stroke: '#fbfbf9', 'stroke-width': 1.4 }, g);
+      }
+      el('path', { d: `M${x0 + w / 2 - 5} ${y(c.pick.t) + 9} q5 -8 10 0`, stroke: INK, fill: 'none', 'stroke-width': 1.5 }, g);
+      el('circle', { cx: x0 + w / 2, cy: y(c.place.t) - 7, r: 3.5, fill: '#fbfbf9', stroke: INK, 'stroke-width': 1.4 }, g);
+      el('title', {}, g).textContent = `${c.pick.object}: picked at ${c.pick.t.toFixed(2)} s, put down at ${c.place.t.toFixed(2)} s`;
+      g.onclick = () => selectStep(c.move.id);
+    }
+  });
+  // the arm: what it holds
+  robot.held.forEach(h => {
+    const g = el('g', { class: 'blk', 'data-object': h.object }, notes);
+    el('rect', { x: rx(0) + rw * .2, y: y(h.t1), width: rw * .6, height: Math.max(3, y(h.t0) - y(h.t1)), fill: COLOR[h.object] || INK, stroke: INK, 'stroke-width': 1 }, g);
+    el('title', {}, g).textContent = `holds the ${h.object} from ${h.t0.toFixed(1)} to ${h.t1.toFixed(1)} s`;
+  });
+  // the arm: fingertip height per waypoint, in Laban's level shading
+  robot.segs.forEach(s => {
+    if (s.t1 - s.t0 < 1e-3) return;
+    const fill = s.z <= .025 ? INK : s.z < .055 ? 'url(#p-dot)' : 'url(#p-hatch)';
+    const g = el('g', { class: 'blk', 'data-step': s.step ?? '' }, notes);
+    el('rect', { x: rx(1) + rw * .18, y: y(s.t1), width: rw * .64, height: Math.max(1.5, y(s.t0) - y(s.t1)), fill, stroke: INK, 'stroke-width': .8 }, g);
+    el('title', {}, g).textContent = `${s.label} · fingertip ${mm(s.z)} mm up`;
+    if (s.step) g.onclick = () => selectStep(s.step);
+  });
+  // the arm: gripper closed (solid), open (hairline)
+  el('line', { x1: rx(2) + rw / 2, y1: y(0), x2: rx(2) + rw / 2, y2: y(robot.T), stroke: STAFF, 'stroke-width': 1 }, notes);
+  robot.grip.forEach(g => el('rect', { x: rx(2) + rw / 2 - 3, y: y(g.t1), width: 6, height: Math.max(2, y(g.t0) - y(g.t1)), fill: ROBOT, rx: 1 }, notes));
+  // the end lines: you stop here, the arm stops there
+  el('line', { x1: left - 2, y1: y(R.clip.seconds), x2: cx, y2: y(R.clip.seconds), stroke: INK, 'stroke-width': 1, 'stroke-dasharray': '1 3' }, notes);
+  el('line', { x1: cx, y1: y(robot.T), x2: W - right + 2, y2: y(robot.T), stroke: ROBOT, 'stroke-width': 1, 'stroke-dasharray': '1 3' }, notes);
+
+  // playheads
+  const heads = el('g', { id: 'heads' }, svg);
+  el('line', { id: 'headYou', x1: left, x2: cx, stroke: INK, 'stroke-width': 1.6 }, heads);
+  el('line', { id: 'headArm', x1: cx, x2: W - right, stroke: ROBOT, 'stroke-width': 1.6 }, heads);
+  el('circle', { id: 'dotYou', cx: left, r: 3.5, fill: INK }, heads);
+  el('circle', { id: 'dotArm', cx: W - right, r: 3.5, fill: ROBOT }, heads);
+  if (ink && document.visibilityState === 'visible') {   // ink the notes in once; never leave them hidden if the tab is in the background
+    svg.classList.remove('inking'); void svg.getBoundingClientRect(); svg.classList.add('inking');
+    clearTimeout(drawScore.t); drawScore.t = setTimeout(() => svg.classList.remove('inking'), 1000);
+  }
+  markSelected(); moveHeads();
+}
+function moveHeads() {
+  if (!geom || !R) return;
+  const a = geom.y(Math.min($('video').currentTime, geom.T)), b = geom.y(Math.min(rt, geom.T));
+  for (const [id, v] of [['headYou', a], ['headArm', b]]) { const l = $(id); if (l) { l.setAttribute('y1', v); l.setAttribute('y2', v); } }
+  $('dotYou')?.setAttribute('cy', a); $('dotArm')?.setAttribute('cy', b);
+}
+// scrub: the left half seeks the clip, the right half the replay
+let scrub = null;
+svg.addEventListener('pointerdown', e => { if (!R || e.target.closest('.blk')) return; scrub = e.clientX - svg.getBoundingClientRect().left < geom.cx ? 'you' : 'arm'; svg.setPointerCapture(e.pointerId); seekFrom(e); });
+svg.addEventListener('pointermove', e => scrub && seekFrom(e));
+['pointerup', 'pointercancel'].forEach(t => svg.addEventListener(t, () => scrub = null));
+function seekFrom(e) {
+  const b = svg.getBoundingClientRect(), t = Math.max(0, Math.min(geom.T, (geom.H - geom.bottom - (e.clientY - b.top)) / (geom.H - geom.top - geom.bottom) * geom.T));
+  pause();
+  if (scrub === 'you') $('video').currentTime = Math.min(t, R.clip.seconds - .01); else rt = Math.min(t, robot.T);
+  tick(true);
+}
+
+// ================================================================ steps
+function proof(s) {
+  if (s.kind === 'move') return `${(s.distance_m * 1000).toFixed(0)} mm in ${(s.t1 - s.t0).toFixed(2)} s, ${s.path_m.length} path points`;
+  const at = `x ${mm(s.m[0])} · y ${mm(s.m[1])} mm`;
+  if (s.kind === 'pick') return `${at}${s.yaw != null ? ` · long side at ${Math.round(s.yaw)}°` : ''}`;
+  return at + (s.onto ? ` · into the ${s.onto}` : '');
+}
+function renderSteps() {
+  $('summary').textContent = R.program.summary;
+  const n = R.steps.filter(s => s.kind === 'pick').length;
+  $('stepsMeta').innerHTML = `<span class="num">${n}</span> carr${n === 1 ? 'y' : 'ies'}${R.hand_seen ? '' : ' · no hand seen'} · <span style="color:${R.check.ok ? 'var(--robot)' : 'var(--issue)'}">${R.check.ok ? 'safe to run' : 'not safe to run'}</span>`;
+  if (R.score) {
+    const s = R.score;
+    $('truth').hidden = false;
+    $('truth').innerHTML = `<span class="tag">synthetic clip</span><span>Against its ground truth: ${s.found} of ${s.expected} carries found, every pick and place within <b class="num">${s.worst_mm} mm</b> and <b class="num">${s.worst_ms} ms</b>.</span>`;
+  } else $('truth').hidden = true;
+  if (!R.steps.length) {
+    $('steps').innerHTML = `<li class="empty" style="cursor:default;display:block">No object moved with a hand on it. Check the names in “What's in the clip” match what you picked up, and that the hand stays in view.</li>`;
+    return;
+  }
+  $('steps').innerHTML = R.steps.map(s => `<li data-step="${s.id}" tabindex="0">
+      <span class="plate"><i style="background:${COLOR[s.object]}"></i>${esc(s.object)}</span>
+      <span class="verb">${s.kind === 'move' ? 'carry' : s.kind}</span>
+      <span class="what">${esc(s.text)}<span class="proof num">${esc(proof(s))}</span></span>
+      <span class="num">${(s.t ?? s.t0).toFixed(2)} s</span></li>`).join('');
+  $('steps').querySelectorAll('li[data-step]').forEach(li => {
+    li.onclick = () => selectStep(+li.dataset.step);
+    li.onkeydown = e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); selectStep(+li.dataset.step); } };
+  });
+}
+function selectStep(id) {
+  selected = selected === id ? null : id;
+  if (selected != null) {
+    const s = R.steps.find(x => x.id === id);
+    pause();
+    $('video').currentTime = Math.max(0, (s.t_grasp ?? s.t ?? s.t0) - .15);
+    const k = R.replay.waypoints.findIndex(w => w.step === id || (s.kind !== 'pick' && w.step === id));
+    const first = R.replay.samples.find(x => x.w === (k >= 0 ? k : 0));
+    rt = first ? first.t : 0;
+  }
+  markSelected(); tick(true);
+}
+function markSelected() {
+  document.querySelectorAll('#steps li[data-step]').forEach(li => li.classList.toggle('on', +li.dataset.step === selected));
+  const s = R && R.steps.find(x => x.id === selected);
+  const carry = s ? R.steps.filter(x => x.object === s.object && Math.abs(x.id - s.id) <= 2).map(x => x.id) : [];
+  svg.querySelectorAll('.blk').forEach(b => b.classList.toggle('dim', selected != null && !carry.includes(+b.dataset.step) && b.dataset.object !== s?.object));
+}
+
+// ================================================================ program
+let lastWp = -2;
+function renderProgram() {
+  const wps = R.program.waypoints, issues = R.check.issues;   // the program as written: every waypoint, solvable or not
+  $('writerName').textContent = R.program.writer === 'muse-spark' ? `written by Muse Spark${R.program.model ? ` (${R.program.model})` : ''}` : R.program.writer === 'edited' ? 'edited by you' : 'written by the offline rules';
+  if (R.fallback) $('writerName').textContent += ' · Muse Spark was unreachable';
+  $('editBtn').disabled = $('saveBtn').disabled = false;
+  const bad = new Map(issues.filter(i => i.waypoint != null).map(i => [i.waypoint, i.issue]));
+  const row = (k, w, g, where, why) => `<li data-wp="${k}" class="${why ? 'bad' : ''}"><span class="n num">${k === 'home' ? '' : String(k + 1).padStart(2, '0')}</span>
+      <span>${esc(cap(w.label))} <span class="g ${g === 'grip' ? 'close' : ''}">${g}</span></span><span class="num">${where}</span>
+      ${why ? `<span class="why">${esc(why)}</span>` : ''}</li>`;
+  const fmt = xyz => Array.isArray(xyz) && xyz.length === 3 && xyz.every(Number.isFinite) ? xyz.map(mm).join(', ') : '—';
+  $('wps').innerHTML = wps.map((w, k) => row(k, w, w.grip === 'close' ? 'grip' : w.grip === 'open' && k > 0 && wps[k - 1].grip !== 'open' ? 'release' : '', fmt(w.xyz), bad.get(k))).join('')
+    + row('home', { label: 'home' }, '', 'rest pose');
+  lastWp = -2;
+}
+function renderVerdict() {
+  const c = R.check, v = $('verdict');
+  v.hidden = false;
+  v.classList.toggle('bad', !c.ok);
+  if (c.ok) v.innerHTML = `<svg class="i"><use href="#i-check"/></svg><div><b>Safe to run.</b>${c.waypoints} waypoints in <span class="num">${c.duration_s.toFixed(1)} s</span>, every pose inside the joint limits, the fingertip never below the table.</div>`;
+  else v.innerHTML = `<svg class="i"><use href="#i-alert"/></svg><div><b>Not safe to run yet.</b>Fix ${c.issues.length === 1 ? 'this' : 'these'} in the program, then check again:<ul>${c.issues.map(i => `<li>${i.waypoint != null ? `Waypoint ${i.waypoint + 1}: ` : ''}${esc(i.issue)}</li>`).join('')}</ul></div>`;
+  $('runArm').disabled = !c.ok;
+  $('armNote').textContent = c.ok ? '' : 'Running is locked until the check passes.';
+}
+$('editBtn').onclick = () => {
+  const open = $('editor').hidden;
+  $('editor').hidden = !open; $('wps').hidden = open;
+  if (open) { $('json').value = JSON.stringify(R.program, null, 2); $('json').focus(); $('editMsg').textContent = ''; }
+};
+$('cancelEdit').onclick = () => { $('editor').hidden = true; $('wps').hidden = false; };
+$('recheck').onclick = async () => {
+  let prog;
+  try { prog = JSON.parse($('json').value); } catch (e) { $('editMsg').textContent = `That isn't valid JSON: ${e.message}`; return; }
+  $('recheck').classList.add('busy');
+  try {
+    const out = await api(`/api/recheck/${R.run_id}`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ program: { ...prog, writer: 'edited' } }) });
+    Object.assign(R, out); R.program.writer = 'edited';
+    deriveRobot(); rt = 0; renderProgram(); renderVerdict(); drawScore(true); buildObjects();
+    $('editor').hidden = true; $('wps').hidden = false;
+  } catch (e) { $('editMsg').textContent = `Couldn't check it: ${e.message}`; }
+  $('recheck').classList.remove('busy');
+};
+$('saveBtn').onclick = () => {
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([JSON.stringify(R.program, null, 2)], { type: 'application/json' }));
+  a.download = `mimic-${R.run_id}.json`; a.click(); URL.revokeObjectURL(a.href);
+};
+
+// ================================================================ run on the arm
+$('runArm').onclick = async () => {
+  try { await api(`/api/execute/${R.run_id}`, { method: 'POST' }); $('stopArm').disabled = false; $('runArm').disabled = true; pollArm(); }
+  catch (e) { $('armNote').textContent = e.message; }
+};
+$('stopArm').onclick = () => fetch('/api/stop', { method: 'POST' });
+async function pollArm() {
+  try { live = await api('/api/arm'); } catch { live = null; return; }
+  $('armNote').textContent = live.busy ? `Running: ${live.label}` : live.label === 'done' ? 'Finished.' : live.label === 'stopped' ? 'Stopped.' : live.error ? `Failed: ${live.error}` : '';
+  if (live.busy) setTimeout(pollArm, 120);
+  else { live = null; $('stopArm').disabled = true; $('runArm').disabled = !R.check.ok; }
+}
+
+// ================================================================ the 3-D replay
+const H0 = 0.10, L1 = 0.116, L2 = 0.135, L3 = 0.10;     // as mimic/kinematics.py
+const rad = d => d * Math.PI / 180;
+function fk(q) {
+  const [t0, t1, t2, t3] = q.map(rad), a2 = t1 + t2, a3 = a2 + t3;
+  const r = L1 * Math.sin(t1) + L2 * Math.sin(a2) + L3 * Math.sin(a3);
+  return [r * Math.sin(t0), r * Math.cos(t0), H0 + L1 * Math.cos(t1) + L2 * Math.cos(a2) + L3 * Math.cos(a3)];
+}
+const W3 = ([x, y, z]) => new THREE.Vector3(x, z, -y);   // robot frame (x right, y ahead, z up) -> three
+const host = $('view');
+const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+renderer.setPixelRatio(Math.min(2, devicePixelRatio));
+renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+host.prepend(renderer.domElement);
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(34, 1, 0.01, 10);
+camera.position.set(0.58, 0.34, 0.08);
+const controls = new OrbitControls(camera, renderer.domElement);
+controls.target.set(0, 0.13, -0.19); controls.enableDamping = true; controls.enablePan = false;
+controls.enableZoom = false;   // the wheel scrolls the page, not the camera; drag to look around
+if (matchMedia('(pointer: coarse)').matches) { controls.enableRotate = false; renderer.domElement.style.touchAction = 'pan-y'; }   // a finger scrolls the page
+scene.add(new THREE.HemisphereLight(0xffffff, 0xb8bbb4, 1.25));
+const sun = new THREE.DirectionalLight(0xffffff, 1.6); sun.position.set(-0.4, 1.1, 0.5); sun.castShadow = true;
+sun.shadow.mapSize.set(2048, 2048); Object.assign(sun.shadow.camera, { left: -.5, right: .5, top: .5, bottom: -.5, near: .1, far: 3 }); sun.shadow.bias = -0.0004; scene.add(sun);
+const M = (c, o = {}) => new THREE.MeshStandardMaterial({ color: c, roughness: .55, metalness: .02, ...o });
+scene.fog = new THREE.Fog(0xeceee9, 1.0, 2.6);   // the desk fades into the sheet's well; no horizon
+const desk = new THREE.Mesh(new THREE.PlaneGeometry(12, 12), M(0xeceee9, { roughness: .95 })); desk.rotation.x = -Math.PI / 2; desk.receiveShadow = true; scene.add(desk);
+// the mat: 24 x 13.5 cm from 17.5 cm out, ruled like the score
+const mat = new THREE.Mesh(new THREE.PlaneGeometry(.24, .135), M(0xfbfbf9, { roughness: .9 })); mat.rotation.x = -Math.PI / 2; mat.position.set(0, .0008, -(0.175 + .0675)); mat.receiveShadow = true; scene.add(mat);
+const matLines = new THREE.Group(); scene.add(matLines);
+{ // ruled every centimetre like the score's staff paper, with an ink border
+  const pts = [];
+  for (let i = 0; i <= 24; i++) { const x = -.12 + i * .01; pts.push(W3([x, .175, .0012]), W3([x, .31, .0012])); }
+  for (let y = .175; y <= .3101; y += .01) pts.push(W3([-.12, y, .0012]), W3([.12, y, .0012]));
+  matLines.add(new THREE.LineSegments(new THREE.BufferGeometry().setFromPoints(pts), new THREE.LineBasicMaterial({ color: 0xd9dcd6 })));
+  const edge = [[-.12, .175], [.12, .175], [.12, .31], [-.12, .31], [-.12, .175]].map(([x, y]) => W3([x, y, .0014]));
+  matLines.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(edge), new THREE.LineBasicMaterial({ color: 0x121416 })));
+}
+// the arm, built like REACH's, standing on its own base plate
+const ink = M(0x1b1e21, { roughness: .45 }), blue = M(0x2747c9, { roughness: .4 }), grey = M(0xc9ccc6);
+const box = (w, h, d, m) => { const o = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), m); o.castShadow = true; o.receiveShadow = true; return o; };
+const link = (len, r, m) => { const g = box(r, len, r, m); g.position.y = len / 2; return g; };
+const plate = box(.12, .008, .1, grey); plate.position.set(0, .004, .01); scene.add(plate);
+const base = new THREE.Group(); base.position.y = .008; scene.add(base);
+const foot = new THREE.Mesh(new THREE.CylinderGeometry(.034, .04, .03, 36), ink); foot.position.y = .015; foot.castShadow = true; base.add(foot);
+const pillar = link(H0 - .038, .036, ink); pillar.position.y = .03; base.add(pillar);
+const shoulder = new THREE.Group(); shoulder.position.y = H0 - .008; base.add(shoulder); shoulder.add(link(L1, .026, ink));
+const elbow = new THREE.Group(); elbow.position.y = L1; shoulder.add(elbow); elbow.add(link(L2, .023, ink));
+const wrist = new THREE.Group(); wrist.position.y = L2; elbow.add(wrist); wrist.add(link(.05, .024, blue));
+const roll = new THREE.Group(); roll.position.y = .05; wrist.add(roll);
+const jawA = link(L3 - .05, .008, blue), jawB = link(L3 - .05, .008, blue); roll.add(jawA, jawB);
+const tip = new THREE.Object3D(); tip.position.y = L3 - .05; roll.add(tip);
+[shoulder, elbow, wrist].forEach(g => { const s = new THREE.Mesh(new THREE.SphereGeometry(.017, 24, 16), blue); s.castShadow = true; g.add(s); });
+function pose(q) {
+  base.rotation.y = -rad(q[0]);           // pan: + turns toward the robot's right (+x)
+  shoulder.rotation.x = -rad(q[1]); elbow.rotation.x = -rad(q[2]); wrist.rotation.x = -rad(q[3]);
+  roll.rotation.y = -rad(q[4]);
+  const open = .004 + .022 * Math.max(0, Math.min(1, q[5] / 70)); jawA.position.x = -open; jawB.position.x = open;
+}
+// objects on the mat
+const objs3 = {}, ghosts = new THREE.Group(); scene.add(ghosts);
+function makeObject(o) {
+  const g = new THREE.Group();
+  const col = new THREE.Color(o.color), h = o.height_m || .03;
+  let mesh;
+  if (o.round) {   // a bowl: lathe profile, open on top
+    const r = o.size_m[0] / 2, pts = [];
+    for (let i = 0; i <= 10; i++) { const a = i / 10 * Math.PI / 2; pts.push(new THREE.Vector2(r * .45 + r * .55 * Math.sin(a), h * (1 - Math.cos(a)))); }
+    pts.push(new THREE.Vector2(r * .93, h)); pts.unshift(new THREE.Vector2(0, 0));
+    mesh = new THREE.Mesh(new THREE.LatheGeometry(pts, 48), M(col, { side: THREE.DoubleSide }));
+  } else { mesh = new THREE.Mesh(new THREE.BoxGeometry(o.size_m[0], h, o.size_m[1]), M(col)); mesh.position.y = h / 2; }
+  mesh.castShadow = true; mesh.receiveShadow = true; g.add(mesh);
+  g.userData = { h, round: o.round, yaw: o.yaw || 0 };
+  scene.add(g); return g;
+}
+function buildObjects() {
+  for (const o of Object.values(objs3)) scene.remove(o);
+  for (const k of Object.keys(objs3)) delete objs3[k];
+  ghosts.clear();
+  if (!R) return;
+  for (const o of R.scene) objs3[o.label] = makeObject(o);
+  // the fingertip's planned path, in the robot's ink
+  const last = R.replay.waypoints.length - 1;   // leave out the moves from and back to the rest pose
+  const path = R.replay.samples.filter(s => s.w > 0 && s.w < last).map(s => W3(fk(s.q)));
+  if (path.length > 1) ghosts.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(path), new THREE.LineBasicMaterial({ color: 0x2747c9, transparent: true, opacity: .55 })));
+  for (const s of R.steps.filter(s => s.kind === 'place')) {   // where the hand put things: an outline on the mat
+    const ring = new THREE.Mesh(new THREE.RingGeometry(.007, .0085, 32), new THREE.MeshBasicMaterial({ color: COLOR[s.object] }));
+    ring.rotation.x = -Math.PI / 2; ring.position.copy(W3([s.m[0], s.m[1], .0015])); ghosts.add(ring);
+  }
+}
+function buildScene() { buildObjects(); }
+function placeObjects(sample, k) {
+  if (!R) return;
+  const pos = robot.track[k] || {};
+  const tipW = new THREE.Vector3(); tip.getWorldPosition(tipW);
+  const steps = R.steps;
+  for (const o of R.scene) {
+    const g = objs3[o.label]; if (!g) continue;
+    const held = sample && sample.held === o.label;
+    if (held) { g.position.set(tipW.x, tipW.y - g.userData.h / 2, tipW.z); }
+    else {
+      const [x, y] = pos[o.label] || o.m;
+      const onto = steps.find(s => s.kind === 'place' && s.object === o.label && s.onto && Math.hypot(s.m[0] - x, s.m[1] - y) < .01);
+      g.position.copy(W3([x, y, onto ? .006 : 0]));
+    }
+    // turn with the wrist while held; once put down, keep the yaw the hand left it at
+    const place = steps.filter(s => s.kind === 'place' && s.object === o.label).find(s => Math.hypot(s.m[0] - (pos[o.label] || o.m)[0], s.m[1] - (pos[o.label] || o.m)[1]) < .004);
+    const yaw = place && !held && place.yaw != null ? place.yaw : (o.yaw || 0);
+    if (!o.round) g.rotation.y = rad(held ? yawWhileHeld(o, sample) : yaw);
+  }
+}
+function yawWhileHeld(o, s) {
+  const w = R.replay.waypoints[s.w], c = (carryOf[o.label] || [])[0];
+  if (!w || !c) return o.yaw || 0;
+  const q0 = R.replay.waypoints.find(x => x.object === o.label && x.grip === 'close');
+  const d = q0 ? (s.q[4] - q0.q[4]) - (s.q[0] - q0.q[0]) : 0;   // the jaws' turn on the table since the grip
+  return (c.pick.yaw ?? o.yaw ?? 0) + d;
+}
+const VIEW = new THREE.Vector3(0.58, 0.34, 0.08).sub(controls.target);
+function resize() {
+  const w = host.clientWidth, h = host.clientHeight;
+  renderer.setSize(w, h, false); camera.aspect = w / h; camera.updateProjectionMatrix();
+  if (!resize.moved) camera.position.copy(controls.target).addScaledVector(VIEW, 1.2 * Math.max(1, 1.5 / camera.aspect));   // step back on narrow screens
+}
+controls.addEventListener('start', () => resize.moved = true);
+new ResizeObserver(() => { resize(); if (R) drawScore(); drawOverlay(); }).observe(host);
+new ResizeObserver(() => { if (geom) drawScore(); }).observe(svg);
+new ResizeObserver(drawOverlay).observe(stage);
+resize();
+
+// ================================================================ the shared clock
+function play() {
+  if (!R) return;
+  if ($('video').currentTime >= R.clip.seconds - .05 && rt >= robot.T - .05) { $('video').currentTime = 0; rt = 0; }
+  playing = true; last = performance.now();
+  if ($('video').currentTime < R.clip.seconds - .05) $('video').play().catch(() => {});
+  setPlay();
+}
+function pause() { playing = false; $('video').pause(); setPlay(); }
+function setPlay() {
+  $('play').innerHTML = playing ? '<svg class="i"><use href="#i-pause"/></svg><span>Pause</span>' : '<svg class="i"><use href="#i-play"/></svg><span>Play</span>';
+}
+$('play').onclick = () => playing ? pause() : play();
+$('video').addEventListener('ended', () => { if (rt >= robot.T) pause(); });
+$('video').addEventListener('seeked', () => tick(true));
+document.addEventListener('keydown', e => { if (e.code === 'Space' && R && !/INPUT|TEXTAREA|SELECT|BUTTON/.test(document.activeElement.tagName)) { e.preventDefault(); playing ? pause() : play(); } });
+
+function tick(force) {
+  const now = performance.now();
+  if (playing) { rt = Math.min(robot.T, rt + (now - last) / 1000); if (rt >= robot.T && $('video').paused) pause(); }
+  last = now;
+  if (R) {
+    let s, k;
+    if (live && live.busy) { s = { q: Object.values(live.joints), held: null, w: live.waypoint }; k = 0; }
+    else { k = Math.max(0, Math.min(R.replay.samples.length - 1, Math.round(rt * R.replay.rate))); s = R.replay.samples[k]; }
+    pose(s.q); scene.updateMatrixWorld(); placeObjects(live && live.busy ? null : s, k);
+    const w = R.replay.waypoints[s.w];
+    $('nowLabel').textContent = live && live.busy ? `On the arm: ${live.label}` : w ? cap(w.label) : rt > 0 ? 'Back home.' : 'The arm waits at home.';
+    $('nowLabel').classList.toggle('live', !!(live && live.busy));
+    $('clock').textContent = `${$('video').currentTime.toFixed(1)} / ${R.clip.seconds.toFixed(1)} s`;
+    $('robotClock').textContent = `arm ${rt.toFixed(1)} / ${robot.T.toFixed(1)} s`;
+    if (s.w !== lastWp) {
+      lastWp = s.w;
+      $('wps').querySelectorAll('li.on').forEach(li => li.classList.remove('on'));
+      const rw = R.replay.waypoints[s.w], li = rw && $('wps').querySelector(`li[data-wp="${rw.pose === 'home' ? 'home' : rw.src}"]`);
+      if (li) { li.classList.add('on'); const box = $('wps'); if (li.offsetTop < box.scrollTop || li.offsetTop > box.scrollTop + box.clientHeight - 30) box.scrollTop = li.offsetTop - box.clientHeight / 3; }
+    }
+    moveHeads(); drawOverlay();
+  }
+  controls.update(); renderer.render(scene, camera);
+}
+(function loop() { tick(); requestAnimationFrame(loop); })();
+boot();
+</script>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <pattern id="k-dot" width="5" height="5" patternUnits="userSpaceOnUse"><rect width="5" height="5" fill="#fbfbf9"/><circle cx="2.5" cy="2.5" r="1.1" fill="#121416"/></pattern>
+    <pattern id="k-hatch" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="5" height="5" fill="#fbfbf9"/><line x1="0" y1="0" x2="0" y2="5" stroke="#121416" stroke-width="1.3"/></pattern>
+  </defs>
+</svg>
+</body>
+</html>

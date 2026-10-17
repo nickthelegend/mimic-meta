@@ -1,0 +1,101 @@
+{
+  "title": "Choose MIMIC's visual world",
+  "question": "The roll assigned the Movement Score. Keep it, take an alternate, or re-roll.",
+  "options": [
+    {
+      "id": "assigned",
+      "label": "Movement Score",
+      "kicker": "THE ROLL",
+      "lineage": "Labanotation: dance notation written so another body can perform it",
+      "thesis": "The clip is notated like a dance score, and the robot is the second dancer reading it.",
+      "palette": ["#f4f5f2", "#121416", "#8d9296", "#2747c9", "#d8463b"],
+      "materials": ["staff paper", "ink notation", "level shading (black low, dot middle, hatch high)"],
+      "viewport": "Clip with tracked overlay at left; a vertical staff in the middle with lanes for hand, each object and gripper, steps as blocks whose length is their duration; the arm's 3-D replay at right; Upload and Run on arm in the top bar.",
+      "risk": "Time running up the staff is the form's native grammar but new to most reviewers; it needs clear second ticks to read in one glance.",
+      "raised": [
+        {"from": "Split-flap concourse", "raise": "Fixed cells: a step keeps its cell when its state changes; an issue restyles the row, never reflows the score."},
+        {"from": "Character goods catalog", "raise": "Every tracked object carries one name plate and colour ribbon, used identically on the video, the staff and the 3-D table."},
+        {"from": "Monochrome product marketing", "raise": "Every claim beside its proof: each step shows its measured millimetres and seconds."},
+        {"from": "Timetable slide rack", "raise": "One data size; rank comes from weight, case and reversal, not bigger type."},
+        {"from": "Cassette j-card", "raise": "Running times right-aligned; the program's duration is accounted against the clip's."}
+      ],
+      "wireframe": {"cols": 12, "rows": 10, "regions": [
+        {"label": "top bar: MIMIC · upload · run on arm", "x": 0, "y": 0, "w": 12, "h": 1},
+        {"label": "clip + tracked overlay", "x": 0, "y": 1, "w": 5, "h": 5, "accent": true},
+        {"label": "movement score (time runs up)", "x": 5, "y": 1, "w": 3, "h": 9, "accent": true},
+        {"label": "3-D replay", "x": 8, "y": 1, "w": 4, "h": 5},
+        {"label": "steps with mm / s", "x": 0, "y": 6, "w": 5, "h": 4},
+        {"label": "program + safety check", "x": 8, "y": 6, "w": 4, "h": 4}
+      ]}
+    },
+    {
+      "id": "model-pick",
+      "label": "Slicer Preview",
+      "kicker": "IMPECCABLE’S PICK",
+      "lineage": "3-D printer slicers (Bambu Studio, PrusaSlicer) previewing a toolpath",
+      "thesis": "The program previewed like a print: toolpath in 3-D, listing synced to a time slider.",
+      "palette": ["#1d2125", "#2b3036", "#e9ecef", "#18a0a0", "#f2a33a"],
+      "materials": ["toolpath lines", "build-plate grid", "layer slider"],
+      "viewport": "Big 3-D plate with the coloured toolpath; clip as a docked thumbnail; vertical time slider at the right edge; program listing below.",
+      "risk": "The most familiar choice for makers, and where most robotics tools land; the clip becomes secondary.",
+      "wireframe": {"cols": 12, "rows": 10, "regions": [
+        {"label": "toolbar", "x": 0, "y": 0, "w": 12, "h": 1},
+        {"label": "3-D plate + toolpath", "x": 0, "y": 1, "w": 9, "h": 6, "accent": true},
+        {"label": "time slider", "x": 9, "y": 1, "w": 1, "h": 6},
+        {"label": "clip thumb", "x": 10, "y": 1, "w": 2, "h": 2},
+        {"label": "program listing", "x": 0, "y": 7, "w": 12, "h": 3}
+      ]}
+    },
+    {
+      "id": "challenger-transit",
+      "label": "Transit Diagram",
+      "verdict": "competitive",
+      "lineage": "metropolitan rail diagrams",
+      "thesis": "Each object is a coloured line; picks and places are its stations, carries the runs between.",
+      "palette": ["#13203f", "#f3f1ea", "#d8463b", "#2f62c9", "#e9a93a", "#3f9f4a"],
+      "materials": ["enamel ground", "45° line work", "interchange circles"],
+      "viewport": "A midnight diagram strip under the clip, one line per object with stations at each step; 3-D replay beside it.",
+      "case": "Fuses cleanly and reads instantly per object; loses on time, which the diagram deliberately flattens.",
+      "risk": "Durations and simultaneity disappear, and reviewers judge timing.",
+      "wireframe": {"cols": 12, "rows": 10, "regions": [
+        {"label": "top bar", "x": 0, "y": 0, "w": 12, "h": 1},
+        {"label": "clip + overlay", "x": 0, "y": 1, "w": 7, "h": 5},
+        {"label": "3-D replay", "x": 7, "y": 1, "w": 5, "h": 5},
+        {"label": "line diagram: one line per object", "x": 0, "y": 6, "w": 12, "h": 2, "accent": true},
+        {"label": "program", "x": 0, "y": 8, "w": 12, "h": 2}
+      ]}
+    },
+    {"id": "challenger-splitflap", "label": "Split-flap Concourse", "verdict": "declined", "lineage": "rail departure boards",
+     "thesis": "Steps as departure rows that flip when they change.", "palette": ["#111111", "#f4f4f0", "#e8a33a", "#b23a2e"],
+     "materials": ["black flaps", "steel frame"], "viewport": "A board of step rows over the clip.", "risk": "Novelty clacks over a review task.",
+     "case": "Demonstrators don't read their work as departures; time and space get lost in rows.", "kept": "Fixed cells: state restyles a row without reflowing the grid."},
+    {"id": "challenger-goods", "label": "Character Goods Catalog", "verdict": "declined", "lineage": "mascot catalogs",
+     "thesis": "Tracked objects as a ranked cast of characters.", "palette": ["#fde7ef", "#e7f3fd", "#fff6d8", "#333333"],
+     "materials": ["pastel cells", "name plates"], "viewport": "A grid of object cards.", "risk": "Toy-like for paid review work.",
+     "case": "Wrong register for a tool; loses both axes.", "kept": "One name plate and colour ribbon per object, everywhere."},
+    {"id": "challenger-mono", "label": "Monochrome Product Marketing", "verdict": "declined", "lineage": "software marketing pages",
+     "thesis": "Claim, then the screenshot that proves it.", "palette": ["#fafafa", "#0b0b0c", "#4b5563", "#2563eb"],
+     "materials": ["neutral scale", "framed screenshots"], "viewport": "A claim-and-proof page.", "risk": "A persuasion form for an operate task.",
+     "case": "Persuade grammar; the reviewer needs the work, not the pitch.", "kept": "Every claim sits beside its measured proof."},
+    {"id": "challenger-timetable", "label": "Timetable Slide Rack", "verdict": "declined", "lineage": "pocket airline timetables",
+     "thesis": "One type size; rank by weight, case and reversal.", "palette": ["#d9a520", "#2b2f33", "#f2ead2", "#c8361f"],
+     "materials": ["tinted glass", "raked slides"], "viewport": "A raked rack of step slides.", "risk": "The rake fights video and 3-D panes.",
+     "case": "Raked containers obscure the three media panes.", "kept": "One data size; hierarchy from weight and case."},
+    {"id": "challenger-jcard", "label": "Cassette J-card", "verdict": "declined", "lineage": "mixtape inlays",
+     "thesis": "The program as a hand-timed tracklist.", "palette": ["#f7f7f4", "#2440a8", "#9a9a9a", "#c8202a"],
+     "materials": ["ballpoint", "lined inlay"], "viewport": "Side A: the person; side B: the robot.", "risk": "Handwriting undermines a safety-checked program.",
+     "case": "Hand-lettered ink reads tentative where the check must read certain.", "kept": "Running times right-aligned and accounted."}
+  ],
+  "reroll": {"registers": ["safer", "bolder"]},
+  "buildPath": {"value": "code", "toggle": false},
+  "canon": true,
+  "canonCard": {
+    "label": "The category standard",
+    "thesis": "A dark robotics dashboard: video, JSON and 3-D in equal panels.",
+    "palette": ["#0e1116", "#1a1f27", "#e6e9ee", "#4f8cff"],
+    "materials": ["panels", "monospace JSON"],
+    "viewport": "Three equal dark panels and a sidebar of steps.",
+    "risk": "Indistinguishable from every robotics demo by design."
+  },
+  "steer": true
+}

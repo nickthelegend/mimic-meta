@@ -7,3 +7,9 @@ data/raw/
 *.mp4
 *.mov
 .DS_Store
+runs/
+samples/*.json
+.pytest_cache/
+models/
+.impeccable/review/
+.impeccable/questions/
