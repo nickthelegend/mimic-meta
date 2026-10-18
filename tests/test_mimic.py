@@ -17,7 +17,7 @@ from mimic import kinematics as K
 from mimic import program as P
 from mimic import sim, tracks
 from mimic.calibrate import Calibration
-from mimic.pipeline import recheck, run
+from mimic.pipeline import ClipRejected, main, recheck, run
 from mimic.segment import segment
 from mimic.synth import make_sample
 from mimic.writer import MuseSparkWriter, RuleWriter
@@ -148,6 +148,54 @@ def test_no_hand_no_carry():
     assert [s["kind"] for s in segment(t)["steps"]] == ["pick", "move", "place"]
 
 
+def write_clip(p, frames, fps=30):
+    h, w = frames[0].shape[:2]
+    vw = cv2.VideoWriter(str(p), cv2.VideoWriter_fourcc(*"mp4v"), fps, (w, h))
+    for f in frames:
+        vw.write(f)
+    vw.release()
+    return p
+
+
+@pytest.fixture
+def short_clip(sample, tmp_path):
+    # the first second of the sample: a real scene, just too short to show a pick and place
+    r = tracks.FrameReader(sample[0])
+    return write_clip(tmp_path / "short.mp4", [f for _, f in zip(range(int(r.fps)), r)], int(r.fps))
+
+
+@pytest.fixture
+def handless_clip(tmp_path):
+    # two seconds of a block sliding across the mat with nobody in shot
+    frames = []
+    for i in range(60):
+        f = np.full((180, 320, 3), 200, np.uint8)
+        x = 60 + 3 * i
+        cv2.rectangle(f, (x, 80), (x + 24, 104), (40, 40, 210), -1)
+        frames.append(f)
+    return write_clip(tmp_path / "handless.mp4", frames)
+
+
+def test_rejects_clips_shorter_than_the_minimum(short_clip):
+    with pytest.raises(ClipRejected) as e:
+        run(short_clip, ["hand", "red block"])
+    assert e.value.reason == "too_short"
+    assert "1.0 s long" in str(e.value) and "at least 1.5 s" in str(e.value)
+
+
+def test_rejects_clips_with_no_hand(handless_clip):
+    with pytest.raises(ClipRejected) as e:
+        run(handless_clip, ["hand", "red block"])
+    assert e.value.reason == "no_hand"
+    assert "No hand was found" in str(e.value)
+
+
+def test_cli_reports_a_rejected_clip(short_clip, capsys):
+    assert main([str(short_clip), "hand, red block"]) == 2
+    out = capsys.readouterr()
+    assert out.out == "" and "at least 1.5 s" in out.err
+
+
 def test_frame_reader_thins_slow_motion(tmp_path):
     p = tmp_path / "slowmo.mp4"
     vw = cv2.VideoWriter(str(p), cv2.VideoWriter_fourcc(*"mp4v"), 120, (1920, 1080))
@@ -181,6 +229,12 @@ def test_program_json_is_plain_and_editable(result):
     assert prog["writer"] == "rules" and prog["summary"].startswith("Put the red block in the blue bowl")
     assert all("q" not in w for w in prog["waypoints"])
     assert {w["grip"] for w in prog["waypoints"]} == {"open", "close", "hold"}
+
+
+def test_cli_json_prints_only_the_program(result, sample, capsys):
+    p, truth = sample
+    assert main([str(p), ", ".join(truth["prompts"]), "--json"]) == 0
+    assert json.loads(capsys.readouterr().out) == result["program"]
 
 
 def test_check_rejects_unsafe_programs():
@@ -403,3 +457,15 @@ def test_server_rejects_bad_input(client):
     assert client.get("/runs/../server.py").status_code == 404
     assert client.get("/runs/sample/secret.txt").status_code == 404
     assert client.post("/api/execute/nope").status_code == 404
+
+
+@pytest.mark.parametrize("clip, reason, says", [("short_clip", "too_short", "at least 1.5 s"),
+                                                ("handless_clip", "no_hand", "No hand was found")])
+def test_server_explains_a_rejected_clip(client, request, clip, reason, says):
+    with open(request.getfixturevalue(clip), "rb") as f:
+        r = client.post("/api/analyze", files={"video": ("demo.mp4", f, "video/mp4")}, data={"prompts": "hand, red block"})
+    assert r.status_code == 422
+    assert r.json()["reason"] == reason and says in r.json()["detail"]  # the page shows detail as it is
+    import server
+
+    assert not any(server.RUNS.iterdir())  # the rejected upload isn't kept

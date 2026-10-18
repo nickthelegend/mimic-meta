@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import json
 import logging
+import sys
 import time
 from pathlib import Path
 
@@ -23,6 +24,25 @@ log = logging.getLogger("mimic.pipeline")
 
 SWATCH = {"red": "#d8463b", "orange": "#ee8a2c", "yellow": "#e9c23a", "green": "#3f9f4a", "teal": "#2aa198",
           "cyan": "#2aa198", "blue": "#2f62c9", "purple": "#7a52c7", "violet": "#7a52c7", "pink": "#e06a9a", "magenta": "#c94aa8"}
+MIN_SECONDS = 1.5  # shorter than this and there's no pick and place to see
+
+
+class ClipRejected(ValueError):
+    """The clip can't be a demonstration. `reason` is "too_short" or "no_hand"; the message says what to do."""
+
+    def __init__(self, reason: str, message: str):
+        super().__init__(message)
+        self.reason = reason
+
+
+def vet(tracks: Tracks) -> None:
+    seconds = tracks.n_frames / tracks.fps if tracks.fps else 0.0
+    if seconds < MIN_SECONDS:
+        raise ClipRejected("too_short", f"The clip is only {seconds:.1f} s long. Film at least {MIN_SECONDS:g} s: "
+                                        "the hand reaching in, picking the object up, and putting it down.")
+    if not any(h.frames for h in tracks.hands()):
+        raise ClipRejected("no_hand", "No hand was found in the clip. Keep your hand in view while you move the "
+                                      "objects, and include \"hand\" in what to track.")
 
 
 def scene(tracks: Tracks, calib: Calibration, heights: dict | None = None) -> list[dict]:
@@ -62,6 +82,7 @@ def run(video: str | Path, prompts=None, tracker: str = "color", writer: str | N
     t0 = time.perf_counter()
     tracks = get_tracker(tracker).track(video, prompts)
     timings["track_s"] = round(time.perf_counter() - t0, 2)
+    vet(tracks)
     calib = Calibration.from_corners(corners) if corners else Calibration.default(tracks.width, tracks.height)
     t1 = time.perf_counter()
     seg = segment(tracks, calib)
@@ -112,11 +133,28 @@ def recheck(program: dict, result: dict) -> dict:
                        "objects_end": compiled["objects_end"]}}
 
 
-if __name__ == "__main__":
-    import sys
+def main(argv: list[str] | None = None) -> int:
+    """python -m mimic.pipeline clip.mp4 ["hand, red block"] [--json]"""
+    import argparse
 
-    clip = sys.argv[1]
-    truth_p = Path(clip).with_suffix(".truth.json")
+    ap = argparse.ArgumentParser(prog="python -m mimic.pipeline", description="Turn a clip into a checked robot program.")
+    ap.add_argument("clip")
+    ap.add_argument("prompts", nargs="?", help="comma-separated things to track (default: the clip's truth file, or auto)")
+    ap.add_argument("--json", action="store_true", help="print only the generated robot program as JSON")
+    args = ap.parse_args(argv)
+    truth_p = Path(args.clip).with_suffix(".truth.json")
     truth = json.loads(truth_p.read_text()) if truth_p.exists() else None
-    r = run(clip, sys.argv[2] if len(sys.argv) > 2 else (truth or {}).get("prompts"), truth=truth)
-    print(json.dumps({k: r[k] for k in ("steps", "check", "timings")} | ({"score": r["score"]} if truth else {}), indent=1))
+    try:
+        r = run(args.clip, args.prompts or (truth or {}).get("prompts"), truth=truth)
+    except ClipRejected as e:
+        print(e, file=sys.stderr)
+        return 2
+    if args.json:
+        print(json.dumps(r["program"], indent=1))
+    else:
+        print(json.dumps({k: r[k] for k in ("steps", "check", "timings")} | ({"score": r["score"]} if truth else {}), indent=1))
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

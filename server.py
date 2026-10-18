@@ -25,7 +25,7 @@ from pathlib import Path
 
 from fastapi import FastAPI, File, Form, HTTPException, UploadFile
 from fastapi.concurrency import run_in_threadpool
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 
 from mimic import arm as A
@@ -120,6 +120,9 @@ async def analyze(video: UploadFile = File(...), prompts: str = Form(""), tracke
     try:
         clip = await run_in_threadpool(browser_copy, src, d / "clip.mp4")
         result = await run_in_threadpool(pipeline.run, clip, prompts, tracker, writer, corners_v)
+    except pipeline.ClipRejected as e:
+        shutil.rmtree(d, ignore_errors=True)
+        return JSONResponse({"detail": str(e), "reason": e.reason}, status_code=422)
     except (ValueError, RuntimeError, NotImplementedError, subprocess.CalledProcessError) as e:
         shutil.rmtree(d, ignore_errors=True)
         raise HTTPException(422, str(e))

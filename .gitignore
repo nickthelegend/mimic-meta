@@ -13,3 +13,5 @@ samples/*.json
 models/
 .impeccable/review/
 .impeccable/questions/
+# Loom's local state (event log, attachments, machine config)
+.loom/
