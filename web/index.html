@@ -48,7 +48,7 @@
   button:active, .btn:active { transform: translateY(1px); }
   button:disabled { opacity: .45; cursor: not-allowed; transform: none; }
   button.primary, .btn.primary { background: var(--ink); color: var(--paper); border-color: var(--ink); }
-  button.primary:hover, .btn.primary:hover { background: #2a2e32; }
+  button.primary:hover, .btn.primary:hover { background: color-mix(in srgb, var(--ink) 86%, var(--sheet)); }
   button.run { background: var(--robot); border-color: var(--robot); color: #fff; }
   button.run:hover { background: var(--robot-ink); }
   button.halt { border-color: var(--staff); color: var(--ink-2); }
@@ -62,9 +62,9 @@
   input[type=file] { position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
 
   /* ---------------------------------------------------------- the sheet */
-  main { max-width: 1480px; margin: 0 auto; padding: 18px 20px 64px; }
+  main { max-width: 1680px; margin: 0 auto; padding: 18px 20px 64px; }
   .sheet { background: var(--sheet); border: 1px solid var(--rule); border-radius: 10px; box-shadow: var(--shadow); display: grid;
-    grid-template-columns: minmax(0, 1.16fr) minmax(250px, .52fr) minmax(0, 1fr); grid-template-rows: auto auto; }
+    grid-template-columns: minmax(0, 1.05fr) minmax(360px, .78fr) minmax(0, 1fr); grid-template-rows: auto auto; }
   .region { min-width: 0; padding: 14px 16px 16px; }
   .region + .region { border-left: 1px solid var(--rule); }
   .clipR { grid-column: 1; grid-row: 1; }
@@ -79,7 +79,7 @@
   /* clip */
   .stage { position: relative; aspect-ratio: 16 / 9; background: var(--well); border-radius: var(--r); overflow: hidden; }
   .stage video, .stage canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
-  .stage video { object-fit: contain; background: #e3e5e0; }
+  .stage video { object-fit: contain; background: var(--well); }
   .stage canvas { pointer-events: none; }
   .drop { position: absolute; inset: 0; display: grid; place-items: center; text-align: center; padding: 24px; border: 1.5px dashed var(--staff); border-radius: var(--r); transition: border-color .2s var(--ease), background .2s var(--ease); }
   .drop.over { border-color: var(--robot); background: color-mix(in srgb, var(--robot-2) 60%, transparent); }
@@ -90,7 +90,8 @@
   .working svg { animation: spin .9s linear infinite; color: var(--robot); }
   .transport { display: flex; align-items: center; gap: 10px; margin-top: 10px; flex-wrap: wrap; }
   .transport .num { color: var(--ink-2); }
-  .ask { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; gap: 8px; margin-top: 12px; }
+  .ask { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 12px; }
+  .ask label:first-child { grid-column: 1 / -1; }
   .ask label { display: grid; gap: 4px; font-size: 12px; color: var(--ink-2); }
   .ask input[type=text], .ask select { font: 14px "Schibsted Grotesk", sans-serif; height: 34px; padding: 0 10px; border-radius: var(--r); border: 1px solid var(--field); background: var(--sheet); color: var(--ink); min-width: 0; }
   .ask input:focus, .ask select:focus { outline: none; border-color: var(--robot); box-shadow: 0 0 0 3px color-mix(in srgb, var(--robot) 18%, transparent); }
@@ -101,14 +102,16 @@
   .scoreBox { position: relative; flex: 1; min-height: 420px; }
   #score { position: absolute; inset: 0; width: 100%; height: 100%; display: block; cursor: ns-resize; touch-action: none; user-select: none; }
   #score text { font-family: "Schibsted Grotesk", sans-serif; }
-  #score .t { font: 11px var(--mono); fill: var(--ink-3); }
-  #score .lab { font-size: 11px; font-weight: 600; fill: var(--ink-2); letter-spacing: .04em; }
+  #score .t { font: 12px var(--mono); fill: var(--ink-3); }
+  #score .lab { font-size: 12px; font-weight: 500; fill: var(--ink-2); }
+  #score .voice { font-size: 14px; font-weight: 700; letter-spacing: .06em; fill: var(--ink); }
+  #score .ghost { opacity: .16; }
   #score .blk { cursor: pointer; transition: opacity .2s var(--ease); }
   #score .blk.dim { opacity: .28; }
   #score.inking .ink { animation: ink 900ms var(--ease) both; }
   @keyframes ink { from { clip-path: inset(100% 0 0 0); } to { clip-path: inset(0 0 0 0); } }
-  .key { display: grid; grid-template-columns: auto 1fr auto 1fr; gap: 4px 8px; margin-top: 10px; font-size: 12px; color: var(--ink-2); align-items: center; }
-  .key svg { width: 26px; height: 12px; }
+  .key { display: grid; grid-template-columns: auto 1fr auto 1fr; gap: 6px 8px; margin-top: 12px; padding-top: 10px; border-top: 1px solid var(--rule); font-size: 12px; color: var(--ink-2); align-items: center; }
+  .key svg { width: 28px; height: 14px; }
 
   /* replay */
   #view { position: relative; aspect-ratio: 4 / 3; border-radius: var(--r); overflow: hidden; background: var(--well); }
@@ -135,7 +138,7 @@
   ol.steps li:hover { background: var(--well); }
   ol.steps li.on { background: var(--robot-2); }
   .plate { display: inline-flex; align-items: center; gap: 6px; font-weight: 600; font-size: 12px; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  .plate i { width: 10px; height: 10px; border-radius: 2px; flex: none; box-shadow: inset 0 0 0 1px rgba(0,0,0,.18); }
+  .plate i { width: 10px; height: 10px; border-radius: 2px; flex: none; box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--ink) 18%, transparent); }
   .verb { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; color: var(--ink-3); }
   .what { min-width: 0; }
   .what .proof { display: block; color: var(--ink-3); text-align: left !important; margin-top: 1px; }
@@ -158,11 +161,11 @@
   .editRow { display: flex; gap: 8px; margin-top: 8px; align-items: center; }
   .writer { font-size: 12px; color: var(--ink-3); }
 
-  footer { max-width: 1480px; margin: 0 auto; padding: 0 20px 40px; color: var(--ink-3); font-size: 12px; display: flex; gap: 14px; flex-wrap: wrap; }
+  footer { max-width: 1680px; margin: 0 auto; padding: 0 20px 40px; color: var(--ink-3); font-size: 12px; display: flex; gap: 14px; flex-wrap: wrap; }
 
   /* ---------------------------------------------------------- narrower */
   @media (max-width: 1180px) {
-    .sheet { grid-template-columns: minmax(0, 1fr) minmax(240px, .55fr); }
+    .sheet { grid-template-columns: minmax(0, 1fr) minmax(330px, .75fr); }
     .clipR { grid-column: 1; grid-row: 1; }
     .scoreR { grid-column: 2; grid-row: 1 / span 2; }
     .replayR { grid-column: 1; grid-row: 2; border-left: 0; border-top: 1px solid var(--rule); }
@@ -177,11 +180,9 @@
     .sheet { grid-template-columns: minmax(0, 1fr); }
     .region { padding: 12px 12px 14px; }
     .clipR, .scoreR, .replayR, .stepsR, .progR { grid-column: 1; grid-row: auto; border-left: 0 !important; }
-    .clipR { order: 0; } .scoreR { order: 1; } .stepsR { order: 2; } .replayR { order: 3; } .progR { order: 4; }
+    .clipR { order: 0; } .replayR { order: 1; } .scoreR { order: 2; } .stepsR { order: 3; } .progR { order: 4; }   /* you, then the arm copying you, then the detail */
     .scoreR, .replayR, .stepsR, .progR { border-top: 1px solid var(--rule); }
     .scoreBox { min-height: 440px; }
-    .ask { grid-template-columns: 1fr 1fr; }
-    .ask label:first-child { grid-column: 1 / -1; }
     ol.steps li { grid-template-columns: minmax(0, 1fr) auto; gap: 2px 10px; }
     ol.steps li .verb { grid-column: 1; grid-row: 2; }
     ol.steps li .what { grid-column: 1 / -1; grid-row: 3; }
@@ -327,6 +328,8 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
 <script type="module">
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
+import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 
 const $ = id => document.getElementById(id);
 const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
@@ -360,10 +363,10 @@ async function boot() {
     $('armName').textContent = health.arm === 'so101' ? 'SO-101 · on the bench' : 'SO-101 · simulated';
   } catch { $('who').textContent = 'server offline'; }
   const lastRun = new URLSearchParams(location.search).get('run') || store.get('mimic.run');
-  if (new URLSearchParams(location.search).has('sample')) return sample();
-  if (lastRun) {
-    try { show(await api(`/runs/${encodeURIComponent(lastRun)}/result.json`)); } catch { /* gone: stay empty */ }
+  if (lastRun && !new URLSearchParams(location.search).has('sample')) {
+    try { return show(await api(`/runs/${encodeURIComponent(lastRun)}/result.json`)); } catch { /* gone: fall through to the sample */ }
   }
+  if (health) sample();   // nothing to review yet: show what MIMIC does on the sample clip, rather than a blank sheet
 }
 
 function busy(on, text) {
@@ -530,7 +533,23 @@ function deriveRobot() {
     track.push({ ...pos });
     was = s.held;
   }
-  robot = { segs, held, grip, track, T: S.length ? S[S.length - 1].t : 0, dt };
+  // runs of samples where the arm moves, so the replay can ease in and out of each move
+  const runs = [];
+  for (let i = 1; i < S.length; i++) {
+    const moving = S[i].q.some((v, j) => Math.abs(v - S[i - 1].q[j]) > 1e-6);
+    const r = runs[runs.length - 1];
+    if (moving) { if (r && r[1] === i - 1) r[1] = i; else runs.push([i - 1, i]); }
+  }
+  robot = { segs, held, grip, track, runs, T: S.length ? S[S.length - 1].t : 0, dt };
+}
+const ease = u => u * u * (3 - 2 * u);
+function qAt(t) {   // the pose at time t: eased within each move, interpolated between the 25 Hz samples
+  const S = R.replay.samples, n = S.length - 1;
+  let f = Math.max(0, Math.min(n, t * R.replay.rate));
+  const run = robot.runs.find(([a, b]) => f >= a && f <= b);
+  if (run) f = run[0] + ease((f - run[0]) / (run[1] - run[0])) * (run[1] - run[0]);
+  const i = Math.floor(f), u = f - i, a = S[i].q, b = S[Math.min(n, i + 1)].q;
+  return { q: a.map((v, j) => v + (b[j] - v) * u), k: Math.round(f) };
 }
 function sampleAt(t) { const S = R.replay.samples; return S[Math.max(0, Math.min(S.length - 1, Math.round(t * R.replay.rate)))]; }
 
@@ -546,18 +565,23 @@ function drawScore(ink = false) {
   const defs = el('defs', {}, svg);
   const dot = el('pattern', { id: 'p-dot', width: 5, height: 5, patternUnits: 'userSpaceOnUse' }, defs); el('rect', { width: 5, height: 5, fill: '#fbfbf9' }, dot); el('circle', { cx: 2.5, cy: 2.5, r: 1.1, fill: INK }, dot);
   const hat = el('pattern', { id: 'p-hatch', width: 5, height: 5, patternUnits: 'userSpaceOnUse', patternTransform: 'rotate(45)' }, defs); el('rect', { width: 5, height: 5, fill: '#fbfbf9' }, hat); el('line', { x1: 0, y1: 0, x2: 0, y2: 5, stroke: INK, 'stroke-width': 1.3 }, hat);
-  const top = 26, bottom = 66, left = 30, right = 30;
+  const top = 52, bottom = 50, left = 34, right = 14;
   const T = R ? Math.max(R.clip.seconds, robot.T) : 10;
   const y = t => H - bottom - (t / T) * (H - top - bottom);
-  const cx = W / 2;
-  const objs = R ? Object.keys(carryOf) : [];
-  const pLanes = ['hand', ...objs], rLanes = ['holds', 'level', 'grip'];
+  const cx = left + (W - left - right) / 2;
+  const objs = R ? Object.keys(carryOf) : ['red block', 'blue cup'];
+  const pLanes = ['hand', ...objs], rLanes = ['holds', 'height', 'grip'];
   const pw = (cx - left - 6) / Math.max(1, pLanes.length), rw = (W - right - cx - 6) / rLanes.length;
   const px = k => cx - 6 - (pLanes.length - k) * pw, rx = k => cx + 6 + k * rw;
   geom = { y, T, cx, top, bottom, H, W };
 
   // the staff
   const staff = el('g', {}, svg);
+  // who is who, over each half of the staff
+  el('text', { x: (left + cx) / 2, y: 16, 'text-anchor': 'middle', class: 'voice' }, staff).textContent = 'YOU';
+  el('text', { x: (left + cx) / 2, y: 32, 'text-anchor': 'middle', class: 'lab' }, staff).textContent = 'what the clip shows';
+  el('text', { x: (cx + W - right) / 2, y: 16, 'text-anchor': 'middle', class: 'voice', style: `fill:${ROBOT}` }, staff).textContent = 'ARM';
+  el('text', { x: (cx + W - right) / 2, y: 32, 'text-anchor': 'middle', class: 'lab', style: `fill:${ROBOT}` }, staff).textContent = 'what it will do';
   el('line', { x1: cx, y1: top - 8, x2: cx, y2: H - bottom + 6, stroke: INK, 'stroke-width': 1.4 }, staff);
   el('line', { x1: left, y1: top - 8, x2: left, y2: H - bottom + 6, stroke: STAFF }, staff);
   el('line', { x1: W - right, y1: top - 8, x2: W - right, y2: H - bottom + 6, stroke: STAFF }, staff);
@@ -569,25 +593,35 @@ function drawScore(ink = false) {
   for (let t = step; t <= T + 1e-6; t += step) {
     el('line', { x1: left - 4, y1: y(t), x2: left, y2: y(t), stroke: INK3 }, staff);
     el('line', { x1: W - right, y1: y(t), x2: W - right + 4, y2: y(t), stroke: INK3 }, staff);
-    el('text', { x: left - 7, y: y(t) + 3.5, 'text-anchor': 'end', class: 't' }, staff).textContent = t;
+    el('text', { x: left - 7, y: y(t) + 4, 'text-anchor': 'end', class: 't' }, staff).textContent = t;
   }
-  el('text', { x: left - 7, y: y(0) + 3.5, 'text-anchor': 'end', class: 't' }, staff).textContent = '0';
-  // column labels at the foot, as on a score
-  const foot = H - bottom + 22;
-  el('text', { x: (left + cx) / 2, y: H - 6, 'text-anchor': 'middle', class: 'lab' }, staff).textContent = 'YOU';
-  el('text', { x: (cx + W - right) / 2, y: H - 6, 'text-anchor': 'middle', class: 'lab', fill: ROBOT, style: `fill:${ROBOT}` }, staff).textContent = 'ARM';
+  el('text', { x: left - 7, y: y(0) + 4, 'text-anchor': 'end', class: 't' }, staff).textContent = '0';
+  el('text', { x: left - 7, y: top - 12, 'text-anchor': 'end', class: 't' }, staff).textContent = 's';
+  // lane names at the foot, as on a score: a mark, then the name (two short lines when it is long)
+  const foot = H - bottom + 20;
+  const name = (x, n, col) => { const w = n.split(' '); const t = el('text', { x, y: foot + 12, 'text-anchor': 'middle', class: 'lab' }, staff);
+    if (col) t.setAttribute('style', `fill:${col}`);
+    (w.length > 1 && n.length > 6 ? [w[0], w.slice(1).join(' ')] : [n]).forEach((line, i) => { const sp = el('tspan', { x, dy: i ? 13 : 0 }, t); sp.textContent = line; }); };
   pLanes.forEach((n, k) => {
-    const g = el('g', {}, staff), xm = px(k) + pw / 2;
-    if (n === 'hand') el('path', { d: `M${xm - 4} ${foot - 2} q4 -8 8 0`, stroke: HAND, fill: 'none', 'stroke-width': 1.6 }, g);
-    else el('rect', { x: xm - 4.5, y: foot - 7, width: 9, height: 9, rx: 1.5, fill: COLOR[n] }, g);
-    el('title', {}, g).textContent = n;
+    const xm = px(k) + pw / 2;
+    if (n === 'hand') el('path', { d: `M${xm - 5} ${foot - 1} q5 -9 10 0`, stroke: HAND, fill: 'none', 'stroke-width': 1.7 }, staff);
+    else el('rect', { x: xm - 5, y: foot - 9, width: 10, height: 10, rx: 2, fill: COLOR[n] || STAFF }, staff);
+    name(xm, n);
   });
-  rLanes.forEach((n, k) => {   // column names run up the foot of each lane, as a narrow score allows
-    const xm = rx(k) + rw / 2 - 3.5, y0 = H - bottom + 12;
-    el('text', { x: xm, y: y0, transform: `rotate(90 ${xm} ${y0})`, class: 'lab', style: 'font-weight:500' }, staff).textContent = n;
+  rLanes.forEach((n, k) => {
+    const xm = rx(k) + rw / 2;
+    el('rect', { x: xm - 5, y: foot - 9, width: 10, height: 10, rx: 2, fill: n === 'grip' ? ROBOT : n === 'height' ? 'url(#p-hatch)' : '#fbfbf9', stroke: n === 'grip' ? 'none' : INK }, staff);
+    name(xm, n, ROBOT);
   });
-  if (!R) {
-    el('text', { x: cx, y: H / 2, 'text-anchor': 'middle', class: 'lab', style: 'font-weight:500' }, svg).textContent = 'the score is written here';
+  if (!R) {   // before a run: a faint preview of what the score will hold
+    const gh = el('g', { class: 'ghost' }, svg);
+    const blk = (x, t0, t1, w, fill) => el('rect', { x, y: y(t1), width: w, height: y(t0) - y(t1), fill, stroke: INK }, gh);
+    blk(px(1) + pw * .2, 1.8, 3.6, pw * .6, '#d8463b'); blk(px(2) + pw * .2, 5.6, 7.4, pw * .6, '#2f62c9');
+    el('line', { x1: px(0) + pw / 2, y1: y(.8), x2: px(0) + pw / 2, y2: y(8.4), stroke: HAND, 'stroke-width': 2 }, gh);
+    [[0, 1, .07], [1, 2.4, .015], [2.4, 4.2, .07], [4.2, 5.4, .015], [5.4, 8, .07], [8, 9.6, .015]].forEach(([a, b2, z]) => blk(rx(1) + rw * .18, a, b2, rw * .64, z < .03 ? INK : 'url(#p-hatch)'));
+    blk(rx(0) + rw * .2, 2.4, 5.4, rw * .6, '#d8463b'); blk(rx(0) + rw * .2, 6.5, 9.2, rw * .6, '#2f62c9');
+    blk(rx(2) + rw / 2 - 3, 2.4, 5.4, 6, ROBOT); blk(rx(2) + rw / 2 - 3, 6.5, 9.2, 6, ROBOT);
+    el('text', { x: cx, y: (top + H - bottom) / 2, 'text-anchor': 'middle', class: 'lab', style: 'font-size:14px;fill:var(--ink-2)' }, svg).textContent = 'Your score is written here';
     return;
   }
 
@@ -801,17 +835,28 @@ const host = $('view');
 const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
 renderer.setPixelRatio(Math.min(2, devicePixelRatio));
 renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = 1.05;
 host.prepend(renderer.domElement);
 const scene = new THREE.Scene();
+scene.environment = new THREE.PMREMGenerator(renderer).fromScene(new RoomEnvironment(), 0.04).texture;   // soft studio reflections on PLA and aluminium
 const camera = new THREE.PerspectiveCamera(34, 1, 0.01, 10);
-camera.position.set(0.58, 0.34, 0.08);
+camera.position.set(0.42, 0.3, 0.12);
 const controls = new OrbitControls(camera, renderer.domElement);
-controls.target.set(0, 0.13, -0.19); controls.enableDamping = true; controls.enablePan = false;
+controls.target.set(0, 0.09, -0.14); controls.enableDamping = true; controls.enablePan = false;
 controls.enableZoom = false;   // the wheel scrolls the page, not the camera; drag to look around
 if (matchMedia('(pointer: coarse)').matches) { controls.enableRotate = false; renderer.domElement.style.touchAction = 'pan-y'; }   // a finger scrolls the page
-scene.add(new THREE.HemisphereLight(0xffffff, 0xb8bbb4, 1.25));
-const sun = new THREE.DirectionalLight(0xffffff, 1.6); sun.position.set(-0.4, 1.1, 0.5); sun.castShadow = true;
-sun.shadow.mapSize.set(2048, 2048); Object.assign(sun.shadow.camera, { left: -.5, right: .5, top: .5, bottom: -.5, near: .1, far: 3 }); sun.shadow.bias = -0.0004; scene.add(sun);
+scene.add(new THREE.HemisphereLight(0xffffff, 0xb8bbb4, .55));
+const sun = new THREE.DirectionalLight(0xffffff, 2.1); sun.position.set(-0.35, 1.0, 0.45); sun.castShadow = true;
+sun.shadow.mapSize.set(2048, 2048); Object.assign(sun.shadow.camera, { left: -.32, right: .32, top: .32, bottom: -.32, near: .2, far: 2.5 });
+sun.shadow.bias = -0.0003; sun.shadow.normalBias = .002; scene.add(sun);
+// contact shadows: a soft dark pool under anything that rests on the table (the sun's shadow alone reads as floating)
+const blobTex = (() => { const c = document.createElement('canvas'); c.width = c.height = 128; const g = c.getContext('2d');
+  const r = g.createRadialGradient(64, 64, 4, 64, 64, 64); r.addColorStop(0, 'rgba(18,20,22,.55)'); r.addColorStop(.55, 'rgba(18,20,22,.18)'); r.addColorStop(1, 'rgba(18,20,22,0)');
+  g.fillStyle = r; g.fillRect(0, 0, 128, 128); return new THREE.CanvasTexture(c); })();
+function contact(w, d, y = .0016) {
+  const m = new THREE.Mesh(new THREE.PlaneGeometry(w, d), new THREE.MeshBasicMaterial({ map: blobTex, transparent: true, depthWrite: false }));
+  m.rotation.x = -Math.PI / 2; m.position.y = y; m.renderOrder = 1; return m;
+}
 const M = (c, o = {}) => new THREE.MeshStandardMaterial({ color: c, roughness: .55, metalness: .02, ...o });
 scene.fog = new THREE.Fog(0xeceee9, 1.0, 2.6);   // the desk fades into the sheet's well; no horizon
 const desk = new THREE.Mesh(new THREE.PlaneGeometry(12, 12), M(0xeceee9, { roughness: .95 })); desk.rotation.x = -Math.PI / 2; desk.receiveShadow = true; scene.add(desk);
@@ -826,26 +871,63 @@ const matLines = new THREE.Group(); scene.add(matLines);
   const edge = [[-.12, .175], [.12, .175], [.12, .31], [-.12, .31], [-.12, .175]].map(([x, y]) => W3([x, y, .0014]));
   matLines.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(edge), new THREE.LineBasicMaterial({ color: 0x121416 })));
 }
-// the arm, built like REACH's, standing on its own base plate
-const ink = M(0x1b1e21, { roughness: .45 }), blue = M(0x2747c9, { roughness: .4 }), grey = M(0xc9ccc6);
-const box = (w, h, d, m) => { const o = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), m); o.castShadow = true; o.receiveShadow = true; return o; };
-const link = (len, r, m) => { const g = box(r, len, r, m); g.position.y = len / 2; return g; };
-const plate = box(.12, .008, .1, grey); plate.position.set(0, .004, .01); scene.add(plate);
-const base = new THREE.Group(); base.position.y = .008; scene.add(base);
-const foot = new THREE.Mesh(new THREE.CylinderGeometry(.034, .04, .03, 36), ink); foot.position.y = .015; foot.castShadow = true; base.add(foot);
-const pillar = link(H0 - .038, .036, ink); pillar.position.y = .03; base.add(pillar);
-const shoulder = new THREE.Group(); shoulder.position.y = H0 - .008; base.add(shoulder); shoulder.add(link(L1, .026, ink));
-const elbow = new THREE.Group(); elbow.position.y = L1; shoulder.add(elbow); elbow.add(link(L2, .023, ink));
-const wrist = new THREE.Group(); wrist.position.y = L2; elbow.add(wrist); wrist.add(link(.05, .024, blue));
+// the arm: an SO-101 / Thenar follower, built from its parts. Printed PLA brackets, STS3215-size servo
+// housings with aluminium horns on every joint axis, and a two-finger gripper with blue pads. The joint
+// frames and link lengths are exactly mimic/kinematics.py's, so the fingertip lands where the program says.
+const pla = new THREE.MeshPhysicalMaterial({ color: 0xf1efe9, roughness: .58, clearcoat: .2, clearcoatRoughness: .55 });
+const servoM = new THREE.MeshStandardMaterial({ color: 0x18191b, roughness: .38, metalness: .15 });
+const alu = new THREE.MeshStandardMaterial({ color: 0xc9cdd1, roughness: .28, metalness: .9 });
+const padM = new THREE.MeshStandardMaterial({ color: 0x2747c9, roughness: .5 });
+const grey = M(0xd6d8d3, { roughness: .7 });
+const part = (geo, m, x = 0, y = 0, z = 0) => { const o = new THREE.Mesh(geo, m); o.position.set(x, y, z); o.castShadow = true; o.receiveShadow = true; return o; };
+const rb = (w, h, d, m, x, y, z, r = .003) => part(new RoundedBoxGeometry(w, h, d, 3, Math.min(r, w / 2.1, h / 2.1, d / 2.1)), m, x, y, z);
+const disc = (r, h, m, x, y, z, axis = 'x') => { const o = part(new THREE.CylinderGeometry(r, r, h, 36), m, x, y, z); if (axis === 'x') o.rotation.z = Math.PI / 2; if (axis === 'z') o.rotation.x = Math.PI / 2; return o; };
+function servo(parent, w, h, d, x, y, z, horn) {   // a servo housing; horn = [x, y, z, axis] of its output horn
+  parent.add(rb(w, h, d, servoM, x, y, z, .0025));
+  parent.add(rb(w * 1.08, .004, d * 1.02, servoM, x, y + h * .32, z, .0015));   // mounting ears
+  if (horn) { parent.add(disc(.0105, .0035, alu, ...horn)); parent.add(disc(.0035, .0045, servoM, ...horn)); }
+}
+scene.add(contact(.2, .2));
+const plate = rb(.11, .01, .12, grey, 0, .005, .012, .004); scene.add(plate);
+for (const [x, z] of [[-.044, -.034], [.044, -.034], [-.044, .058], [.044, .058]]) scene.add(disc(.0032, .0108, servoM, x, .0055, z, 'y'));   // bolts
+const base = new THREE.Group(); base.position.y = .01; scene.add(base);
+scene.add(part(new THREE.CylinderGeometry(.036, .043, .036, 40), pla, 0, .028, 0));   // the base shell around the pan servo
+scene.add(disc(.03, .006, servoM, 0, .049, 0, 'y'));
+base.add(disc(.032, .005, alu, 0, .043, 0, 'y'));                                       // turntable
+const shoulder = new THREE.Group(); shoulder.position.y = H0 - .01; base.add(shoulder);
+for (const sx of [-1, 1]) base.add(rb(.006, .052, .042, pla, sx * .027, .066, 0, .003)); // shoulder bracket cheeks
+servo(base, .036, .03, .04, 0, .072, 0, [.024, H0 - .01, 0]);
+base.add(disc(.0105, .0035, alu, -.0305, H0 - .01, 0));
+// upper arm: twin printed side plates with a brace, the elbow servo at the far end
+for (const sx of [-1, 1]) shoulder.add(rb(.005, L1 + .022, .03, pla, sx * .021, L1 / 2, 0, .0025));
+shoulder.add(rb(.037, .014, .024, pla, 0, L1 * .42, 0, .003));
+servo(shoulder, .032, .04, .026, 0, L1 - .014, 0, [.0185, L1, 0]);
+// forearm: one printed beam with a lightening slot, the wrist-flex servo at its end
+const elbow = new THREE.Group(); elbow.position.y = L1; shoulder.add(elbow);
+elbow.add(rb(.026, L2 - .01, .024, pla, 0, (L2 - .01) / 2 + .006, 0, .004));
+elbow.add(rb(.0275, L2 * .45, .008, servoM, 0, L2 * .48, 0, .002));
+servo(elbow, .03, .036, .024, 0, L2 - .016, 0, [.017, L2, 0]);
+// wrist: flex bracket, then the roll servo pointing along the hand
+const wrist = new THREE.Group(); wrist.position.y = L2; elbow.add(wrist);
+wrist.add(rb(.032, .02, .026, pla, 0, .009, 0, .003));
+servo(wrist, .026, .028, .028, 0, .031, 0, [0, .0475, 0, 'y']);
 const roll = new THREE.Group(); roll.position.y = .05; wrist.add(roll);
-const jawA = link(L3 - .05, .008, blue), jawB = link(L3 - .05, .008, blue); roll.add(jawA, jawB);
+// gripper: a palm plate, the jaw servo beside it, two tapered fingers with pads
+roll.add(rb(.05, .009, .03, pla, 0, .0045, 0, .003));
+servo(roll, .02, .024, .02, .028, .014, 0);
+const fingerGeo = new RoundedBoxGeometry(.007, .042, .018, 3, .0025);
+const jawA = new THREE.Group(), jawB = new THREE.Group(); roll.add(jawA, jawB);
+for (const [j, sx] of [[jawA, -1], [jawB, 1]]) {
+  const f = part(fingerGeo, pla, 0, .029, 0); f.scale.set(1, 1, 1); j.add(f);
+  j.add(rb(.0025, .02, .015, padM, -sx * .0045, .038, 0, .001));   // grip pad on the inside face
+}
 const tip = new THREE.Object3D(); tip.position.y = L3 - .05; roll.add(tip);
-[shoulder, elbow, wrist].forEach(g => { const s = new THREE.Mesh(new THREE.SphereGeometry(.017, 24, 16), blue); s.castShadow = true; g.add(s); });
 function pose(q) {
   base.rotation.y = -rad(q[0]);           // pan: + turns toward the robot's right (+x)
   shoulder.rotation.x = -rad(q[1]); elbow.rotation.x = -rad(q[2]); wrist.rotation.x = -rad(q[3]);
   roll.rotation.y = -rad(q[4]);
-  const open = .004 + .022 * Math.max(0, Math.min(1, q[5] / 70)); jawA.position.x = -open; jawB.position.x = open;
+  const gap = .004 + .022 * Math.max(0, Math.min(1, q[5] / 70));   // half the opening between the pads
+  jawA.position.x = -(gap + .0035); jawB.position.x = gap + .0035;
 }
 // objects on the mat
 const objs3 = {}, ghosts = new THREE.Group(); scene.add(ghosts);
@@ -860,7 +942,8 @@ function makeObject(o) {
     mesh = new THREE.Mesh(new THREE.LatheGeometry(pts, 48), M(col, { side: THREE.DoubleSide }));
   } else { mesh = new THREE.Mesh(new THREE.BoxGeometry(o.size_m[0], h, o.size_m[1]), M(col)); mesh.position.y = h / 2; }
   mesh.castShadow = true; mesh.receiveShadow = true; g.add(mesh);
-  g.userData = { h, round: o.round, yaw: o.yaw || 0 };
+  const pool = contact(o.size_m[0] * 2.1, (o.round ? o.size_m[0] : o.size_m[1]) * 2.1, .0002); g.add(pool);
+  g.userData = { h, round: o.round, yaw: o.yaw || 0, pool };
   scene.add(g); return g;
 }
 function buildObjects() {
@@ -887,6 +970,7 @@ function placeObjects(sample, k) {
   for (const o of R.scene) {
     const g = objs3[o.label]; if (!g) continue;
     const held = sample && sample.held === o.label;
+    g.userData.pool.visible = !held;
     if (held) { g.position.set(tipW.x, tipW.y - g.userData.h / 2, tipW.z); }
     else {
       const [x, y] = pos[o.label] || o.m;
@@ -906,11 +990,11 @@ function yawWhileHeld(o, s) {
   const d = q0 ? (s.q[4] - q0.q[4]) - (s.q[0] - q0.q[0]) : 0;   // the jaws' turn on the table since the grip
   return (c.pick.yaw ?? o.yaw ?? 0) + d;
 }
-const VIEW = new THREE.Vector3(0.58, 0.34, 0.08).sub(controls.target);
+const VIEW = new THREE.Vector3(0.56, 0.3, 0.07);   // from the robot's right: the base and the mat at the same distance
 function resize() {
   const w = host.clientWidth, h = host.clientHeight;
   renderer.setSize(w, h, false); camera.aspect = w / h; camera.updateProjectionMatrix();
-  if (!resize.moved) camera.position.copy(controls.target).addScaledVector(VIEW, 1.2 * Math.max(1, 1.5 / camera.aspect));   // step back on narrow screens
+  if (!resize.moved) camera.position.copy(controls.target).addScaledVector(VIEW, Math.max(1, 1.4 / camera.aspect));   // step back on narrow screens
 }
 controls.addEventListener('start', () => resize.moved = true);
 new ResizeObserver(() => { resize(); if (R) drawScore(); drawOverlay(); }).observe(host);
@@ -942,7 +1026,7 @@ function tick(force) {
   if (R) {
     let s, k;
     if (live && live.busy) { s = { q: Object.values(live.joints), held: null, w: live.waypoint }; k = 0; }
-    else { k = Math.max(0, Math.min(R.replay.samples.length - 1, Math.round(rt * R.replay.rate))); s = R.replay.samples[k]; }
+    else { const e = qAt(rt); k = e.k; s = { ...R.replay.samples[k], q: e.q }; }
     pose(s.q); scene.updateMatrixWorld(); placeObjects(live && live.busy ? null : s, k);
     const w = R.replay.waypoints[s.w];
     $('nowLabel').textContent = live && live.busy ? `On the arm: ${live.label}` : w ? cap(w.label) : rt > 0 ? 'Back home.' : 'The arm waits at home.';

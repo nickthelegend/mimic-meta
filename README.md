@@ -30,7 +30,7 @@ uv pip install -p .venv/bin/python -r requirements.txt
 .venv/bin/uvicorn server:app --port 8730
 ```
 
-Open <http://localhost:8730/?sample>. The page generates the synthetic sample clip (about 7 s the first time), tracks it, and shows everything: the tracked overlay on the clip, the movement score, the steps with their measured error against ground truth, the program, and the 3-D replay. Press **Play** to run the clip and the arm together. Click a step to jump both to it, or drag on the score to scrub. Use **Upload a clip** for your own video.
+Open <http://localhost:8730>. On a first visit (nothing reviewed yet) the page loads the synthetic sample clip by itself (about 7 s to generate the first time; `/?sample` forces it), tracks it, and shows everything: the tracked overlay on the clip, the movement score, the steps with their measured error against ground truth, the program, and the 3-D replay. Press **Play** to run the clip and the arm together. Click a step to jump both to it, or drag on the score to scrub. Use **Upload a clip** for your own video.
 
 Tests (offline; no network, no paid APIs):
 
@@ -59,7 +59,7 @@ Run the pipeline from the command line:
 | `mimic/calibrate.py` | A homography from clip pixels to the robot's table frame. The default mat is 24 × 13.5 cm, starting 17.5 cm in front of the base: where the SO-101 reaches with the gripper pointing down. |
 | `mimic/writer.py` | `RuleWriter` (offline, the default) and `MuseSparkWriter` (`muse-spark-1.3`, OpenAI-compatible, JSON-schema output, steps plus key frames). Both write **fingertip waypoints only**. When the check rejects Muse Spark's program, the issues go back to it for up to two repair rounds. If the API fails, the rules take over and the page says so. |
 | `mimic/program.py` | Compiles a written program: IK for every waypoint, replay in simulation, then refusal if any pose breaks a joint limit, the fingertip dips below the table between poses, or the elbow nears the table. The same discipline as HOTARU's gesture compiler. |
-| `mimic/kinematics.py` | SO-101 / Thenar FK and IK in REACH's joint convention `[base, shoulder, elbow, wrist_flex, wrist_roll, gripper]` with REACH's link lengths and limits. The gripper tilts up to 60° when straight down won't reach. |
+| `mimic/kinematics.py` | SO-101 / Thenar FK and IK in REACH's joint convention `[base, shoulder, elbow, wrist_flex, wrist_roll, gripper]` with REACH's link lengths and limits. The rest pose is a folded "ready" pose `[0, -10, 80, 60, 0, 20]` over the mat's near edge (REACH's taller `[0, -25, 35, 0]` suits its rover). The gripper tilts up to 60° when straight down won't reach. |
 | `mimic/sim.py`, `mimic/arm.py` | The simulator steps exactly like REACH's `Arm.move` (25 Hz, per-joint speed caps); tests check that. `SimArm` and `SO101Arm` are REACH's backends, including the serial protocol and the STOP-before-ARM handshake. `replay()` refuses unchecked programs. |
 | `mimic/synth.py` | The synthetic demonstration: a hand puts the red block in the blue bowl (turning it 25°), then slides the green block and turns it 45°. It has shadows, skin and sensor noise, and exact ground truth. |
 | `server.py`, `web/index.html` | FastAPI app and the one-page review UI. Endpoints: `/api/analyze`, `/api/sample`, `/api/recheck/{run}` (edit the program and check it again), `/api/execute/{run}` (refused unless the check passes), `/api/stop`, `/api/arm`. |

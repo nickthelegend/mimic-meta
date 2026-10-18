@@ -18,7 +18,7 @@ H0, L1, L2, L3 = 0.10, 0.116, 0.135, 0.10  # shoulder height, upper arm, forearm
 
 LO = np.array([-85, -80, -80, -80, -85, 0], float)
 HI = np.array([85, 80, 80, 80, 85, 70], float)
-HOME = np.array([0, -25, 35, 0, 0, 20], float)
+HOME = np.array([0, -10, 80, 60, 0, 20], float)  # folded "ready" pose over the near edge of the mat (REACH stands taller, at [0, -25, 35, 0])
 VMAX = np.array([60, 40, 50, 80, 90, 120], float)  # deg/s per joint, as REACH
 RATE = 25.0
 JOINTS = ["base", "shoulder", "elbow", "wrist_flex", "wrist_roll", "gripper"]

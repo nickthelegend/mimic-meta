@@ -50,9 +50,14 @@ typography:
     fontFeature: "tnum"
   score:
     fontFamily: "Spline Sans Mono, ui-monospace, SF Mono, Menlo, monospace"
-    fontSize: "11px"
+    fontSize: "12px"
     fontWeight: 400
     fontFeature: "tnum"
+  voice:
+    fontFamily: "Schibsted Grotesk, system-ui, sans-serif"
+    fontSize: "14px"
+    fontWeight: 700
+    letterSpacing: "0.06em"
   wordmark:
     fontFamily: "Schibsted Grotesk, system-ui, sans-serif"
     fontSize: "17px"
@@ -168,7 +173,7 @@ The sheet is calm at rest and moves only to report: notes ink in once when a sco
 A near-neutral graphite-on-paper sheet with a faint green-grey cast, carrying one saturated blue for the machine and one vermilion for faults.
 
 ### Primary
-- **Robot Ink Blue** (robot): the arm's voice. The ARM column label, the arm's playhead and end line, gripper-closed marks, the planned fingertip path in 3-D, the arm's joint spheres and jaws, "grip" in the waypoint list, the live "On the arm" pill, the robot clock, focus rings, the text caret, the drag-over border, and the Run on arm button.
+- **Robot Ink Blue** (robot): the arm's voice. The ARM column label, the arm's playhead and end line, gripper-closed marks, the ARM subtitle and lane names, the planned fingertip path in 3-D, the grip pads on the 3-D arm's fingers, "grip" in the waypoint list, the live "On the arm" pill, the robot clock, focus rings, the text caret, the drag-over border, and the Run on arm button.
 - **Robot Tint** (robot-tint): the selected row in Steps and Program, text selection, and the background of the "Safe to run" verdict.
 - **Robot Deep** (robot-ink): text on Robot Tint and the Run on arm hover.
 
@@ -210,30 +215,31 @@ Tracked objects take their colour from the pipeline by name (red, orange, yellow
 - **Display** (600, 22px, -0.01em, balanced wrap): the empty-state invitation on the clip stage ("Show it once."). The largest type in the world.
 - **Headline** (500, 17px, -0.01em, balanced wrap): the one-sentence summary of what was notated, above the steps.
 - **Body** (400, 14px, 1.5): step descriptions, verdict text, buttons (500), fields. Supporting paragraphs cap at 44ch.
-- **Label** (600, 12px, 0.06em, uppercase): region names (Clip, Score, Replay, Steps, Program) and the verbs in step and waypoint rows (pick, carry, place, grip). On the staff, YOU and ARM sit at 11px, 600, 0.04em.
-- **Data** (Spline Sans Mono 400, 12px, tabular numerals): every millimetre, second, resolution, waypoint index and coordinate. Score ticks drop to 11px in Ink Third.
+- **Label** (600, 12px, 0.06em, uppercase): region names (Clip, Score, Replay, Steps, Program) and the verbs in step and waypoint rows (pick, carry, place, grip). Lane names on the staff are sentence-case 500 12px in Ink Second (Robot Ink Blue on the arm's side), not uppercase.
+- **Data** (Spline Sans Mono 400, 12px, tabular numerals): every millimetre, second, resolution, waypoint index and coordinate. Score ticks stay at 12px in Ink Third.
+- **Voice** (700, 14px, 0.06em): YOU and ARM over the two halves of the score only, Ink and Robot Ink Blue, each with a 12px 500 subtitle beneath ("what the clip shows", "what it will do").
 - **Wordmark** (700, 17px, 0.14em): MIMIC in the top bar only.
 
 ### Named Rules
-**The One Data Size Rule.** Measurements are 12px mono everywhere; importance comes from weight, case, colour or bold, never from making a number bigger.
+**The One Data Size Rule.** Measurements are 12px mono everywhere; importance comes from weight, case, colour or bold, never from making a number bigger. 12px is also the floor: nothing on the sheet, the SVG score included, is set smaller.
 
 **The Measured Claim Rule.** A step, verdict or score always shows its number in mono beside the words (`312 mm in 1.40 s`, `within 2 mm and 100 ms`). A claim without its measurement does not ship.
 
 ## Layout
 
-One sheet, max 1480px wide, centred with a 20px gutter (16px on phones), 18px below the top bar. Inside, a five-region grid with no gaps, divided only by 1px Rule hairlines:
+One sheet, max 1680px wide (the footer shares the measure), centred with a 20px gutter (16px on phones), 18px below the top bar. Inside, a five-region grid with no gaps, divided only by 1px Rule hairlines:
 
-- **Wide (above 1180px):** three columns at roughly 1.16fr / 0.52fr (min 250px) / 1fr. Row one is Clip, Score, Replay; row two is Steps (under Clip and Score) and Program (under Replay). The score is the narrow centre column and runs the full height of row one.
-- **Medium (760 to 1180px):** two columns, 1fr / 0.55fr (min 240px). The score spans the right column beside Clip and Replay; Steps and Program run full width below.
-- **Narrow (below 760px):** one column, ordered Clip, Score, Steps, Replay, Program, so the reading order stays clip, score, proof, then the arm. The score keeps a 440px minimum height. Step rows restack to plate and time on one line, verb, then description.
+- **Wide (above 1180px):** three columns at 1.05fr / 0.78fr (min 360px) / 1fr. Row one is Clip, Score, Replay; row two is Steps (under Clip and Score) and Program (under Replay). The score is the centre column, wide enough for its voices and lane names, and runs the full height of row one (420px minimum).
+- **Medium (760 to 1180px):** two columns, 1fr / 0.75fr (min 330px). Clip and Replay stack on the left and the score spans both rows on the right; Steps and Program run full width below.
+- **Narrow (below 760px):** one column, ordered Clip, Replay, Score, Steps, Program: you, then the arm copying you, then the detail. The score keeps a 440px minimum height. Step rows restack to plate and time on one line, verb, then description.
 
-Regions pad 14px 16px 16px (12px 12px 14px on phones). Each region opens with a head of 28px minimum height and 10px below it. Internal spacing runs on 4 / 8 / 10 / 12 / 16 / 20px; row padding is tight (8px 6px for steps, 6px 4px for waypoints). The clip stage is 16:9, the replay viewport 4:3.
+Regions pad 14px 16px 16px (12px 12px 14px on phones). Each region opens with a head of 28px minimum height and 10px below it. Internal spacing runs on 4 / 8 / 10 / 12 / 16 / 20px; row padding is tight (8px 6px for steps, 6px 4px for waypoints). The clip stage is 16:9, the replay viewport 4:3. Under the clip, the "What's in the clip" prompt spans its own row and Tracker and Program writer sit side by side beneath it (an 8px two-column grid).
 
 **The Margin Note Rule.** The score sits in the middle and everything else is placed relative to it. A new panel joins the sheet as another hairline-divided region, never as a separate card floating beside it.
 
 ## Elevation & Depth
 
-The system is flat paper. The sheet carries the only shadow, a single near-invisible lift (1px, 7% ink) that separates it from the page. Depth inside the sheet is tonal: Well recesses the clip, viewport and editor; Robot Tint and Fault Wash raise selected or flagged rows. Floating labels over media (the working strip, the "now" pill, the top bar) use a translucent sheet or paper with an 8 to 10px backdrop blur so the video or 3-D shows through; that is the only glass in the world. The 3-D replay has its own soft-shadowed lighting, fogged into Well so the desk has no horizon.
+The system is flat paper. The sheet carries the only shadow, a single near-invisible lift (1px, 7% ink) that separates it from the page. Depth inside the sheet is tonal: Well recesses the clip, viewport and editor; Robot Tint and Fault Wash raise selected or flagged rows. Floating labels over media (the working strip, the "now" pill, the top bar) use a translucent sheet or paper with an 8 to 10px backdrop blur so the video or 3-D shows through; that is the only glass in the world. The 3-D replay is the one place with real light: ACES filmic tone mapping (exposure 1.05), soft studio reflections from a room environment, a hemisphere fill and one soft-shadowing sun, and a radial contact-shadow pool (Ink at 55% fading to nothing) under the arm's base and every object so nothing reads as floating. The desk is Well and is fogged into Well so it has no horizon; the mat is Sheet, ruled every centimetre in Rule with an Ink border, like the score.
 
 ### Shadow Vocabulary
 - **Sheet lift** (`box-shadow: 0 1px 2px rgba(18, 20, 22, .07)`): the sheet only.
@@ -279,7 +285,15 @@ Quiet, paper-faced and squarely tactile; they press down 1px rather than glow.
 A single sticky top bar: Paper at 88% with a 10px blur and a Rule bottom hairline, 10px 20px padding. The mark and wordmark sit left with "by ThenarLabs" in Ink Third 12px; a status line with a 7px dot (Staff idle, Robot Ink Blue when the server answers) and the two entry actions (Try the sample clip, Upload a clip) sit right. On phones the credit and status hide and button labels shorten.
 
 ### Movement Score (signature)
-The heart of the system: an SVG staff where time runs up from a doubled ink starting line. A 1.4px Ink centre line divides YOU (left: a Hand Umber lane, then one lane per carried object) from ARM (right: holds, level, grip). Lanes are divided by Rule hairlines, the outer staff lines are Staff, and second ticks in 11px mono run down both edges. Each carry is a ribbon-coloured block whose length is its duration; the arm's level lane uses the solid, dotted and hatched shading; gripper-closed is a solid blue bar on a Staff hairline. Dashed Staff ties join your pick and place to the arm's grip and release. Two playheads (Ink for you, Robot Ink Blue for the arm) move with the shared clock; dragging the left half scrubs the clip and the right half scrubs the replay. Selecting a step dims every unrelated block to 28%. When a new score is written, the notes ink in upward over 900ms with the house ease (`clip-path` reveal), once.
+The heart of the system: an SVG staff where time runs up from a doubled ink starting line. A 1.4px Ink centre line divides YOU (left: a Hand Umber lane, then one lane per carried object) from ARM (right: holds, height, grip). Lanes are divided by Rule hairlines, the outer staff lines are Staff, and second ticks in 12px mono run down both edges. Each carry is a ribbon-coloured block whose length is its duration; the arm's height lane uses the solid, dotted and hatched shading; gripper-closed is a solid blue bar on a Staff hairline. Dashed Staff ties join your pick and place to the arm's grip and release. Two playheads (Ink for you, Robot Ink Blue for the arm) move with the shared clock; dragging the left half scrubs the clip and the right half scrubs the replay. Selecting a step dims every unrelated block to 28%. When a new score is written, the notes ink in upward over 900ms with the house ease (`clip-path` reveal), once.
+
+The score is labelled like a printed score. YOU and ARM (Voice type) head the two halves with their subtitles; each lane is named at the foot under a small mark (the hand's hook in Hand Umber, an object's ribbon swatch, and for the arm a Sheet swatch for holds, a hatched one for height, a solid blue one for grip), long names breaking onto two lines ("red / block"). Lane names are hand, then each object, on your side; holds, height, grip on the arm's. Before any run the staff draws a ghost preview of a two-carry score at 16% opacity with "Your score is written here" in 14px Ink Second at its centre, so the empty state already teaches the notation. Under the staff, the key sits above a Rule hairline in a two-column legend (mark, then 12px Ink Second label): low, middle, high, picked up, put down, turned, gripper closed, you to arm.
+
+### Replay (3-D arm)
+A procedural SO-101 built from its parts at the program's real link lengths, so the fingertip lands where the waypoints say. Printed PLA brackets are an off-white physical material (`#f1efe9`, roughness .58, a light clearcoat); servo housings are near-black (`#18191b`) with brushed aluminium output horns (`#c9cdd1`, metalness .9) on every joint axis; the base plate is a pale grey; the only colour on the arm is the pair of Robot Ink Blue grip pads on the fingers' inside faces. Objects are matte blocks or lathe-turned bowls in their ribbon. The planned fingertip path is a Robot Ink Blue line at 55%. The camera looks from the robot's right so the base and the mat sit at the same distance, steps back on narrow screens, and orbits by drag only (no zoom, no pan; touch scrolls the page). Motion eases in and out of each move (smoothstep) and interpolates between the 25 Hz samples; between runs the arm holds its rest pose. The "now" pill names the current move.
+
+### First Visit
+A visitor with no saved run never meets a blank sheet: once the server answers, the sample clip loads and notates on its own. A returning visitor gets their last run back. The drop zone and its "Show it once." invitation stay up only if the server is unreachable or the sample fails.
 
 ### Step and Waypoint Rows
 Hairline-separated list rows on a 4px corner. Steps run a four-column grid (object plate, verb label, description with a mono proof line beneath, right-aligned mono time). Waypoints run index, label with grip verb, right-aligned mono coordinates. Hover is Well; the current or selected row is Robot Tint; a waypoint that fails the check is Fault Wash with its reason in Fault Deep beneath.
