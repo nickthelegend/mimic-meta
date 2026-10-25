@@ -12,6 +12,7 @@ import httpx
 import numpy as np
 import pytest
 
+from mimic import __version__
 from mimic import arm as A
 from mimic import kinematics as K
 from mimic import program as P
@@ -194,6 +195,13 @@ def test_cli_reports_a_rejected_clip(short_clip, capsys):
     assert main([str(short_clip), "hand, red block"]) == 2
     out = capsys.readouterr()
     assert out.out == "" and "at least 1.5 s" in out.err
+
+
+def test_cli_prints_the_package_version(capsys):
+    with pytest.raises(SystemExit) as e:
+        main(["--version"])
+    assert e.value.code == 0
+    assert capsys.readouterr().out == f"mimic {__version__}\n"
 
 
 def test_frame_reader_thins_slow_motion(tmp_path):

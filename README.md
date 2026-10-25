@@ -22,15 +22,43 @@ phone clip ─▶ hand + object tracks ─▶ pick / move / place steps ─▶ w
 uv venv -p 3.12 .venv
 ```
 
+```
+Using CPython 3.12.12
+Creating virtual environment at: .venv
+```
+
 ```bash
 uv pip install -p .venv/bin/python -r requirements.txt
 ```
+
+uv lists about 30 packages, each as `+ name==version`, ending around `+ websockets==…`. A second run prints `Checked 8 packages`.
 
 ```bash
 .venv/bin/uvicorn server:app --port 8730
 ```
 
-Open <http://localhost:8730>. On a first visit (nothing reviewed yet) the page loads the synthetic sample clip by itself (about 7 s to generate the first time; `/?sample` forces it), tracks it, and shows everything: the tracked overlay on the clip, the movement score, the steps with their measured error against ground truth, the program, and the 3-D replay. Press **Play** to run the clip and the arm together. Click a step to jump both to it, or drag on the score to scrub. Use **Upload a clip** for your own video.
+```
+INFO:     Started server process [12345]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:8730 (Press CTRL+C to quit)
+```
+
+If another server already holds the port, uvicorn prints `[Errno 48] error while attempting to bind on address ('127.0.0.1', 8730): address already in use` and exits. Stop that server or pass a different `--port`.
+
+Check it from a second shell:
+
+```bash
+curl -s http://localhost:8730/api/health
+```
+
+```
+{"ok":true,"trackers":{"color":true,"mediapipe":false,"sam3":false},"writers":{"rules":true,"muse-spark":false},"arm":"sim"}
+```
+
+`mediapipe` turns `true` once it's installed and `models/hand_landmarker.task` is in place. `muse-spark` and `sam3` turn `true` when `META_API_KEY` is set.
+
+Open <http://localhost:8730>. On a first visit (nothing reviewed yet) the page loads the synthetic sample clip by itself (about 9 s the first time, since it generates `samples/sample.mp4` and tracks it; `/?sample` forces it). It then shows everything: the tracked overlay on the clip, the movement score, the steps with their measured error against ground truth, the program, and the 3-D replay. Press **Play** to run the clip and the arm together. Click a step to jump both to it, or drag on the score to scrub. Use **Upload a clip** for your own video.
 
 Tests (offline; no network, no paid APIs):
 
@@ -38,15 +66,72 @@ Tests (offline; no network, no paid APIs):
 .venv/bin/python -m pytest -q
 ```
 
-Run the pipeline from the command line:
+```
+................................                                         [100%]
+32 passed, 1 warning in 35s
+```
+
+The one warning is Starlette's `StarletteDeprecationWarning` about `httpx` in its test client. It's harmless.
+
+Run the pipeline from the command line. First make the synthetic sample clip. This writes `samples/sample.mp4` and `samples/sample.truth.json` and prints the ground truth:
 
 ```bash
 .venv/bin/python -m mimic.synth samples/sample.mp4
 ```
 
+```
+{
+ "fps": 30,
+ "width": 960,
+ "height": 540,
+ "prompts": [
+  "hand",
+  "red block",
+  "green block",
+  "blue bowl"
+ ],
+ "carries": [
+ …
+ "heights": {
+  "red block": 0.03,
+  "green block": 0.025,
+  "blue bowl": 0.04
+ }
+}
+```
+
+Then turn the clip into a checked program. It prints the steps, the check, the timings and, because the clip has a truth file, the score:
+
 ```bash
 .venv/bin/python -m mimic.pipeline samples/sample.mp4
 ```
+
+```
+{
+ "steps": [
+  {
+   "object": "red block",
+   "kind": "pick",
+ …
+ "check": {
+  "ok": true,
+  "issues": [],
+  "duration_s": 14.88,
+  "waypoints": 17
+ },
+ …
+ "score": {
+  …
+  "found": 2,
+  "expected": 2,
+  "extra": 0,
+  "worst_mm": 1.9,
+  "worst_ms": 100
+ }
+}
+```
+
+Add `--json` to print only the robot program (`summary`, `objects`, `waypoints`), or `--version` for `mimic 0.1.0`.
 
 `ffmpeg` is optional. With it, generated and uploaded clips are re-encoded to H.264 so the browser can play them.
 

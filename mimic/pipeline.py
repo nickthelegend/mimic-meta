@@ -14,6 +14,7 @@ from pathlib import Path
 
 import cv2
 
+from . import __version__
 from . import program as P
 from .calibrate import Calibration
 from .segment import score, segment
@@ -141,6 +142,7 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("clip")
     ap.add_argument("prompts", nargs="?", help="comma-separated things to track (default: the clip's truth file, or auto)")
     ap.add_argument("--json", action="store_true", help="print only the generated robot program as JSON")
+    ap.add_argument("--version", action="version", version=f"mimic {__version__}")
     args = ap.parse_args(argv)
     truth_p = Path(args.clip).with_suffix(".truth.json")
     truth = json.loads(truth_p.read_text()) if truth_p.exists() else None

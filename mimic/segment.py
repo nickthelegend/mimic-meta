@@ -45,6 +45,7 @@ def series(track: Track, n: int, fps: float, key: str = "c") -> np.ndarray:
 
 
 def smooth(x: np.ndarray, win: int) -> np.ndarray:
+    """Centred moving average over win frames, skipping NaNs; unseen frames stay NaN."""
     if win < 2:
         return x
     out = np.full_like(x, np.nan)
@@ -58,6 +59,7 @@ def smooth(x: np.ndarray, win: int) -> np.ndarray:
 
 
 def intervals(mask: np.ndarray) -> list[tuple[int, int]]:
+    """Runs of True in mask, as inclusive (start, end) index pairs."""
     out, start = [], None
     for i, m in enumerate(mask):
         if m and start is None:
@@ -81,6 +83,7 @@ def hand_distance(tracks: Tracks, n: int) -> list[dict[int, list]]:
 
 
 def near_hand(polys: dict, c, reach: float) -> bool:
+    """Whether point c is inside, or within reach pixels of, any of these hand outlines."""
     for poly in polys.values():
         d = cv2.pointPolygonTest(np.array(poly, np.float32).reshape(-1, 1, 2), (float(c[0]), float(c[1])), True)
         if d >= -reach:
@@ -89,11 +92,13 @@ def near_hand(polys: dict, c, reach: float) -> bool:
 
 
 def frame_at(track: Track, i: int, before: bool, span: int) -> list[dict]:
+    """The track's frames in the span frames before (or after) frame i, not including i."""
     fs = [f for f in track.frames if (i - span <= f["i"] < i if before else i < f["i"] <= i + span)]
     return fs
 
 
 def median_pose(fs: list[dict]) -> dict | None:
+    """Median position, size and yaw of these frames, with roundness and symmetry; None if empty."""
     if not fs:
         return None
     c = np.median([f["c"] for f in fs], 0)
@@ -110,6 +115,7 @@ def median_pose(fs: list[dict]) -> dict | None:
 
 
 def rdp(pts: np.ndarray, eps: float) -> np.ndarray:
+    """Simplify a polyline with Ramer-Douglas-Peucker at tolerance eps."""
     if len(pts) < 3:
         return pts
     a, b = pts[0], pts[-1]
@@ -124,6 +130,7 @@ def rdp(pts: np.ndarray, eps: float) -> np.ndarray:
 
 
 def inside(track: Track, i: int, c) -> bool:
+    """Whether point c lies within the track's outline (convex hull) within 3 frames of i."""
     fs = [f for f in track.frames if abs(f["i"] - i) <= 3]
     for f in fs:
         hull = cv2.convexHull(np.array(f["poly"], np.float32).reshape(-1, 1, 2))  # a bowl's outline is a C while a hand covers it
@@ -133,6 +140,7 @@ def inside(track: Track, i: int, c) -> bool:
 
 
 def segment(tracks: Tracks, calib: Calibration | None = None) -> dict:
+    """Find every object carried by a hand and return the task as pick / move / place steps."""
     calib = calib or Calibration.default(tracks.width, tracks.height)
     n, fps = tracks.n_frames, tracks.fps
     diag = math.hypot(tracks.width, tracks.height)
@@ -203,6 +211,7 @@ def _pose_m(calib: Calibration, p: dict) -> dict:
 
 
 def to_steps(carries: list[dict], calib: Calibration, fps: float) -> list[dict]:
+    """Turn carries into numbered pick / move / place steps in robot metres, each with its text."""
     steps = []
     for k in carries:
         a, b = _pose_m(calib, k["from"]), _pose_m(calib, k["to"])
@@ -223,6 +232,7 @@ def to_steps(carries: list[dict], calib: Calibration, fps: float) -> list[dict]:
 
 
 def describe_step(s: dict) -> str:
+    """A short plain-English sentence for one step."""
     if s["kind"] == "pick":
         return f"Pick up the {s['object']}"
     if s["kind"] == "move":
