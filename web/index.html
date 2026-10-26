@@ -6,6 +6,7 @@
 <title>MIMIC · film it once, the arm repeats it</title>
 <meta name="description" content="Film yourself doing a tabletop task. MIMIC tracks your hand and the objects, notates the steps, writes a checked robot program and replays it on a printable arm.">
 <meta name="theme-color" content="#f4f5f2">
+<link rel="icon" href="/favicon.ico" type="image/png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700&family=Spline+Sans+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -394,8 +395,6 @@ async function upload(file) {
   if (!file) return;
   if (!file.type.startsWith('video/') && !/\.(mp4|mov|m4v|webm|avi)$/i.test(file.name)) return fail(`${file.name} isn't a video. Choose an MP4 or MOV from your phone.`);
   $('msg').textContent = '';
-  const video = $('video');
-  video.src = URL.createObjectURL(file);   // show the clip at once while the server works
   $('drop').hidden = true;
   clearOverlay();
   busy(true, `Tracking ${$('prompts').value || 'your hand and the objects'}…`);
@@ -406,7 +405,7 @@ async function upload(file) {
     show(await api('/api/analyze', { method: 'POST', body: fd }));
   } catch (e) {
     fail(e.reason ? e.message : `Couldn't read that clip: ${e.message}. Film from above with the objects in view, then try again.`);
-    if (!R) { $('drop').hidden = false; video.removeAttribute('src'); video.load(); }
+    if (!R) $('drop').hidden = false;
   }
   busy(false);
 }

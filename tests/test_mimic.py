@@ -429,6 +429,13 @@ def client(tmp_path, monkeypatch, sample):
         yield c
 
 
+def test_server_favicon(client):
+    r = client.get("/favicon.ico")
+    assert r.status_code == 200
+    assert r.headers["content-type"].startswith("image/")
+    assert r.content.startswith(b"\x89PNG\r\n\x1a\n")
+
+
 def test_server_sample_upload_recheck_and_run(client, sample):
     assert client.get("/api/health").json()["writers"] == {"rules": True, "muse-spark": False}
     r = client.post("/api/sample").json()
