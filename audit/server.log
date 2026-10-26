@@ -1,0 +1,273 @@
+INFO:     Started server process [72162]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:55508 (Press CTRL+C to quit)
+INFO:     127.0.0.1:55515 - "GET /api/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55559 - "GET /api/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /favicon.ico HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:55570 - "POST /api/sample HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /runs/sample/clip.mp4 HTTP/1.1" 206 Partial Content
+INFO:     127.0.0.1:55559 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "POST /api/sample HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /runs/sample/clip.mp4 HTTP/1.1" 206 Partial Content
+INFO:     127.0.0.1:55570 - "GET /?run=sample HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /runs/sample/result.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /runs/sample/clip.mp4 HTTP/1.1" 206 Partial Content
+INFO:     127.0.0.1:55570 - "GET /api/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /runs/sample/result.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /runs/sample/clip.mp4 HTTP/1.1" 206 Partial Content
+INFO:     127.0.0.1:55570 - "GET /api/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /runs/sample/result.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /runs/sample/clip.mp4 HTTP/1.1" 206 Partial Content
+INFO:     127.0.0.1:55570 - "GET /api/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /runs/sample/result.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /runs/sample/clip.mp4 HTTP/1.1" 206 Partial Content
+muse-spark failed (MUSE_API_KEY is not set); falling back to the rules
+INFO:     127.0.0.1:55570 - "POST /api/sample HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /?run=samplemuse HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /runs/samplemuse/result.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /runs/samplemuse/clip.mp4 HTTP/1.1" 206 Partial Content
+INFO:     127.0.0.1:55570 - "GET /api/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /runs/sample/result.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /runs/sample/clip.mp4 HTTP/1.1" 206 Partial Content
+INFO:     127.0.0.1:55570 - "GET /?run=querymissing&sample HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "POST /api/sample HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /runs/sample/clip.mp4 HTTP/1.1" 206 Partial Content
+INFO:     127.0.0.1:55570 - "GET /api/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /runs/sample/result.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /runs/sample/clip.mp4 HTTP/1.1" 206 Partial Content
+INFO:     127.0.0.1:55570 - "GET /api/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /runs/samplemuse/result.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /runs/samplemuse/clip.mp4 HTTP/1.1" 206 Partial Content
+INFO:     127.0.0.1:55570 - "GET /api/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /runs/sample/result.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /runs/sample/clip.mp4 HTTP/1.1" 206 Partial Content
+INFO:     127.0.0.1:55570 - "GET /?run=missingrun HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /runs/missingrun/result.json HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:55570 - "POST /api/sample HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /runs/sample/clip.mp4 HTTP/1.1" 206 Partial Content
+INFO:     127.0.0.1:55570 - "GET /api/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /runs/sample/result.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /runs/sample/clip.mp4 HTTP/1.1" 206 Partial Content
+INFO:     127.0.0.1:55669 - "GET /runs/sample/result.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55669 - "GET /runs/sample/clip.mp4 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /runs/sample/result.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /runs/sample/clip.mp4 HTTP/1.1" 206 Partial Content
+INFO:     127.0.0.1:55570 - "GET /api/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /runs/sample/result.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /runs/sample/clip.mp4 HTTP/1.1" 206 Partial Content
+INFO:     127.0.0.1:55669 - "GET /runs/sample/result.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /runs/sample/result.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /runs/sample/clip.mp4 HTTP/1.1" 206 Partial Content
+INFO:     127.0.0.1:55570 - "GET /api/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /runs/sample/result.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /runs/sample/clip.mp4 HTTP/1.1" 206 Partial Content
+INFO:     127.0.0.1:55570 - "POST /api/execute/sample HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /?run=sample HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /runs/sample/result.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /runs/sample/clip.mp4 HTTP/1.1" 206 Partial Content
+INFO:     127.0.0.1:55570 - "POST /api/execute/sample HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "POST /api/stop HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /runs/sample/result.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "POST /api/analyze HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /runs/09aaf9c24f/input.mp4 HTTP/1.1" 206 Partial Content
+INFO:     127.0.0.1:55792 - "GET /runs/09aaf9c24f/input.mp4 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /runs/sample/result.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /runs/sample/clip.mp4 HTTP/1.1" 206 Partial Content
+INFO:     127.0.0.1:55570 - "GET /api/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /runs/sample/clip.mp4 HTTP/1.1" 206 Partial Content
+INFO:     127.0.0.1:55570 - "POST /api/analyze HTTP/1.1" 422 Unprocessable Entity
+INFO:     127.0.0.1:55570 - "GET /api/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /runs/sample/result.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "POST /api/analyze HTTP/1.1" 422 Unprocessable Entity
+INFO:     127.0.0.1:55570 - "GET /api/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55792 - "GET /runs/sample/result.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /runs/sample/result.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /runs/sample/clip.mp4 HTTP/1.1" 206 Partial Content
+INFO:     127.0.0.1:55570 - "POST /api/execute/sample HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "POST /api/execute/sample HTTP/1.1" 409 Conflict
+INFO:     127.0.0.1:55570 - "POST /api/stop HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/arm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /runs/sample/clip.mp4 HTTP/1.1" 206 Partial Content
+INFO:     127.0.0.1:55570 - "POST /api/recheck/sample HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "POST /api/execute/sample HTTP/1.1" 422 Unprocessable Entity
+INFO:     127.0.0.1:55792 - "POST /api/sample HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /runs/sample/result.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /runs/sample/result.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /runs/sample/clip.mp4 HTTP/1.1" 206 Partial Content
+INFO:     127.0.0.1:55570 - "GET /?sample HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /api/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "POST /api/sample HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /runs/sample/clip.mp4 HTTP/1.1" 206 Partial Content
+INFO:     127.0.0.1:55570 - "GET /api/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /runs/sample/result.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "POST /api/analyze HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /runs/2ebdc03af8/clip.mp4 HTTP/1.1" 206 Partial Content
+INFO:     127.0.0.1:55570 - "POST /api/analyze HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55570 - "GET /runs/57600a51f4/input.mp4 HTTP/1.1" 206 Partial Content
+[in#0 @ 0xab9010000] moov atom not found
+[in#0 @ 0xab8c24000] Error opening input: Invalid data found when processing input
+Error opening input file /Volumes/Extreme SSD/Projects/wave1/.loom-worktrees/mimic-meta-b432cadc3d66/omvpluju2/t3/runs/ff7ea2f954/input.mp4.
+Error opening input files: Invalid data found when processing input
+INFO:     127.0.0.1:55867 - "POST /api/analyze HTTP/1.1" 422 Unprocessable Entity
+INFO:     127.0.0.1:55867 - "POST /api/analyze HTTP/1.1" 400 Bad Request
+INFO:     127.0.0.1:55867 - "POST /api/analyze HTTP/1.1" 400 Bad Request
+INFO:     127.0.0.1:55867 - "POST /api/analyze HTTP/1.1" 400 Bad Request
+INFO:     127.0.0.1:55867 - "POST /api/analyze HTTP/1.1" 413 Request Entity Too Large
+INFO:     127.0.0.1:55867 - "GET /server.py HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:55867 - "GET /runs/sample/secret.txt HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:55867 - "POST /api/execute/nope HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:55867 - "POST /api/recheck/sample HTTP/1.1" 400 Bad Request
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [72162]

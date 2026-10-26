@@ -1,0 +1,21 @@
+{
+  "failures": [],
+  "observations": {
+    "response": {
+      "detail": "unknown writer 'magic'"
+    }
+  },
+  "actual": "HTTP 400; exact detail: unknown writer 'magic'.",
+  "console": [],
+  "page_errors": [],
+  "network": [
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:55508/api/analyze",
+      "status": 400
+    }
+  ],
+  "id": "U11",
+  "url": "http://127.0.0.1:55508",
+  "status": "PASS"
+}

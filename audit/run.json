@@ -1,0 +1,18 @@
+{
+  "scope": "Phase 2 only; real local server, offline tracker/writer and SimArm; no keys, Meta calls, serial, mocks or product changes.",
+  "lock_acquired_before_runner": true,
+  "processes_not_killed": [],
+  "base_url": "http://127.0.0.1:55508",
+  "chrome_version": "Google Chrome for Testing 156.0.8078.4 (Playwright chromium-1248)",
+  "rows_executed": 38,
+  "server_pid": 72162,
+  "server_exit_code": -15,
+  "heavy_slot_released": true,
+  "counts": {
+    "PASS": 31,
+    "FAIL": 7,
+    "UNTESTED": 4
+  },
+  "all_recorded_processes_gone": true,
+  "browser_executable": "/Users/jaibajrang/Library/Caches/ms-playwright/chromium-1248/chrome-mac-arm64/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing"
+}

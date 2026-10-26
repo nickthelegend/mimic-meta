@@ -1,0 +1,24 @@
+{
+  "failures": [],
+  "observations": {
+    "C1": {
+      "command": [
+        ".venv/bin/python",
+        "-m",
+        "mimic.pipeline",
+        "--version"
+      ],
+      "exit_code": 0,
+      "stdout": "audit/C1.stdout.txt",
+      "stderr": "audit/C1.stderr.txt"
+    },
+    "package_version": "0.1.0"
+  },
+  "actual": "Exit 0; stdout mimic 0.1.0 plus newline; package version 0.1.0.",
+  "console": [],
+  "page_errors": [],
+  "network": [],
+  "id": "C1",
+  "url": "http://127.0.0.1:55508",
+  "status": "PASS"
+}

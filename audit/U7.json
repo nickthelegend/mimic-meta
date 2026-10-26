@@ -1,0 +1,21 @@
+{
+  "failures": [],
+  "observations": {
+    "response": {
+      "detail": "corners must be JSON: four [x, y] points"
+    }
+  },
+  "actual": "HTTP 400; exact detail: corners must be JSON: four [x, y] points.",
+  "console": [],
+  "page_errors": [],
+  "network": [
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:55508/api/analyze",
+      "status": 400
+    }
+  ],
+  "id": "U7",
+  "url": "http://127.0.0.1:55508",
+  "status": "PASS"
+}

@@ -1,0 +1,105 @@
+{
+  "failures": [
+    "Console error: Failed to load resource: the server responded with a status of 422 (Unprocessable Entity)"
+  ],
+  "observations": {
+    "status": 422,
+    "body": {
+      "detail": "The clip is only 1.0 s long. Film at least 1.5 s: the hand reaching in, picking the object up, and putting it down.",
+      "reason": "too_short"
+    },
+    "message": "The clip is only 1.0 s long. Film at least 1.5 s: the hand reaching in, picking the object up, and putting it down.",
+    "added_run_dirs": [],
+    "viewport": {
+      "width": 1280,
+      "height": 960
+    },
+    "final_url": "http://127.0.0.1:55508/?run=sample"
+  },
+  "actual": "Analyze 422/too_short; exact detail displayed; run directory removed. Failures: Console error: Failed to load resource: the server responded with a status of 422 (Unprocessable Entity)",
+  "console": [
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 422 (Unprocessable Entity)",
+      "location": {
+        "url": "http://127.0.0.1:55508/api/analyze",
+        "line": 0,
+        "column": 0,
+        "lineNumber": 0,
+        "columnNumber": 0
+      }
+    }
+  ],
+  "page_errors": [],
+  "network": [
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:55508/?run=sample",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700&family=Spline+Sans+Mono:wght@400;500&display=swap",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "https://fonts.gstatic.com/s/schibstedgrotesk/v7/Jqz55SSPQuCQF3t8uOwiUL-taUTtap9GayojdSFO.woff2",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "https://fonts.gstatic.com/s/splinesansmono/v13/R70BjzAei_CDNLfgZxrW6wrZOF2WX5KZmE-Z-lw.woff2",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/geometries/RoundedBoxGeometry.js",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/environments/RoomEnvironment.js",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/controls/OrbitControls.js",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:55508/api/health",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:55508/runs/sample/result.json",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:55508/runs/sample/clip.mp4",
+      "status": 206
+    },
+    {
+      "method": "GET",
+      "url": "blob:http://127.0.0.1:55508/1c53e57f-fcd0-455d-9113-3cc46a4d150c",
+      "status": 206
+    },
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:55508/api/analyze",
+      "status": 422
+    }
+  ],
+  "screenshot": "audit/U5.jpg",
+  "id": "U5",
+  "url": "http://127.0.0.1:55508",
+  "status": "FAIL"
+}
