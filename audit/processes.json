@@ -1,0 +1,65 @@
+{
+  "runner_pid": 72154,
+  "started_processes_observed": [
+    {
+      "pid": 72162,
+      "ppid": 72154,
+      "executable": "/Volumes/Extreme SSD/Projects/wave1/.loom-worktrees/mimic-meta-b432cadc3d66/omvpluju2/t3/.venv/bin/python"
+    },
+    {
+      "pid": 76091,
+      "ppid": 72154,
+      "executable": "/Volumes/Extreme SSD/Projects/wave1/.loom-worktrees/mimic-meta-b432cadc3d66/omvpluju2/t3/.venv/lib/python3.12/site-packages/playwright/driver/node"
+    },
+    {
+      "pid": 76366,
+      "ppid": 76091,
+      "executable": "/Users/jaibajrang/Library/Caches/ms-playwright/chromium-1248/chrome-mac-arm64/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing"
+    },
+    {
+      "pid": 76370,
+      "ppid": 1,
+      "executable": "/Users/jaibajrang/Library/Caches/ms-playwright/chromium-1248/chrome-mac-arm64/Google Chrome for Testing.app/Contents/Frameworks/Google Chrome for Testing Framework.framework/Versions/156.0.8078.4/Helpers/chrome_crashpad_handler"
+    },
+    {
+      "pid": 76372,
+      "ppid": 1,
+      "executable": "/Users/jaibajrang/Library/Caches/ms-playwright/chromium-1248/chrome-mac-arm64/Google Chrome for Testing.app/Contents/Frameworks/Google Chrome for Testing Framework.framework/Versions/156.0.8078.4/Helpers/chrome_crashpad_handler"
+    },
+    {
+      "pid": 76832,
+      "ppid": 76366,
+      "executable": "/Users/jaibajrang/Library/Caches/ms-playwright/chromium-1248/chrome-mac-arm64/Google Chrome for Testing.app/Contents/Frameworks/Google Chrome for Testing Framework.framework/Versions/156.0.8078.4/Helpers/Google Chrome for Testing Helper (GPU).app/Contents/MacOS/Google Chrome for Testing Helper (GPU)"
+    },
+    {
+      "pid": 76833,
+      "ppid": 76366,
+      "executable": "/Users/jaibajrang/Library/Caches/ms-playwright/chromium-1248/chrome-mac-arm64/Google Chrome for Testing.app/Contents/Frameworks/Google Chrome for Testing Framework.framework/Versions/156.0.8078.4/Helpers/Google Chrome for Testing Helper.app/Contents/MacOS/Google Chrome for Testing Helper"
+    },
+    {
+      "pid": 76929,
+      "ppid": 76366,
+      "executable": "/Users/jaibajrang/Library/Caches/ms-playwright/chromium-1248/chrome-mac-arm64/Google Chrome for Testing.app/Contents/Frameworks/Google Chrome for Testing Framework.framework/Versions/156.0.8078.4/Helpers/Google Chrome for Testing Helper.app/Contents/MacOS/Google Chrome for Testing Helper"
+    },
+    {
+      "pid": 83137,
+      "ppid": 76366,
+      "executable": "/Users/jaibajrang/Library/Caches/ms-playwright/chromium-1248/chrome-mac-arm64/Google Chrome for Testing.app/Contents/Frameworks/Google Chrome for Testing Framework.framework/Versions/156.0.8078.4/Helpers/Google Chrome for Testing Helper (Renderer).app/Contents/MacOS/Google Chrome for Testing Helper (Renderer)"
+    },
+    {
+      "pid": 83228,
+      "ppid": 76366,
+      "executable": "/Users/jaibajrang/Library/Caches/ms-playwright/chromium-1248/chrome-mac-arm64/Google Chrome for Testing.app/Contents/Frameworks/Google Chrome for Testing Framework.framework/Versions/156.0.8078.4/Helpers/Google Chrome for Testing Helper (Renderer).app/Contents/MacOS/Google Chrome for Testing Helper (Renderer)"
+    },
+    {
+      "pid": 83229,
+      "ppid": 76366,
+      "executable": "/Users/jaibajrang/Library/Caches/ms-playwright/chromium-1248/chrome-mac-arm64/Google Chrome for Testing.app/Contents/Frameworks/Google Chrome for Testing Framework.framework/Versions/156.0.8078.4/Helpers/Google Chrome for Testing Helper (Renderer).app/Contents/MacOS/Google Chrome for Testing Helper (Renderer)"
+    }
+  ],
+  "cleanup": {
+    "terminated_after_browser_close": [],
+    "processes_not_killed": [],
+    "all_recorded_processes_gone": true
+  }
+}

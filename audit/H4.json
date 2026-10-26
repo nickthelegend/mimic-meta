@@ -1,0 +1,114 @@
+{
+  "failures": [],
+  "observations": {
+    "visible": {
+      ".mark small": false,
+      "#who": false,
+      "#tracker": true,
+      "#writer": true
+    },
+    "boot": {
+      "who": "simulated arm · offline writer",
+      "on": true,
+      "arm": "SO-101 · simulated",
+      "trackers": [
+        {
+          "value": "color",
+          "label": "OpenCV stand-in",
+          "disabled": false
+        },
+        {
+          "value": "mediapipe",
+          "label": "MediaPipe hands",
+          "disabled": true
+        },
+        {
+          "value": "sam3",
+          "label": "SAM 3.1 (paid)",
+          "disabled": true
+        }
+      ],
+      "writers": [
+        {
+          "value": "rules",
+          "label": "Rules (offline)",
+          "disabled": false
+        },
+        {
+          "value": "muse-spark",
+          "label": "Muse Spark (paid)",
+          "disabled": true
+        }
+      ]
+    },
+    "viewport": {
+      "width": 375,
+      "height": 960
+    },
+    "final_url": "http://127.0.0.1:55508/?run=sample"
+  },
+  "actual": "At 375px the byline and who are hidden; both menus remain visible with paid options disabled.",
+  "console": [],
+  "page_errors": [],
+  "network": [
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:55508/?run=sample",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700&family=Spline+Sans+Mono:wght@400;500&display=swap",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "https://fonts.gstatic.com/s/schibstedgrotesk/v7/Jqz55SSPQuCQF3t8uOwiUL-taUTtap9GayojdSFO.woff2",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "https://fonts.gstatic.com/s/splinesansmono/v13/R70BjzAei_CDNLfgZxrW6wrZOF2WX5KZmE-Z-lw.woff2",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/controls/OrbitControls.js",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/geometries/RoundedBoxGeometry.js",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/environments/RoomEnvironment.js",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:55508/api/health",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:55508/runs/sample/result.json",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:55508/runs/sample/clip.mp4",
+      "status": 206
+    }
+  ],
+  "screenshot": "audit/H4.jpg",
+  "id": "H4",
+  "url": "http://127.0.0.1:55508",
+  "status": "PASS"
+}

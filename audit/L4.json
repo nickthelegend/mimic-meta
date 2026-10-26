@@ -1,0 +1,154 @@
+{
+  "failures": [
+    "Failed request: blob:http://127.0.0.1:55508/7ebb6b09-54d4-4faa-940e-005e96cc94fd (net::ERR_ABORTED)"
+  ],
+  "observations": {
+    "ffmpeg_path": "/opt/homebrew/bin/ffmpeg",
+    "ffprobe_path": "/opt/homebrew/bin/ffprobe",
+    "ffmpeg_version": "ffmpeg version 8.1.1 Copyright (c) 2000-2026 the FFmpeg developers",
+    "ffprobe_version": "ffprobe version 8.1.1 Copyright (c) 2007-2026 the FFmpeg developers",
+    "uploads": [
+      {
+        "status": 200,
+        "source": "sample.mov",
+        "video": "/runs/2ebdc03af8/clip.mp4",
+        "probe": {
+          "programs": [],
+          "stream_groups": [],
+          "streams": [
+            {
+              "codec_name": "h264",
+              "pix_fmt": "yuv420p"
+            }
+          ]
+        },
+        "unchanged": false
+      },
+      {
+        "status": 200,
+        "source": "sample.mp4",
+        "video": "/runs/57600a51f4/input.mp4",
+        "probe": {
+          "programs": [],
+          "stream_groups": [],
+          "streams": [
+            {
+              "codec_name": "h264",
+              "pix_fmt": "yuv420p"
+            }
+          ]
+        },
+        "unchanged": true
+      }
+    ],
+    "viewport": {
+      "width": 1280,
+      "height": 960
+    },
+    "final_url": "http://127.0.0.1:55508/?run=57600a51f4"
+  },
+  "actual": "ffmpeg 8.1.1 and ffprobe present; browser-uploaded MPEG4 MOV became H264/yuv420p clip.mp4; H264 MP4 remained byte-identical input.mp4. Failures: Failed request: blob:http://127.0.0.1:55508/7ebb6b09-54d4-4faa-940e-005e96cc94fd (net::ERR_ABORTED)",
+  "console": [],
+  "page_errors": [],
+  "network": [
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:55508/?run=sample",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700&family=Spline+Sans+Mono:wght@400;500&display=swap",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "https://fonts.gstatic.com/s/schibstedgrotesk/v7/Jqz55SSPQuCQF3t8uOwiUL-taUTtap9GayojdSFO.woff2",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "https://fonts.gstatic.com/s/splinesansmono/v13/R70BjzAei_CDNLfgZxrW6wrZOF2WX5KZmE-Z-lw.woff2",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/controls/OrbitControls.js",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/geometries/RoundedBoxGeometry.js",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/environments/RoomEnvironment.js",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:55508/api/health",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:55508/runs/sample/result.json",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:55508/runs/sample/clip.mp4",
+      "status": 206
+    },
+    {
+      "method": "GET",
+      "url": "blob:http://127.0.0.1:55508/7ebb6b09-54d4-4faa-940e-005e96cc94fd",
+      "status": 206
+    },
+    {
+      "method": "GET",
+      "url": "blob:http://127.0.0.1:55508/7ebb6b09-54d4-4faa-940e-005e96cc94fd",
+      "failed": "net::ERR_ABORTED"
+    },
+    {
+      "method": "GET",
+      "url": "blob:http://127.0.0.1:55508/7ebb6b09-54d4-4faa-940e-005e96cc94fd",
+      "status": 206
+    },
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:55508/api/analyze",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:55508/runs/2ebdc03af8/clip.mp4",
+      "status": 206
+    },
+    {
+      "method": "GET",
+      "url": "blob:http://127.0.0.1:55508/3f93ba0a-ad32-4d7b-b824-1c812e608beb",
+      "status": 206
+    },
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:55508/api/analyze",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:55508/runs/57600a51f4/input.mp4",
+      "status": 206
+    }
+  ],
+  "screenshot": "audit/L4.jpg",
+  "id": "L4",
+  "url": "http://127.0.0.1:55508",
+  "status": "FAIL"
+}
