@@ -214,6 +214,11 @@ def index():
     return FileResponse(ROOT / "web" / "index.html")
 
 
+@app.get("/favicon.ico")
+def favicon():
+    return FileResponse(ROOT / "web" / "favicon.png", media_type="image/png")
+
+
 app.mount("/web", StaticFiles(directory=ROOT / "web"), name="web")
 
 

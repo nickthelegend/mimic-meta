@@ -6,6 +6,7 @@ import hashlib
 import json
 import os
 from pathlib import Path
+import re
 import shutil
 import socket
 import subprocess
@@ -114,6 +115,13 @@ def browser_row(id, width=1280):
             r.observe(viewport=page.viewport_size, final_url=page.url)
             for entry in r.e["console"]:
                 if entry["type"] == "error":
+                    status = re.fullmatch(
+                        r"Failed to load resource: the server responded with a status of (\d{3})(?: \([^()\r\n]*\))?",
+                        entry["text"],
+                    )
+                    if status and any(url == entry["location"].get("url") and code == int(status[1])
+                                      for _, url, code in r.allowed):
+                        continue
                     r.e["failures"].append("Console error: " + entry["text"])
             r.e["failures"].extend("Page error: " + e for e in r.e["page_errors"])
             for n in r.e["network"]:
