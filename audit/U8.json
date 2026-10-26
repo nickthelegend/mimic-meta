@@ -13,11 +13,11 @@
   "network": [
     {
       "method": "POST",
-      "url": "http://127.0.0.1:55508/api/analyze",
+      "url": "http://127.0.0.1:8730/api/analyze",
       "status": 413
     }
   ],
   "id": "U8",
-  "url": "http://127.0.0.1:55508",
+  "url": "http://127.0.0.1:8730",
   "status": "PASS"
 }

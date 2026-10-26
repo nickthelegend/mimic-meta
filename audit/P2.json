@@ -16,7 +16,7 @@
       "width": 1280,
       "height": 960
     },
-    "final_url": "http://127.0.0.1:55508/?run=sample"
+    "final_url": "http://127.0.0.1:8730/?run=sample"
   },
   "actual": "First clean visit POSTed sample and rendered overlay, score, six steps, program and 3-D canvas; observed busy message.",
   "console": [],
@@ -24,7 +24,7 @@
   "network": [
     {
       "method": "GET",
-      "url": "http://127.0.0.1:55508/",
+      "url": "http://127.0.0.1:8730/",
       "status": 200
     },
     {
@@ -64,22 +64,22 @@
     },
     {
       "method": "GET",
-      "url": "http://127.0.0.1:55508/api/health",
+      "url": "http://127.0.0.1:8730/api/health",
       "status": 200
     },
     {
       "method": "POST",
-      "url": "http://127.0.0.1:55508/api/sample",
+      "url": "http://127.0.0.1:8730/api/sample",
       "status": 200
     },
     {
       "method": "GET",
-      "url": "http://127.0.0.1:55508/runs/sample/clip.mp4",
+      "url": "http://127.0.0.1:8730/runs/sample/clip.mp4",
       "status": 206
     }
   ],
   "screenshot": "audit/P2.jpg",
   "id": "P2",
-  "url": "http://127.0.0.1:55508",
+  "url": "http://127.0.0.1:8730",
   "status": "PASS"
 }

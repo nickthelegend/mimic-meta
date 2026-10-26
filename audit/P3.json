@@ -5,7 +5,7 @@
       "width": 1280,
       "height": 960
     },
-    "final_url": "http://127.0.0.1:55508/?run=sample"
+    "final_url": "http://127.0.0.1:8730/?run=sample"
   },
   "actual": "?sample overrode both missing stored id and missing ?run; POSTed sample without either run GET.",
   "console": [],
@@ -13,7 +13,7 @@
   "network": [
     {
       "method": "GET",
-      "url": "http://127.0.0.1:55508/?run=sample",
+      "url": "http://127.0.0.1:8730/?run=sample",
       "status": 200
     },
     {
@@ -33,6 +33,11 @@
     },
     {
       "method": "GET",
+      "url": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/controls/OrbitControls.js",
+      "status": 200
+    },
+    {
+      "method": "GET",
       "url": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/geometries/RoundedBoxGeometry.js",
       "status": 200
     },
@@ -43,32 +48,27 @@
     },
     {
       "method": "GET",
-      "url": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/controls/OrbitControls.js",
-      "status": 200
-    },
-    {
-      "method": "GET",
       "url": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
       "status": 200
     },
     {
       "method": "GET",
-      "url": "http://127.0.0.1:55508/api/health",
+      "url": "http://127.0.0.1:8730/api/health",
       "status": 200
     },
     {
       "method": "GET",
-      "url": "http://127.0.0.1:55508/runs/sample/result.json",
+      "url": "http://127.0.0.1:8730/runs/sample/result.json",
       "status": 200
     },
     {
       "method": "GET",
-      "url": "http://127.0.0.1:55508/runs/sample/clip.mp4",
+      "url": "http://127.0.0.1:8730/runs/sample/clip.mp4",
       "status": 206
     },
     {
       "method": "GET",
-      "url": "http://127.0.0.1:55508/?run=querymissing&sample",
+      "url": "http://127.0.0.1:8730/?run=querymissing&sample",
       "status": 200
     },
     {
@@ -108,22 +108,22 @@
     },
     {
       "method": "GET",
-      "url": "http://127.0.0.1:55508/api/health",
+      "url": "http://127.0.0.1:8730/api/health",
       "status": 200
     },
     {
       "method": "POST",
-      "url": "http://127.0.0.1:55508/api/sample",
+      "url": "http://127.0.0.1:8730/api/sample",
       "status": 200
     },
     {
       "method": "GET",
-      "url": "http://127.0.0.1:55508/runs/sample/clip.mp4",
+      "url": "http://127.0.0.1:8730/runs/sample/clip.mp4",
       "status": 206
     }
   ],
   "screenshot": "audit/P3.jpg",
   "id": "P3",
-  "url": "http://127.0.0.1:55508",
+  "url": "http://127.0.0.1:8730",
   "status": "PASS"
 }

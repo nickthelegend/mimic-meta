@@ -7,8 +7,8 @@
       "writer": "rules"
     },
     "status": 200,
-    "run_id": "09aaf9c24f",
-    "video": "/runs/09aaf9c24f/input.mp4",
+    "run_id": "0d96904913",
+    "video": "/runs/0d96904913/input.mp4",
     "kinds": [
       "pick",
       "move",
@@ -21,7 +21,7 @@
       "width": 1280,
       "height": 960
     },
-    "final_url": "http://127.0.0.1:55508/?run=09aaf9c24f"
+    "final_url": "http://127.0.0.1:8730/?run=0d96904913"
   },
   "actual": "File input uploaded synthetic sample with specified prompts/color/rules; analyze 200, expected six steps, video 200.",
   "console": [],
@@ -29,7 +29,7 @@
   "network": [
     {
       "method": "GET",
-      "url": "http://127.0.0.1:55508/?run=sample",
+      "url": "http://127.0.0.1:8730/?run=sample",
       "status": 200
     },
     {
@@ -49,12 +49,12 @@
     },
     {
       "method": "GET",
-      "url": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/geometries/RoundedBoxGeometry.js",
+      "url": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/controls/OrbitControls.js",
       "status": 200
     },
     {
       "method": "GET",
-      "url": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/controls/OrbitControls.js",
+      "url": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/geometries/RoundedBoxGeometry.js",
       "status": 200
     },
     {
@@ -69,42 +69,37 @@
     },
     {
       "method": "GET",
-      "url": "http://127.0.0.1:55508/api/health",
+      "url": "http://127.0.0.1:8730/api/health",
       "status": 200
     },
     {
       "method": "GET",
-      "url": "http://127.0.0.1:55508/runs/sample/result.json",
+      "url": "http://127.0.0.1:8730/runs/sample/result.json",
       "status": 200
     },
     {
       "method": "GET",
-      "url": "http://127.0.0.1:55508/runs/sample/clip.mp4",
-      "status": 206
-    },
-    {
-      "method": "GET",
-      "url": "blob:http://127.0.0.1:55508/61edcfbb-6760-4871-b525-0038e89cc675",
+      "url": "http://127.0.0.1:8730/runs/sample/clip.mp4",
       "status": 206
     },
     {
       "method": "POST",
-      "url": "http://127.0.0.1:55508/api/analyze",
+      "url": "http://127.0.0.1:8730/api/analyze",
       "status": 200
     },
     {
       "method": "GET",
-      "url": "http://127.0.0.1:55508/runs/09aaf9c24f/input.mp4",
+      "url": "http://127.0.0.1:8730/runs/0d96904913/input.mp4",
       "status": 206
     },
     {
       "method": "GET",
-      "url": "http://127.0.0.1:55508/runs/09aaf9c24f/input.mp4",
+      "url": "http://127.0.0.1:8730/runs/0d96904913/input.mp4",
       "status": 200
     }
   ],
   "screenshot": "audit/U1.jpg",
   "id": "U1",
-  "url": "http://127.0.0.1:55508",
+  "url": "http://127.0.0.1:8730",
   "status": "PASS"
 }

@@ -158,7 +158,7 @@
   "waypoints": 17
  },
  "timings": {
-  "track_s": 1.07,
+  "track_s": 1.0,
   "segment_s": 0.024,
   "write_s": 0.0
  },
