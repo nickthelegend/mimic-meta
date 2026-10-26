@@ -1,7 +1,5 @@
 {
-  "failures": [
-    "Console error: Failed to load resource: the server responded with a status of 422 (Unprocessable Entity)"
-  ],
+  "failures": [],
   "observations": {
     "check": {
       "ok": false,
@@ -26,15 +24,15 @@
       "width": 1280,
       "height": 960
     },
-    "final_url": "http://127.0.0.1:55508/?run=sample"
+    "final_url": "http://127.0.0.1:8730/?run=sample"
   },
-  "actual": "Edited unsafe xyz; recheck failed with exact reach issue; Run locked; execute returned exact 422 detail. Failures: Console error: Failed to load resource: the server responded with a status of 422 (Unprocessable Entity)",
+  "actual": "Edited unsafe xyz; recheck failed with exact reach issue; Run locked; execute returned exact 422 detail.",
   "console": [
     {
       "type": "error",
-      "text": "Failed to load resource: the server responded with a status of 422 (Unprocessable Entity)",
+      "text": "Failed to load resource: the server responded with a status of 422 (Unprocessable Content)",
       "location": {
-        "url": "http://127.0.0.1:55508/api/execute/sample",
+        "url": "http://127.0.0.1:8730/api/execute/sample",
         "line": 0,
         "column": 0,
         "lineNumber": 0,
@@ -46,7 +44,7 @@
   "network": [
     {
       "method": "GET",
-      "url": "http://127.0.0.1:55508/?run=sample",
+      "url": "http://127.0.0.1:8730/?run=sample",
       "status": 200
     },
     {
@@ -66,6 +64,11 @@
     },
     {
       "method": "GET",
+      "url": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/environments/RoomEnvironment.js",
+      "status": 200
+    },
+    {
+      "method": "GET",
       "url": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/geometries/RoundedBoxGeometry.js",
       "status": 200
     },
@@ -76,42 +79,37 @@
     },
     {
       "method": "GET",
-      "url": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/environments/RoomEnvironment.js",
-      "status": 200
-    },
-    {
-      "method": "GET",
       "url": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
       "status": 200
     },
     {
       "method": "GET",
-      "url": "http://127.0.0.1:55508/api/health",
+      "url": "http://127.0.0.1:8730/api/health",
       "status": 200
     },
     {
       "method": "GET",
-      "url": "http://127.0.0.1:55508/runs/sample/result.json",
+      "url": "http://127.0.0.1:8730/runs/sample/result.json",
       "status": 200
     },
     {
       "method": "GET",
-      "url": "http://127.0.0.1:55508/runs/sample/clip.mp4",
+      "url": "http://127.0.0.1:8730/runs/sample/clip.mp4",
       "status": 206
     },
     {
       "method": "POST",
-      "url": "http://127.0.0.1:55508/api/recheck/sample",
+      "url": "http://127.0.0.1:8730/api/recheck/sample",
       "status": 200
     },
     {
       "method": "POST",
-      "url": "http://127.0.0.1:55508/api/execute/sample",
+      "url": "http://127.0.0.1:8730/api/execute/sample",
       "status": 422
     }
   ],
   "screenshot": "audit/E1.jpg",
   "id": "E1",
-  "url": "http://127.0.0.1:55508",
-  "status": "FAIL"
+  "url": "http://127.0.0.1:8730",
+  "status": "PASS"
 }

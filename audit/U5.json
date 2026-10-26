@@ -1,7 +1,5 @@
 {
-  "failures": [
-    "Console error: Failed to load resource: the server responded with a status of 422 (Unprocessable Entity)"
-  ],
+  "failures": [],
   "observations": {
     "status": 422,
     "body": {
@@ -14,15 +12,15 @@
       "width": 1280,
       "height": 960
     },
-    "final_url": "http://127.0.0.1:55508/?run=sample"
+    "final_url": "http://127.0.0.1:8730/?run=sample"
   },
-  "actual": "Analyze 422/too_short; exact detail displayed; run directory removed. Failures: Console error: Failed to load resource: the server responded with a status of 422 (Unprocessable Entity)",
+  "actual": "Analyze 422/too_short; exact detail displayed; run directory removed.",
   "console": [
     {
       "type": "error",
-      "text": "Failed to load resource: the server responded with a status of 422 (Unprocessable Entity)",
+      "text": "Failed to load resource: the server responded with a status of 422 (Unprocessable Content)",
       "location": {
-        "url": "http://127.0.0.1:55508/api/analyze",
+        "url": "http://127.0.0.1:8730/api/analyze",
         "line": 0,
         "column": 0,
         "lineNumber": 0,
@@ -34,7 +32,7 @@
   "network": [
     {
       "method": "GET",
-      "url": "http://127.0.0.1:55508/?run=sample",
+      "url": "http://127.0.0.1:8730/?run=sample",
       "status": 200
     },
     {
@@ -74,32 +72,27 @@
     },
     {
       "method": "GET",
-      "url": "http://127.0.0.1:55508/api/health",
+      "url": "http://127.0.0.1:8730/api/health",
       "status": 200
     },
     {
       "method": "GET",
-      "url": "http://127.0.0.1:55508/runs/sample/result.json",
+      "url": "http://127.0.0.1:8730/runs/sample/result.json",
       "status": 200
     },
     {
       "method": "GET",
-      "url": "http://127.0.0.1:55508/runs/sample/clip.mp4",
-      "status": 206
-    },
-    {
-      "method": "GET",
-      "url": "blob:http://127.0.0.1:55508/1c53e57f-fcd0-455d-9113-3cc46a4d150c",
+      "url": "http://127.0.0.1:8730/runs/sample/clip.mp4",
       "status": 206
     },
     {
       "method": "POST",
-      "url": "http://127.0.0.1:55508/api/analyze",
+      "url": "http://127.0.0.1:8730/api/analyze",
       "status": 422
     }
   ],
   "screenshot": "audit/U5.jpg",
   "id": "U5",
-  "url": "http://127.0.0.1:55508",
-  "status": "FAIL"
+  "url": "http://127.0.0.1:8730",
+  "status": "PASS"
 }

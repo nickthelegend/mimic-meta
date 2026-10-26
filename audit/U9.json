@@ -18,16 +18,16 @@
   "network": [
     {
       "method": "GET",
-      "url": "http://127.0.0.1:55508/server.py",
+      "url": "http://127.0.0.1:8730/server.py",
       "status": 404
     },
     {
       "method": "GET",
-      "url": "http://127.0.0.1:55508/runs/sample/secret.txt",
+      "url": "http://127.0.0.1:8730/runs/sample/secret.txt",
       "status": 404
     }
   ],
   "id": "U9",
-  "url": "http://127.0.0.1:55508",
+  "url": "http://127.0.0.1:8730",
   "status": "PASS"
 }

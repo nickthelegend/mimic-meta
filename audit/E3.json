@@ -1,7 +1,5 @@
 {
-  "failures": [
-    "Console error: Failed to load resource: the server responded with a status of 409 (Conflict)"
-  ],
+  "failures": [],
   "observations": {
     "busy": {
       "status": 200,
@@ -48,15 +46,15 @@
       "width": 1280,
       "height": 960
     },
-    "final_url": "http://127.0.0.1:55508/?run=sample"
+    "final_url": "http://127.0.0.1:8730/?run=sample"
   },
-  "actual": "Second execute while busy returned exact 409 detail; stopped simulator afterward. Failures: Console error: Failed to load resource: the server responded with a status of 409 (Conflict)",
+  "actual": "Second execute while busy returned exact 409 detail; stopped simulator afterward.",
   "console": [
     {
       "type": "error",
       "text": "Failed to load resource: the server responded with a status of 409 (Conflict)",
       "location": {
-        "url": "http://127.0.0.1:55508/api/execute/sample",
+        "url": "http://127.0.0.1:8730/api/execute/sample",
         "line": 0,
         "column": 0,
         "lineNumber": 0,
@@ -68,7 +66,7 @@
   "network": [
     {
       "method": "GET",
-      "url": "http://127.0.0.1:55508/?run=sample",
+      "url": "http://127.0.0.1:8730/?run=sample",
       "status": 200
     },
     {
@@ -108,52 +106,52 @@
     },
     {
       "method": "GET",
-      "url": "http://127.0.0.1:55508/api/health",
+      "url": "http://127.0.0.1:8730/api/health",
       "status": 200
     },
     {
       "method": "GET",
-      "url": "http://127.0.0.1:55508/runs/sample/result.json",
+      "url": "http://127.0.0.1:8730/runs/sample/result.json",
       "status": 200
     },
     {
       "method": "GET",
-      "url": "http://127.0.0.1:55508/runs/sample/clip.mp4",
+      "url": "http://127.0.0.1:8730/runs/sample/clip.mp4",
       "status": 206
     },
     {
       "method": "POST",
-      "url": "http://127.0.0.1:55508/api/execute/sample",
+      "url": "http://127.0.0.1:8730/api/execute/sample",
       "status": 200
     },
     {
       "method": "GET",
-      "url": "http://127.0.0.1:55508/api/arm",
+      "url": "http://127.0.0.1:8730/api/arm",
       "status": 200
     },
     {
       "method": "GET",
-      "url": "http://127.0.0.1:55508/api/arm",
+      "url": "http://127.0.0.1:8730/api/arm",
       "status": 200
     },
     {
       "method": "POST",
-      "url": "http://127.0.0.1:55508/api/execute/sample",
+      "url": "http://127.0.0.1:8730/api/execute/sample",
       "status": 409
     },
     {
       "method": "POST",
-      "url": "http://127.0.0.1:55508/api/stop",
+      "url": "http://127.0.0.1:8730/api/stop",
       "status": 200
     },
     {
       "method": "GET",
-      "url": "http://127.0.0.1:55508/api/arm",
+      "url": "http://127.0.0.1:8730/api/arm",
       "status": 200
     }
   ],
   "screenshot": "audit/E3.jpg",
   "id": "E3",
-  "url": "http://127.0.0.1:55508",
-  "status": "FAIL"
+  "url": "http://127.0.0.1:8730",
+  "status": "PASS"
 }

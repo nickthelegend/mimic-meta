@@ -27,11 +27,11 @@
   "network": [
     {
       "method": "GET",
-      "url": "http://127.0.0.1:55508/api/health",
+      "url": "http://127.0.0.1:8730/api/health",
       "status": 200
     }
   ],
   "id": "H1",
-  "url": "http://127.0.0.1:55508",
+  "url": "http://127.0.0.1:8730",
   "status": "PASS"
 }

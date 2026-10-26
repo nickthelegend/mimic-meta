@@ -1,4 +1,4 @@
-"""Phase 2 evidence runner. Real Chrome UI, local HTTP, CLI; no mocks or credentials."""
+"""Full Phase 4 evidence runner. Real Chrome UI, local HTTP, CLI; no mocks or credentials."""
 from __future__ import annotations
 
 import contextlib
@@ -26,7 +26,12 @@ OUT = ROOT / "audit"
 PY = ROOT / ".venv/bin/python"
 LOCK = "/Volumes/Extreme SSD/Projects/grokbot/tools/heavy-slot.sh"
 INITIAL = (ROOT / "AUDIT.md").read_text()
-PENDING = [line.split("|")[1].strip() for line in INITIAL.splitlines() if "| PENDING |" in line]
+TABLE = {cells[1].strip(): cells for line in INITIAL.splitlines()
+         if len(cells := line.split("|")) == 8 and cells[4].strip() in {"PENDING", "PASS", "FAIL", "UNTESTED"}}
+SELECTED = [id for id, cells in TABLE.items() if cells[4].strip() != "UNTESTED"]
+FIXES = {"P1": "Added favicon route.", "L4": "Removed upload preview blob src."}
+for id in ["P4", "U5", "U6", "E1", "E3"]:
+    FIXES[id] = "Chrome status echo not double-counted for the exact allowlisted URL/status."
 RESULTS = {}
 PORT = 8730
 SERVER = None
@@ -35,6 +40,23 @@ BASE = ""
 TEMP = None
 CONTEXT = None
 BROWSER = None
+STARTED = {}
+
+
+def process_snapshot():
+    output = subprocess.run(["ps", "-axo", "pid=,ppid=,comm="], capture_output=True, text=True, check=True).stdout
+    return {int(pid): {"ppid": int(ppid), "command": command}
+            for line in output.splitlines() if len(parts := line.strip().split(None, 2)) == 3
+            for pid, ppid, command in [parts]}
+
+
+def track_processes():
+    snapshot = process_snapshot()
+    parents = {os.getpid()}
+    while children := {pid for pid, info in snapshot.items() if info["ppid"] in parents} - parents:
+        parents.update(children)
+    STARTED.update({pid: snapshot[pid] for pid in parents - {os.getpid()}
+                    if snapshot[pid]["command"] != "/bin/ps"})
 
 
 def persist(id, evidence):
@@ -50,7 +72,10 @@ def persist(id, evidence):
             cells[4] = f" {evidence['status']} "
             note = evidence["actual"].replace("|", "/").replace("\n", " ")
             cells[5] = f" [log](audit/{id}.json)" + (f" · [view](audit/{id}.jpg)" if evidence.get("screenshot") else "") + f" — {note} "
-            cells[6] = " "
+            fix = cells[6].strip()
+            if TABLE[id][4].strip() == "FAIL" and evidence["status"] == "PASS":
+                fix = FIXES.get(id, fix)
+            cells[6] = f" {fix} "
             lines[i] = "|".join(cells)
     (ROOT / "AUDIT.md").write_text("\n".join(lines) + "\n")
     print(f"{id}: {evidence['status']} — {evidence['actual']}", flush=True)
@@ -79,6 +104,8 @@ class Row:
 
 @contextlib.contextmanager
 def row(id):
+    assert id in SELECTED, f"Unselected row: {id}"
+    assert id not in RESULTS, f"Duplicate row: {id}"
     r = Row(id)
     try:
         yield r
@@ -150,14 +177,15 @@ def load(r, query="?run=sample"):
     p.wait_for_timeout(200)
 
 
-def fetch_page(r, path, fields=None, method="POST", body=None):
-    return r.page.evaluate("""async ({path, fields, method, body}) => {
+def fetch_page(r, path, fields=None, method="POST", body=None, raw=False):
+    return r.page.evaluate("""async ({path, fields, method, body, raw}) => {
       const opts = {method};
       if (fields) { const fd = new FormData(); for (const [k,v] of Object.entries(fields)) fd.append(k,v); opts.body=fd; }
       if (body !== null) { opts.body=JSON.stringify(body); opts.headers={'Content-Type':'application/json'}; }
       const response = await fetch(path, opts);
+      if (raw) return {status:response.status,bytes:(await response.arrayBuffer()).byteLength};
       return {status:response.status, body:await response.json()};
-    }""", {"path": path, "fields": fields, "method": method, "body": body})
+    }""", {"path": path, "fields": fields, "method": method, "body": body, "raw": raw})
 
 
 def options(p):
@@ -268,6 +296,9 @@ def execute():
         r.actual("HTTP 200; exact offline health JSON, sim arm, only color and rules available.")
     with sync_playwright() as pw:
         BROWSER=pw.chromium.launch(headless=True, executable_path=pw.chromium.executable_path)
+        chrome_version = BROWSER.version
+        chrome_executable = pw.chromium.executable_path
+        track_processes()
         CONTEXT=BROWSER.new_context(viewport={"width":1280,"height":960},accept_downloads=True)
         CONTEXT.add_init_script("""window.auditBusyTexts=[]; new MutationObserver(()=>{const e=document.querySelector('#working');if(e && !e.hidden) {const t=document.querySelector('#workingText').textContent;if(!window.auditBusyTexts.includes(t)) window.auditBusyTexts.push(t)}}).observe(document,{subtree:true,childList:true,attributes:true,characterData:true});""")
         with browser_row("P1") as r:
@@ -276,12 +307,14 @@ def execute():
             r.page.wait_for_function("!document.querySelector('#play').disabled",timeout=60000)
             r.page.wait_for_function("document.querySelector('#video').readyState >= 2")
             response=r.request("GET","/")
+            favicon=fetch_page(r,"/favicon.ico",method="GET",raw=True)
             labels={s:r.page.locator(s).inner_text() for s in [".mark b",".mark small","#sampleBtn","#uploadBtn"]}
             positions={s:r.page.locator(s).bounding_box() for s in ["#sampleBtn","#uploadBtn"]}
-            r.observe(labels=labels,positions=positions,body_matches_file=response.content==(ROOT/"web/index.html").read_bytes())
+            r.observe(labels=labels,positions=positions,body_matches_file=response.content==(ROOT/"web/index.html").read_bytes(),favicon=favicon)
+            r.check(favicon["status"]==200 and favicon["bytes"]>0,"Favicon is not HTTP 200 with an image body")
             r.check(response.status_code==200 and response.content==(ROOT/"web/index.html").read_bytes(),"GET / differs from web/index.html")
             r.check(list(labels.values())==["MIMIC","by ThenarLabs","Try the sample clip","Upload a clip"] and all(b["y"]+b["height"]<=960 for b in positions.values()),"Header text or first viewport mismatch")
-            r.actual("HTTP 200 exact index.html body; expected mark and first-viewport header buttons.")
+            r.actual("HTTP 200 exact index.html body; expected mark and first-viewport header buttons; favicon HTTP 200 without console errors.")
         with browser_row("P2") as r:
             r.page.add_init_script("localStorage.removeItem('mimic.run')")
             load(r,"")
@@ -510,6 +543,7 @@ def execute():
             r.check(shutil.which("ffmpeg")=="/opt/homebrew/bin/ffmpeg" and "version 8.1.1" in ffmpeg and shutil.which("ffprobe") is not None,"ffmpeg machine branch differs")
             r.check(records[0]["status"]==records[1]["status"]==200 and records[0]["video"].endswith("/clip.mp4") and records[0]["probe"]["streams"][0]=={"codec_name":"h264","pix_fmt":"yuv420p"} and records[1]["video"].endswith("/input.mp4") and records[1]["unchanged"],"Reencode/passthrough differs")
             r.actual("ffmpeg 8.1.1 and ffprobe present; browser-uploaded MPEG4 MOV became H264/yuv420p clip.mp4; H264 MP4 remained byte-identical input.mp4.")
+        track_processes()
         CONTEXT.close(); CONTEXT=None
         BROWSER.close(); BROWSER=None
     with row("U3") as r:
@@ -548,22 +582,22 @@ def execute():
         r.observe(response=response.json())
         r.check(response.status_code==400 and response.json()=={"detail":'send {"program": {...}}'},"Missing program validation differs")
         r.actual('HTTP 400; exact detail send {"program": {...}}.')
-    if set(PENDING)!=set(RESULTS):
-        raise RuntimeError("Rows not executed: "+str(set(PENDING)-set(RESULTS)))
-    return {"base_url":BASE,"chrome_version":chrome_version,"rows_executed":len(RESULTS)}
+    if set(SELECTED)!=set(RESULTS):
+        raise RuntimeError("Rows not executed: "+str(set(SELECTED)-set(RESULTS)))
+    return {"base_url":BASE,"chrome_version":chrome_version,"chrome_executable":chrome_executable,"rows_executed":len(RESULTS)}
 
 
 if __name__ == "__main__":
-    metadata={"scope":"Phase 2 only; real local server, offline tracker/writer and SimArm; no keys, Meta calls, serial, mocks or product changes.","lock_acquired_before_runner":True,"processes_not_killed":[]}
+    metadata={"scope":"Phase 4 full rerun; all non-UNTESTED table rows; real local server, offline tracker/writer and SimArm; no keys, Meta calls, serial, mocks or product changes.","lock_acquired_before_runner":True,"heavy_slot":"mimic-audit-reverify","selected_rows":SELECTED,"processes_not_killed":[]}
     try:
         # Never inspect credential values. The shell removes these variable names before launch.
         assert all(k not in os.environ for k in ["META_API_KEY","MUSE_API_KEY","MODEL_API_KEY","MIMIC_ARM","MIMIC_WRITER"])
-        chrome_version="Google Chrome for Testing 156.0.8078.4 (Playwright chromium-1248)"
         metadata.update(execute())
     except BaseException:
         metadata["runner_error"]=traceback.format_exc()
         raise
     finally:
+        track_processes()
         if CONTEXT:
             try: CONTEXT.close()
             except Exception: pass
@@ -579,7 +613,21 @@ if __name__ == "__main__":
             metadata["server_exit_code"]=SERVER.returncode
         if HTTP: HTTP.close()
         if TEMP: shutil.rmtree(TEMP,ignore_errors=True)
-        released=subprocess.run([LOCK,"release","mimic-audit"],capture_output=True,text=True)
+        snapshot=process_snapshot()
+        remaining={pid: info for pid,info in STARTED.items() if pid in snapshot and snapshot[pid]==info}
+        for pid in remaining:
+            try: os.kill(pid, 15)
+            except ProcessLookupError: pass
+        if remaining: time.sleep(1)
+        snapshot=process_snapshot()
+        for pid,info in remaining.items():
+            if snapshot.get(pid)==info:
+                try: os.kill(pid, 9)
+                except ProcessLookupError: pass
+        snapshot=process_snapshot()
+        metadata["processes_not_killed"]=[pid for pid,info in STARTED.items() if snapshot.get(pid)==info]
+        (OUT/"processes.json").write_text(json.dumps({"runner_pid":os.getpid(),"started":[{"pid":pid,**info} for pid,info in STARTED.items()],"remaining":metadata["processes_not_killed"]},indent=2))
+        released=subprocess.run([LOCK,"release","mimic-audit-reverify"],capture_output=True,text=True)
         metadata["heavy_slot_released"]=released.returncode==0
         metadata["counts"]={s:sum(e["status"]==s for e in RESULTS.values()) for s in ["PASS","FAIL"]}
         metadata["counts"]["UNTESTED"]=sum("| UNTESTED |" in line for line in INITIAL.splitlines())

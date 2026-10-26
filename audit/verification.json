@@ -1,0 +1,22 @@
+{
+  "counts": {
+    "PASS": 38,
+    "FAIL": 0,
+    "UNTESTED": 4
+  },
+  "all_non_untested_rows_have_final_logs": true,
+  "phase_1_expected_cells_unchanged": true,
+  "untested_rows_unchanged": [
+    "X1",
+    "X2",
+    "X3",
+    "X4"
+  ],
+  "evidence_bytes": 2464034,
+  "screenshots": 25,
+  "largest_screenshot_bytes": 100680,
+  "started_processes_remaining": [],
+  "runner_exited": true,
+  "heavy_slot_released": true,
+  "port": 8730
+}
