@@ -194,6 +194,28 @@
     ol.wps { max-height: none; }
     footer { padding: 0 16px 32px; }
   }
+  /* ---------------------------------------------------------- mirror band: generated art of the idea, under the sheet (web/art/mirror.webp) */
+  .mirror { position: relative; isolation: isolate; overflow: hidden; margin-bottom: 20px; border-block: 1px solid var(--rule); background: var(--paper); }
+  .mirror .art { position: absolute; inset: 0 0 0 26%; z-index: -1; margin: 0; }
+  .mirror .art img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 70% 50%; }
+  .mirror .art::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, var(--paper) 0%, rgba(244, 245, 242, .6) 22%, rgba(244, 245, 242, 0) 50%); }
+  .mirror .art::before { content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none; mix-blend-mode: screen; background: linear-gradient(105deg, transparent 38%, rgba(255, 255, 255, .45) 50%, transparent 62%) no-repeat; background-size: 260% 100%; background-position: 150% 0; }
+  .mirror .art figcaption { position: absolute; right: 20px; bottom: 14px; z-index: 2; font: 400 12px/1.5 var(--mono); padding: 2px 7px; border-radius: 99px; border: 1px solid var(--staff); color: var(--ink-2); background: color-mix(in srgb, var(--sheet) 85%, transparent); }
+  .mirror .copy { max-width: 1680px; margin: 0 auto; padding: 64px 20px; min-height: clamp(340px, 36vw, 540px); display: flex; align-items: center; }
+  .mirror h2 { margin: 0; max-width: 9em; font-size: clamp(32px, 4.4vw, 60px); font-weight: 600; line-height: 1.02; letter-spacing: -.03em; text-transform: none; text-wrap: balance; }
+  .mirror h2 em { font-style: normal; color: var(--robot); }   /* the arm's half of the line, in the arm's voice */
+  @media (prefers-reduced-motion: no-preference) {
+    .mirror .art { animation: mirror-drift 24s ease-in-out infinite alternate; }
+    .mirror .art::before { animation: mirror-sweep 9s cubic-bezier(.45, 0, .25, 1) 2.6s infinite; }
+    @keyframes mirror-drift { from { transform: scale(1); } to { transform: scale(1.05) translate3d(-1.2%, -.8%, 0); } }
+    @keyframes mirror-sweep { 0% { background-position: 150% 0; } 55%, 100% { background-position: -50% 0; } }
+  }
+  @media (max-width: 760px) {
+    .mirror .art { left: 0; bottom: auto; height: 60vw; }
+    .mirror .art::after { background: linear-gradient(0deg, var(--paper) 0%, rgba(244, 245, 242, .2) 60%, rgba(244, 245, 242, 0) 100%); }
+    .mirror .art figcaption { right: 16px; bottom: auto; top: 10px; }
+    .mirror .copy { min-height: 0; padding: 56vw 16px 40px; }
+  }
   @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
 </style>
 </head>
@@ -317,6 +339,13 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
     </section>
   </div>
 </main>
+<section class="mirror" aria-labelledby="hMirror">
+  <figure class="art">
+    <img src="/web/art/mirror.webp" width="1600" height="901" loading="lazy" decoding="async" alt="Illustration: a phone on a tripod films a hand dropping a red block into a bowl while a blue robot arm beside it drops a red block into a second bowl">
+    <figcaption>Illustration (AI-generated)</figcaption>
+  </figure>
+  <div class="copy"><h2 id="hMirror">Film it once. <em>The arm repeats it.</em></h2></div>
+</section>
 <footer>
   <span>Positions are millimetres on the arm's mat, from the base. Times are seconds.</span>
   <span>Nothing reaches an arm until the safety check passes.</span>
