@@ -1,0 +1,163 @@
+{
+  "failures": [],
+  "observations": {
+    "boxes": {
+      ".clipR": {
+        "x": 17,
+        "y": 64,
+        "width": 341,
+        "height": 418.3125
+      },
+      ".replayR": {
+        "x": 17,
+        "y": 482.3125,
+        "width": 341,
+        "height": 464.75
+      },
+      ".scoreR": {
+        "x": 17,
+        "y": 947.0625,
+        "width": 341,
+        "height": 618
+      },
+      ".stepsR": {
+        "x": 17,
+        "y": 1565.0625,
+        "width": 341,
+        "height": 816.5
+      },
+      ".progR": {
+        "x": 17,
+        "y": 2381.5625,
+        "width": 341,
+        "height": 720
+      }
+    },
+    "orders": [
+      "0",
+      "1",
+      "2",
+      "3",
+      "4"
+    ],
+    "size": {
+      "width": 375,
+      "scroll": 375
+    },
+    "buttons": {
+      "#uploadBtn": {
+        "visible": true,
+        "enabled": true,
+        "label": "Upload",
+        "box": {
+          "x": 261.484375,
+          "y": 8,
+          "width": 97.515625,
+          "height": 34
+        }
+      },
+      "#sampleBtn": {
+        "visible": true,
+        "enabled": true,
+        "label": "Try the clip",
+        "box": {
+          "x": 129.203125,
+          "y": 8,
+          "width": 124.28125,
+          "height": 34
+        }
+      },
+      "#play": {
+        "visible": true,
+        "enabled": true,
+        "label": "Play",
+        "box": {
+          "x": 29,
+          "y": 302.3125,
+          "width": 79.015625,
+          "height": 34
+        }
+      },
+      "#runArm": {
+        "visible": true,
+        "enabled": true,
+        "label": "Run on arm",
+        "box": {
+          "x": 29,
+          "y": 899.0625,
+          "width": 125.765625,
+          "height": 34
+        }
+      }
+    },
+    "viewport": {
+      "width": 375,
+      "height": 960
+    },
+    "final_url": "http://127.0.0.1:8730/?run=sample"
+  },
+  "actual": "375px single column in clip/replay/score/steps/program order, no overflow; shortened Upload/Try the clip and Play/Run controls reachable.",
+  "console": [],
+  "page_errors": [],
+  "network": [
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:8730/?run=sample",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700&family=Spline+Sans+Mono:wght@400;500&display=swap",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "https://fonts.gstatic.com/s/schibstedgrotesk/v7/Jqz55SSPQuCQF3t8uOwiUL-taUTtap9GayojdSFO.woff2",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "https://fonts.gstatic.com/s/splinesansmono/v13/R70BjzAei_CDNLfgZxrW6wrZOF2WX5KZmE-Z-lw.woff2",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/controls/OrbitControls.js",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/geometries/RoundedBoxGeometry.js",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/environments/RoomEnvironment.js",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:8730/api/health",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:8730/runs/sample/result.json",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:8730/runs/sample/clip.mp4",
+      "status": 206
+    }
+  ],
+  "screenshot": "audit/L2.jpg",
+  "id": "L2",
+  "url": "http://127.0.0.1:8730",
+  "status": "PASS"
+}

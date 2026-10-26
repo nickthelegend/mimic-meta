@@ -1,0 +1,33 @@
+{
+  "failures": [],
+  "observations": {
+    "responses": [
+      {
+        "raw_path": "/runs/../server.py",
+        "status": 404
+      },
+      {
+        "raw_path": "/runs/sample/secret.txt",
+        "status": 404
+      }
+    ]
+  },
+  "actual": "Both literal /runs/../server.py and /runs/sample/secret.txt returned 404.",
+  "console": [],
+  "page_errors": [],
+  "network": [
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:8730/server.py",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:8730/runs/sample/secret.txt",
+      "status": 404
+    }
+  ],
+  "id": "U9",
+  "url": "http://127.0.0.1:8730",
+  "status": "PASS"
+}

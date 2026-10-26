@@ -1,0 +1,23 @@
+{
+  "failures": [],
+  "observations": {
+    "file_bytes": 419430401,
+    "response": {
+      "detail": "clip is over 400 MB; trim it to the task"
+    },
+    "added_dirs": []
+  },
+  "actual": "Uploaded 419430401 bytes; HTTP 413 exact trim detail; run directory removed.",
+  "console": [],
+  "page_errors": [],
+  "network": [
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:8730/api/analyze",
+      "status": 413
+    }
+  ],
+  "id": "U8",
+  "url": "http://127.0.0.1:8730",
+  "status": "PASS"
+}

@@ -1,0 +1,22 @@
+{
+  "failures": [],
+  "observations": {
+    "response": {
+      "detail": "Command '['ffmpeg', '-y', '-loglevel', 'error', '-i', '/Volumes/Extreme SSD/Projects/wave1/.loom-worktrees/mimic-meta-b432cadc3d66/omvpluju2/t5/runs/5005631301/input.mp4', '-t', '120', '-an', '-vf', \"scale='min(1280,iw)':-2\", '-c:v', 'libx264', '-pix_fmt', 'yuv420p', '-crf', '23', '-movflags', '+faststart', '/Volumes/Extreme SSD/Projects/wave1/.loom-worktrees/mimic-meta-b432cadc3d66/omvpluju2/t5/runs/5005631301/clip.mp4']' returned non-zero exit status 183."
+    },
+    "added_dirs": []
+  },
+  "actual": "Garbage MP4 bytes returned 422; no run directory retained.",
+  "console": [],
+  "page_errors": [],
+  "network": [
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:8730/api/analyze",
+      "status": 422
+    }
+  ],
+  "id": "U3",
+  "url": "http://127.0.0.1:8730",
+  "status": "PASS"
+}

@@ -1,0 +1,23 @@
+{
+  "failures": [],
+  "observations": {
+    "C4": {
+      "command": [
+        ".venv/bin/python",
+        "-m",
+        "mimic.pipeline",
+        "/var/folders/tp/gcpvr1451r350sq27v4csrq40000gn/T/mimic-audit-84wpasoa/short.mp4"
+      ],
+      "exit_code": 2,
+      "stdout": "audit/C4.stdout.txt",
+      "stderr": "audit/C4.stderr.txt"
+    }
+  },
+  "actual": "Exit 2; empty stdout; stderr asks for at least 1.5 s.",
+  "console": [],
+  "page_errors": [],
+  "network": [],
+  "id": "C4",
+  "url": "http://127.0.0.1:8730",
+  "status": "PASS"
+}

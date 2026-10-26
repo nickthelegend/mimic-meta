@@ -1,0 +1,85 @@
+{
+  "failures": [],
+  "observations": {
+    "left_drag": {
+      "video": 5.521509,
+      "paused": true,
+      "clock": "5.5 / 10.0 s",
+      "robot": "arm 0.0 / 14.9 s"
+    },
+    "right_drag": {
+      "video": 5.521509,
+      "clock": "5.5 / 10.0 s",
+      "robot": "arm 9.5 / 14.9 s"
+    },
+    "viewport": {
+      "width": 1280,
+      "height": 960
+    },
+    "final_url": "http://127.0.0.1:8730/?run=sample"
+  },
+  "actual": "Left drag paused and scrubbed clip; right drag independently scrubbed replay; both displayed clocks updated.",
+  "console": [],
+  "page_errors": [],
+  "network": [
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:8730/?run=sample",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700&family=Spline+Sans+Mono:wght@400;500&display=swap",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "https://fonts.gstatic.com/s/schibstedgrotesk/v7/Jqz55SSPQuCQF3t8uOwiUL-taUTtap9GayojdSFO.woff2",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "https://fonts.gstatic.com/s/splinesansmono/v13/R70BjzAei_CDNLfgZxrW6wrZOF2WX5KZmE-Z-lw.woff2",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/controls/OrbitControls.js",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/geometries/RoundedBoxGeometry.js",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/environments/RoomEnvironment.js",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:8730/api/health",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:8730/runs/sample/result.json",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:8730/runs/sample/clip.mp4",
+      "status": 206
+    }
+  ],
+  "screenshot": "audit/P8.jpg",
+  "id": "P8",
+  "url": "http://127.0.0.1:8730",
+  "status": "PASS"
+}

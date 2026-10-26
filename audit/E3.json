@@ -1,0 +1,157 @@
+{
+  "failures": [],
+  "observations": {
+    "busy": {
+      "status": 200,
+      "body": {
+        "backend": "sim",
+        "joints": {
+          "base": -10.2,
+          "shoulder": 4.4,
+          "elbow": 62,
+          "wrist_flex": 65.1,
+          "wrist_roll": -32.4,
+          "gripper": 60
+        },
+        "lo": [
+          -85,
+          -80,
+          -80,
+          -80,
+          -85,
+          0
+        ],
+        "hi": [
+          85,
+          80,
+          80,
+          80,
+          85,
+          70
+        ],
+        "busy": true,
+        "run": "sample",
+        "waypoint": 0,
+        "label": "above the red block",
+        "error": null
+      }
+    },
+    "second_execute": {
+      "status": 409,
+      "body": {
+        "detail": "the arm is already running a program"
+      }
+    },
+    "viewport": {
+      "width": 1280,
+      "height": 960
+    },
+    "final_url": "http://127.0.0.1:8730/?run=sample"
+  },
+  "actual": "Second execute while busy returned exact 409 detail; stopped simulator afterward.",
+  "console": [
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 409 (Conflict)",
+      "location": {
+        "url": "http://127.0.0.1:8730/api/execute/sample",
+        "line": 0,
+        "column": 0,
+        "lineNumber": 0,
+        "columnNumber": 0
+      }
+    }
+  ],
+  "page_errors": [],
+  "network": [
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:8730/?run=sample",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700&family=Spline+Sans+Mono:wght@400;500&display=swap",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "https://fonts.gstatic.com/s/schibstedgrotesk/v7/Jqz55SSPQuCQF3t8uOwiUL-taUTtap9GayojdSFO.woff2",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "https://fonts.gstatic.com/s/splinesansmono/v13/R70BjzAei_CDNLfgZxrW6wrZOF2WX5KZmE-Z-lw.woff2",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/controls/OrbitControls.js",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/geometries/RoundedBoxGeometry.js",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/environments/RoomEnvironment.js",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:8730/api/health",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:8730/runs/sample/result.json",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:8730/runs/sample/clip.mp4",
+      "status": 206
+    },
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:8730/api/execute/sample",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:8730/api/arm",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:8730/api/arm",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:8730/api/execute/sample",
+      "status": 409
+    },
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:8730/api/stop",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:8730/api/arm",
+      "status": 200
+    }
+  ],
+  "screenshot": "audit/E3.jpg",
+  "id": "E3",
+  "url": "http://127.0.0.1:8730",
+  "status": "PASS"
+}

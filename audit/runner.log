@@ -1,0 +1,38 @@
+C1: PASS — Exit 0; stdout mimic 0.1.0 plus newline; package version 0.1.0.
+C2: PASS — Synthetic MP4 and truth written; stdout has 30 fps, 960×540 and all four prompts.
+C3: PASS — Both CLI modes exit 0; check.ok true; 2/2 carries; --json emits only the program.
+C4: PASS — Exit 2; empty stdout; stderr asks for at least 1.5 s.
+H1: PASS — HTTP 200; exact offline health JSON, sim arm, only color and rules available.
+P1: PASS — HTTP 200 exact index.html body; expected mark and first-viewport header buttons; favicon HTTP 200 without console errors.
+P2: PASS — First clean visit POSTed sample and rendered overlay, score, six steps, program and 3-D canvas; observed busy message.
+H2: PASS — Observed offline setup state: simulated arm, disabled paid and MediaPipe options; color/rules enabled.
+H3: PASS — Observed offline setup state: simulated arm, disabled paid and MediaPipe options; color/rules enabled.
+H4: PASS — At 375px the byline and who are hidden; both menus remain visible with paid options disabled.
+X1b: PASS — Missing-key write threw locally; real pipeline fell back to rules; browser displayed Muse Spark was unreachable.
+P3: PASS — ?sample overrode both missing stored id and missing ?run; POSTed sample without either run GET.
+P4: PASS — Stored and query runs rendered; missing run returned expected 404 then POSTed sample.
+P5: PASS — Safe sample, six expected steps, video 200, 2/2 carries, 1.9 mm / 100 ms; expected UI copy.
+P6: PASS — Play advanced video and replay together, label Pause; second click paused video and restored Play.
+P7: PASS — Clicked second pick; video sought to grasp minus 0.15 s; replay clock matched first waypoint sample; step selected.
+P8: PASS — Left drag paused and scrubbed clip; right drag independently scrubbed replay; both displayed clocks updated.
+P9: PASS — Sim execute started; Stop enabled; arm reached done with null error; UI Finished.
+P10: PASS — Stop POST returned stopped true; arm label stopped; UI Stopped.
+U1: PASS — File input uploaded synthetic sample with specified prompts/color/rules; analyze 200, expected six steps, video 200.
+U2: PASS — Exact notes.txt rejection displayed; no POST occurred.
+U5: PASS — Analyze 422/too_short; exact detail displayed; run directory removed.
+U6: PASS — Analyze 422/no_hand; exact detail displayed; run directory removed.
+E2: PASS — Downloaded mimic-sample.json; exact pretty-printed program with summary/objects/waypoints and no solved q.
+E3: PASS — Second execute while busy returned exact 409 detail; stopped simulator afterward.
+E1: PASS — Edited unsafe xyz; recheck failed with exact reach issue; Run locked; execute returned exact 422 detail.
+L1: PASS — At 1280px clip, score, replay share first grid row; no horizontal overflow.
+L2: PASS — 375px single column in clip/replay/score/steps/program order, no overflow; shortened Upload/Try the clip and Play/Run controls reachable.
+L3: PASS — Real sample load and three.js/addons CDN requests captured; no console error, page error, failed request or unexpected HTTP error.
+L4: PASS — ffmpeg 8.1.1 and ffprobe present; browser-uploaded MPEG4 MOV became H264/yuv420p clip.mp4; H264 MP4 remained byte-identical input.mp4.
+U3: PASS — Garbage MP4 bytes returned 422; no run directory retained.
+U4: PASS — HTTP 400; exact detail: unknown tracker 'magic'.
+U7: PASS — HTTP 400; exact detail: corners must be JSON: four [x, y] points.
+U11: PASS — HTTP 400; exact detail: unknown writer 'magic'.
+U8: PASS — Uploaded 419430401 bytes; HTTP 413 exact trim detail; run directory removed.
+U9: PASS — Both literal /runs/../server.py and /runs/sample/secret.txt returned 404.
+U10: PASS — Unknown execute id returned HTTP 404, detail no such run.
+N1: PASS — HTTP 400; exact detail send {"program": {...}}.

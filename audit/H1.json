@@ -1,0 +1,37 @@
+{
+  "failures": [],
+  "observations": {
+    "response": {
+      "ok": true,
+      "trackers": {
+        "color": true,
+        "mediapipe": false,
+        "sam3": false
+      },
+      "writers": {
+        "rules": true,
+        "muse-spark": false
+      },
+      "arm": "sim"
+    },
+    "keys_unset": [
+      "META_API_KEY",
+      "MUSE_API_KEY",
+      "MODEL_API_KEY",
+      "MIMIC_ARM"
+    ]
+  },
+  "actual": "HTTP 200; exact offline health JSON, sim arm, only color and rules available.",
+  "console": [],
+  "page_errors": [],
+  "network": [
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:8730/api/health",
+      "status": 200
+    }
+  ],
+  "id": "H1",
+  "url": "http://127.0.0.1:8730",
+  "status": "PASS"
+}

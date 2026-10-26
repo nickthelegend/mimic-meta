@@ -1,0 +1,115 @@
+{
+  "failures": [],
+  "observations": {
+    "check": {
+      "ok": false,
+      "issues": [
+        {
+          "waypoint": 0,
+          "issue": "xyz [0.0, 0.9, 0.07] is not on this table (metres?)"
+        }
+      ],
+      "duration_s": 16.32,
+      "waypoints": 16
+    },
+    "execute": {
+      "status": 422,
+      "body": {
+        "detail": "the program has unresolved issues; fix them before running it on an arm"
+      }
+    },
+    "note": "Running is locked until the check passes.",
+    "run_disabled": true,
+    "viewport": {
+      "width": 1280,
+      "height": 960
+    },
+    "final_url": "http://127.0.0.1:8730/?run=sample"
+  },
+  "actual": "Edited unsafe xyz; recheck failed with exact reach issue; Run locked; execute returned exact 422 detail.",
+  "console": [
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 422 (Unprocessable Content)",
+      "location": {
+        "url": "http://127.0.0.1:8730/api/execute/sample",
+        "line": 0,
+        "column": 0,
+        "lineNumber": 0,
+        "columnNumber": 0
+      }
+    }
+  ],
+  "page_errors": [],
+  "network": [
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:8730/?run=sample",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700&family=Spline+Sans+Mono:wght@400;500&display=swap",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "https://fonts.gstatic.com/s/schibstedgrotesk/v7/Jqz55SSPQuCQF3t8uOwiUL-taUTtap9GayojdSFO.woff2",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "https://fonts.gstatic.com/s/splinesansmono/v13/R70BjzAei_CDNLfgZxrW6wrZOF2WX5KZmE-Z-lw.woff2",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/environments/RoomEnvironment.js",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/geometries/RoundedBoxGeometry.js",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/controls/OrbitControls.js",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:8730/api/health",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:8730/runs/sample/result.json",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:8730/runs/sample/clip.mp4",
+      "status": 206
+    },
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:8730/api/recheck/sample",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:8730/api/execute/sample",
+      "status": 422
+    }
+  ],
+  "screenshot": "audit/E1.jpg",
+  "id": "E1",
+  "url": "http://127.0.0.1:8730",
+  "status": "PASS"
+}

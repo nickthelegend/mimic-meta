@@ -1,0 +1,77 @@
+{
+  "failures": [],
+  "observations": {
+    "C3-full": {
+      "command": [
+        ".venv/bin/python",
+        "-m",
+        "mimic.pipeline",
+        "samples/sample.mp4"
+      ],
+      "exit_code": 0,
+      "stdout": "audit/C3-full.stdout.txt",
+      "stderr": "audit/C3-full.stderr.txt"
+    },
+    "C3-program": {
+      "command": [
+        ".venv/bin/python",
+        "-m",
+        "mimic.pipeline",
+        "samples/sample.mp4",
+        "--json"
+      ],
+      "exit_code": 0,
+      "stdout": "audit/C3-program.stdout.txt",
+      "stderr": "audit/C3-program.stderr.txt"
+    },
+    "check": {
+      "ok": true,
+      "issues": [],
+      "duration_s": 14.88,
+      "waypoints": 17
+    },
+    "score": {
+      "carries": [
+        {
+          "object": "red block",
+          "found": true,
+          "pick_ms": 100,
+          "place_ms": 70,
+          "pick_mm": 0.9,
+          "place_mm": 0.5,
+          "onto_ok": true
+        },
+        {
+          "object": "green block",
+          "found": true,
+          "pick_ms": 100,
+          "place_ms": 70,
+          "pick_mm": 1.5,
+          "place_mm": 1.9,
+          "onto_ok": true
+        }
+      ],
+      "found": 2,
+      "expected": 2,
+      "extra": 0,
+      "worst_mm": 1.9,
+      "worst_ms": 100
+    },
+    "program_keys": [
+      "summary",
+      "objects",
+      "waypoints",
+      "writer",
+      "mimic",
+      "robot"
+    ],
+    "summary": "Put the red block in the blue bowl, turned 25°, then put the green block 6 cm away, turned 45°."
+  },
+  "actual": "Both CLI modes exit 0; check.ok true; 2/2 carries; --json emits only the program.",
+  "console": [],
+  "page_errors": [],
+  "network": [],
+  "id": "C3",
+  "url": "http://127.0.0.1:8730",
+  "status": "PASS"
+}

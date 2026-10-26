@@ -1,0 +1,72 @@
+{
+  "failures": [],
+  "observations": {
+    "C2": {
+      "command": [
+        ".venv/bin/python",
+        "-m",
+        "mimic.synth"
+      ],
+      "exit_code": 0,
+      "stdout": "audit/C2.stdout.txt",
+      "stderr": "audit/C2.stderr.txt"
+    },
+    "truth": {
+      "fps": 30,
+      "width": 960,
+      "height": 540,
+      "prompts": [
+        "hand",
+        "red block",
+        "green block",
+        "blue bowl"
+      ],
+      "carries": [
+        {
+          "object": "red block",
+          "t_pick": 1.8,
+          "t_place": 3.6,
+          "into": "blue bowl",
+          "from_px": [
+            300.0,
+            232.0
+          ],
+          "to_px": [
+            690.0,
+            190.0
+          ],
+          "yaw_from": 20.0,
+          "yaw_to": 45.0
+        },
+        {
+          "object": "green block",
+          "t_pick": 6.0,
+          "t_place": 7.6,
+          "into": null,
+          "from_px": [
+            520.0,
+            382.0
+          ],
+          "to_px": [
+            770.0,
+            408.0
+          ],
+          "yaw_from": -10.0,
+          "yaw_to": 35.0
+        }
+      ],
+      "heights": {
+        "red block": 0.03,
+        "green block": 0.025,
+        "blue bowl": 0.04
+      }
+    }
+  },
+  "actual": "Synthetic MP4 and truth written; stdout has 30 fps, 960×540 and all four prompts.",
+  "console": [],
+  "page_errors": [],
+  "network": [],
+  "id": "C2",
+  "url": "http://127.0.0.1:8730",
+  "status": "PASS"
+}

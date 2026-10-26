@@ -1,0 +1,210 @@
+{
+ "summary": "Put the red block in the blue bowl, turned 25\u00b0, then put the green block 6 cm away, turned 45\u00b0.",
+ "objects": {
+  "red block": {
+   "height_m": 0.03
+  },
+  "green block": {
+   "height_m": 0.025
+  }
+ },
+ "waypoints": [
+  {
+   "label": "above the red block",
+   "step": 1,
+   "xyz": [
+    -0.0454,
+    0.2528,
+    0.07
+   ],
+   "yaw": -70.0,
+   "grip": "open"
+  },
+  {
+   "label": "down to the red block",
+   "step": 1,
+   "xyz": [
+    -0.0454,
+    0.2528,
+    0.015
+   ],
+   "yaw": -70.0,
+   "grip": "open",
+   "speed": 0.5
+  },
+  {
+   "label": "grip the red block",
+   "step": 1,
+   "xyz": [
+    -0.0454,
+    0.2528,
+    0.015
+   ],
+   "yaw": -70.0,
+   "grip": "close",
+   "object": "red block",
+   "width_m": 0.0148,
+   "dwell": 0.3
+  },
+  {
+   "label": "lift the red block",
+   "step": 1,
+   "xyz": [
+    -0.0454,
+    0.2528,
+    0.07
+   ],
+   "yaw": -70.0,
+   "grip": "hold",
+   "speed": 0.6
+  },
+  {
+   "label": "over the blue bowl",
+   "step": 3,
+   "xyz": [
+    0.0525,
+    0.263,
+    0.07
+   ],
+   "yaw": -45.0,
+   "grip": "hold"
+  },
+  {
+   "label": "lower into the blue bowl",
+   "step": 3,
+   "xyz": [
+    0.0525,
+    0.263,
+    0.025
+   ],
+   "yaw": -45.0,
+   "grip": "hold",
+   "speed": 0.5
+  },
+  {
+   "label": "let go of the red block",
+   "step": 3,
+   "xyz": [
+    0.0525,
+    0.263,
+    0.025
+   ],
+   "yaw": -45.0,
+   "grip": "open",
+   "object": "red block",
+   "dwell": 0.3
+  },
+  {
+   "label": "back up",
+   "step": 3,
+   "xyz": [
+    0.0525,
+    0.263,
+    0.07
+   ],
+   "yaw": -45.0,
+   "grip": "open",
+   "speed": 0.8
+  },
+  {
+   "label": "above the green block",
+   "step": 4,
+   "xyz": [
+    0.0097,
+    0.216,
+    0.07
+   ],
+   "yaw": 79.7,
+   "grip": "open"
+  },
+  {
+   "label": "down to the green block",
+   "step": 4,
+   "xyz": [
+    0.0097,
+    0.216,
+    0.0125
+   ],
+   "yaw": 79.7,
+   "grip": "open",
+   "speed": 0.5
+  },
+  {
+   "label": "grip the green block",
+   "step": 4,
+   "xyz": [
+    0.0097,
+    0.216,
+    0.0125
+   ],
+   "yaw": 79.7,
+   "grip": "close",
+   "object": "green block",
+   "width_m": 0.0108,
+   "dwell": 0.3
+  },
+  {
+   "label": "lift the green block",
+   "step": 4,
+   "xyz": [
+    0.0097,
+    0.216,
+    0.07
+   ],
+   "yaw": 79.7,
+   "grip": "hold",
+   "speed": 0.6
+  },
+  {
+   "label": "over its new spot",
+   "step": 6,
+   "xyz": [
+    0.074,
+    0.2092,
+    0.07
+   ],
+   "yaw": -54.9,
+   "grip": "hold"
+  },
+  {
+   "label": "set it down",
+   "step": 6,
+   "xyz": [
+    0.074,
+    0.2092,
+    0.0125
+   ],
+   "yaw": -54.9,
+   "grip": "hold",
+   "speed": 0.5
+  },
+  {
+   "label": "let go of the green block",
+   "step": 6,
+   "xyz": [
+    0.074,
+    0.2092,
+    0.0125
+   ],
+   "yaw": -54.9,
+   "grip": "open",
+   "object": "green block",
+   "dwell": 0.3
+  },
+  {
+   "label": "back up",
+   "step": 6,
+   "xyz": [
+    0.074,
+    0.2092,
+    0.07
+   ],
+   "yaw": -54.9,
+   "grip": "open",
+   "speed": 0.8
+  }
+ ],
+ "writer": "rules",
+ "mimic": 1,
+ "robot": "so101"
+}

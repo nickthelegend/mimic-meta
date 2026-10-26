@@ -1,0 +1,21 @@
+{
+  "failures": [],
+  "observations": {
+    "response": {
+      "detail": "no such run"
+    }
+  },
+  "actual": "Unknown execute id returned HTTP 404, detail no such run.",
+  "console": [],
+  "page_errors": [],
+  "network": [
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:8730/api/execute/nope",
+      "status": 404
+    }
+  ],
+  "id": "U10",
+  "url": "http://127.0.0.1:8730",
+  "status": "PASS"
+}

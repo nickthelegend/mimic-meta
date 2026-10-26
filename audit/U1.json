@@ -1,0 +1,105 @@
+{
+  "failures": [],
+  "observations": {
+    "input": {
+      "prompts": "hand, red block, green block, blue bowl",
+      "tracker": "color",
+      "writer": "rules"
+    },
+    "status": 200,
+    "run_id": "0d96904913",
+    "video": "/runs/0d96904913/input.mp4",
+    "kinds": [
+      "pick",
+      "move",
+      "place",
+      "pick",
+      "move",
+      "place"
+    ],
+    "viewport": {
+      "width": 1280,
+      "height": 960
+    },
+    "final_url": "http://127.0.0.1:8730/?run=0d96904913"
+  },
+  "actual": "File input uploaded synthetic sample with specified prompts/color/rules; analyze 200, expected six steps, video 200.",
+  "console": [],
+  "page_errors": [],
+  "network": [
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:8730/?run=sample",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700&family=Spline+Sans+Mono:wght@400;500&display=swap",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "https://fonts.gstatic.com/s/schibstedgrotesk/v7/Jqz55SSPQuCQF3t8uOwiUL-taUTtap9GayojdSFO.woff2",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "https://fonts.gstatic.com/s/splinesansmono/v13/R70BjzAei_CDNLfgZxrW6wrZOF2WX5KZmE-Z-lw.woff2",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/controls/OrbitControls.js",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/geometries/RoundedBoxGeometry.js",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/environments/RoomEnvironment.js",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:8730/api/health",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:8730/runs/sample/result.json",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:8730/runs/sample/clip.mp4",
+      "status": 206
+    },
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:8730/api/analyze",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:8730/runs/0d96904913/input.mp4",
+      "status": 206
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:8730/runs/0d96904913/input.mp4",
+      "status": 200
+    }
+  ],
+  "screenshot": "audit/U1.jpg",
+  "id": "U1",
+  "url": "http://127.0.0.1:8730",
+  "status": "PASS"
+}
