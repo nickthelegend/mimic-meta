@@ -1,0 +1,20 @@
+FROM python:3.12-slim-bookworm
+
+ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1
+WORKDIR /app
+
+RUN apt-get update && apt-get install -y --no-install-recommends ffmpeg \
+    && rm -rf /var/lib/apt/lists/*
+COPY requirements.txt ./
+RUN pip install --no-cache-dir -r requirements.txt
+
+COPY mimic ./mimic
+COPY server.py ./
+COPY web ./web
+RUN useradd --system --uid 10001 --home /app mimic \
+    && mkdir -p /app/runs /app/samples \
+    && chown mimic:mimic /app/runs /app/samples
+
+USER mimic
+EXPOSE 8730
+CMD ["uvicorn", "server:app", "--host", "0.0.0.0", "--port", "8730"]

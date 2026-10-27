@@ -388,7 +388,7 @@ async function boot() {
     const t = health.trackers, w = health.writers;
     for (const o of $('tracker').options) o.disabled = !t[o.value];
     for (const o of $('writer').options) o.disabled = !w[o.value];
-    $('who').textContent = `${health.arm === 'so101' ? 'SO-101 connected' : 'simulated arm'} · ${w['muse-spark'] ? 'Muse Spark ready' : 'offline writer'}`;
+    $('who').textContent = `${health.arm === 'so101' ? 'SO-101 connected' : 'simulated arm'} · ${w['muse-spark'] ? 'Muse Spark ready' : 'Setup required: META_API_KEY for SAM 3.1 and Muse Spark · offline demo available'}`;
     $('who').classList.add('on');
     $('armName').textContent = health.arm === 'so101' ? 'SO-101 · on the bench' : 'SO-101 · simulated';
   } catch { $('who').textContent = 'server offline'; }

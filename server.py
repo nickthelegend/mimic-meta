@@ -95,11 +95,17 @@ def _pick(name: str | None, allowed: set[str], what: str) -> str | None:
     return name
 
 
+def require_model_key(tracker: str = "color", writer: str = "rules") -> None:
+    if (tracker == "sam3" or writer == "muse-spark") and not (os.getenv("META_API_KEY") or os.getenv("MUSE_API_KEY")):
+        raise HTTPException(503, "Setup required: META_API_KEY")
+
+
 @app.post("/api/analyze")
 async def analyze(video: UploadFile = File(...), prompts: str = Form(""), tracker: str = Form("color"),
                   writer: str = Form("rules"), corners: str = Form("")):
     tracker = _pick(tracker, {"color", "mediapipe", "sam3"}, "tracker") or "color"
     writer = _pick(writer, {"rules", "muse-spark"}, "writer") or "rules"
+    require_model_key(tracker, writer)
     try:
         corners_v = json.loads(corners) if corners else None
     except json.JSONDecodeError:
@@ -132,6 +138,7 @@ async def analyze(video: UploadFile = File(...), prompts: str = Form(""), tracke
 @app.post("/api/sample")
 async def sample(writer: str = Form("rules")):
     writer = _pick(writer, {"rules", "muse-spark"}, "writer") or "rules"
+    require_model_key(writer=writer)
     if not SAMPLE.exists():
         await run_in_threadpool(make_sample, SAMPLE)
     truth = json.loads(SAMPLE.with_suffix(".truth.json").read_text())

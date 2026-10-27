@@ -1,0 +1,31 @@
+services:
+  server:
+    build: .
+    image: hk-mimic-meta:latest
+    restart: unless-stopped
+    mem_limit: 2g
+    memswap_limit: 3g
+    cpus: 1.5
+    volumes:
+      - mimic-runs:/app/runs
+      - mimic-samples:/app/samples
+    networks: [coolify]
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8730/api/health', timeout=5).close()"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.hk-mimic-meta.rule=Host(`mimic-meta.201-18-198-162.sslip.io`)
+      - traefik.http.routers.hk-mimic-meta.entrypoints=https
+      - traefik.http.routers.hk-mimic-meta.tls=true
+      - traefik.http.routers.hk-mimic-meta.tls.certresolver=letsencrypt
+      - traefik.http.services.hk-mimic-meta.loadbalancer.server.port=8730
+volumes:
+  mimic-runs:
+  mimic-samples:
+networks:
+  coolify:
+    external: true

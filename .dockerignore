@@ -1,0 +1,15 @@
+.env*
+.git/
+.github/
+.loom/
+.venv/
+**/__pycache__/
+**/node_modules/
+audit/
+e2e/
+models/
+runs/
+samples/
+tests/
+*.mp4
+*.mov

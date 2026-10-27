@@ -1,5 +1,7 @@
 # MIMIC
 
+Live demo: https://mimic-meta.201-18-198-162.sslip.io/
+
 **Film yourself doing a task on your phone. MIMIC tracks your hand and the objects, notates the steps, writes a checked robot program, and a printable arm does it.**
 
 Built for the [Meta Global AI Developer Hackathon](https://dev.meta.ai/events/global-hackathon) (Indie track, "Push the Frontier": robotics) by ThenarLabs. The hardware is the printable SO-101 / Thenar arm.

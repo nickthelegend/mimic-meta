@@ -1,5 +1,7 @@
 # MIMIC: application draft
 
+Live demo: https://mimic-meta.201-18-198-162.sslip.io/
+
 **For:** Meta Global AI Developer Hackathon. **Indie track**, theme **"Push the Frontier"** (robotics).
 **Apply at:** <https://cerebralvalley.ai/e/meta-ai-developer-hackathon>, linked from <https://dev.meta.ai/events/global-hackathon>
 **Deadline:** Oct 25, 2026, 11:59 PM ET (Oct 26, 9:29 AM IST), or earlier if 20,000 spots fill. **Apply early.**
